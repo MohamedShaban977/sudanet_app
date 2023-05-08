@@ -50,6 +50,8 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+
+
   _buildLottieAsset() => Lottie.asset(
         JsonAssets.splash,
         animate: true,
