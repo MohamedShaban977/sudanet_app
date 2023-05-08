@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/core/app_manage/color_manager.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 
@@ -36,29 +37,36 @@ class MobileLoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Align(
-                alignment: Alignment.topRight,
-                child: CustomButtonChangeLanguageWidget(),
+              const SizedBox(height: AppSize.s40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomButtonChangeLanguageWidget(),
+                  GestureDetector(
+                    onTap: () => null,
+                    child: Text(
+                      AppStrings.registerLater.tr(),
+                      style: context.displayMedium.copyWith(
+                          color: ColorManager.primary,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
               ),
 
               /// image
-              Image.asset(ImageAssets.loginImg, alignment: Alignment.center),
+              Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
               const SizedBox(height: AppSize.s38),
 
               ///
               Text(AppStrings.signIn.tr(), style: context.displayLarge),
 
-              const SizedBox(height: AppSize.s13),
-
-              ///
-              Text(AppStrings.pleaseLoginToComplete.tr(),
-                  style: context.titleLarge),
-
-              const SizedBox(height: AppSize.s48),
+              const SizedBox(height: AppSize.s40),
 
               ///
               CustomTextFormField(
-                label: AppStrings.userName.tr(),
+                hint: AppStrings.userName.tr(),
+                prefixIcon: Icons.person_2_rounded,
                 controller: userName,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
@@ -72,10 +80,11 @@ class MobileLoginScreen extends StatelessWidget {
                 builder: (context, state) {
                   final cubit = sl<LoginCubit>().get(context);
                   return CustomTextFormField(
-                    label: AppStrings.password.tr(),
+                    hint: AppStrings.password.tr(),
                     controller: password,
                     obscureText: cubit.isPassword,
                     iconData: cubit.suffix,
+                    prefixIcon: Icons.lock,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
                     onTapIcon: () => cubit.changePassVisibility(),
@@ -86,10 +95,20 @@ class MobileLoginScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: AppSize.s30),
+              Row(
+                children: [
+                  GestureDetector(
+                    // onTap: () => MagicRouterName.navigateTo(RoutesNames.signupRoute),
+                    child: Text(AppStrings.forgetPassword.tr(),
+                        style: context.displayMedium
+                            .copyWith(color: ColorManager.textGray)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSize.s30),
 
               /// login button
               CustomButtonWithLoading(
-                height: AppSize.s40,
                 text: AppStrings.login.tr(),
                 onTap: onTap,
               ),

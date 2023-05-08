@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
@@ -6,6 +5,7 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 
 import '../../../../../../app/injection_container.dart';
 import '../../../../../../core/app_manage/assets_manager.dart';
+import '../../../../../../core/app_manage/color_manager.dart';
 import '../../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../../core/app_manage/values_manager.dart';
 import '../../../../../../core/responsive/responsive.dart';
@@ -35,6 +35,7 @@ class TabletLoginScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        const SizedBox(height: AppSize.s40),
         const Align(
           alignment: Alignment.topRight,
           child: CustomButtonChangeLanguageWidget(),
@@ -47,8 +48,7 @@ class TabletLoginScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// image
-                  Image.asset(ImageAssets.loginImg,
-                      alignment: Alignment.center),
+                  Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
                   const SizedBox(height: AppSize.s38),
 
                   ///
@@ -57,8 +57,15 @@ class TabletLoginScreen extends StatelessWidget {
                   const SizedBox(height: AppSize.s13),
 
                   ///
-                  Text(AppStrings.pleaseLoginToComplete.tr(),
-                      style: context.titleLarge),
+                  GestureDetector(
+                    onTap: () => null,
+                    child: Text(
+                      AppStrings.registerLater.tr(),
+                      style: context.displayMedium.copyWith(
+                          color: ColorManager.primary,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -72,11 +79,14 @@ class TabletLoginScreen extends StatelessWidget {
                       children: [
                         ///
                         CustomTextFormField(
-                            label: AppStrings.userName.tr(),
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.next,
-                            controller: userName),
-
+                          hint: AppStrings.userName.tr(),
+                          prefixIcon: Icons.person_2_rounded,
+                          controller: userName,
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) =>
+                              Validator.isValidUserName(userName.text),
+                        ),
                         const SizedBox(height: AppSize.s16),
 
                         ///
@@ -84,12 +94,13 @@ class TabletLoginScreen extends StatelessWidget {
                           builder: (context, state) {
                             final cubit = sl<LoginCubit>().get(context);
                             return CustomTextFormField(
-                              label: AppStrings.password.tr(),
+                              hint: AppStrings.password.tr(),
                               controller: password,
-                              keyboardType: TextInputType.visiblePassword,
-                              textInputAction: TextInputAction.done,
                               obscureText: cubit.isPassword,
                               iconData: cubit.suffix,
+                              prefixIcon: Icons.lock,
+                              keyboardType: TextInputType.visiblePassword,
+                              textInputAction: TextInputAction.done,
                               onTapIcon: () => cubit.changePassVisibility(),
                               validator: (value) =>
                                   Validator.isValidPassword(password.text),
@@ -98,10 +109,20 @@ class TabletLoginScreen extends StatelessWidget {
                         ),
 
                         const SizedBox(height: AppSize.s30),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              // onTap: () => MagicRouterName.navigateTo(RoutesNames.signupRoute),
+                              child: Text(AppStrings.forgetPassword.tr(),
+                                  style: context.displayMedium
+                                      .copyWith(color: ColorManager.textGray)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppSize.s30),
 
                         /// login button
                         CustomButtonWithLoading(
-                          height: AppSize.s40,
                           text: AppStrings.login.tr(),
                           onTap: onTap,
                         ),

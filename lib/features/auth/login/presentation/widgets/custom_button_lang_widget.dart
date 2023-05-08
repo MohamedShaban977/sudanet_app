@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
@@ -17,13 +16,14 @@ class CustomButtonChangeLanguageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: AppSize.s0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s11),
           side: const BorderSide(
             color: ColorManager.primary,
             width: AppSize.s1_5,
           )),
-      color: ColorManager.background,
+      color: ColorManager.secondary.withOpacity(0.5),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppSize.s11),
         onTap: () => sl<LocaleCubit>().get(context).changeLang(context),

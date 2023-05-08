@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 
 enum ButtonState { Busy, Idle }
 
@@ -165,11 +166,10 @@ class _ArgonButtonState extends State<ArgonButton>
   Widget buttonBody() {
     return SizedBox(
       height: widget.height,
-      width: lerpWidth(widget.width ?? MediaQuery.of(context).size.width,
-          minWidth, _animation.value),
+      width:
+          lerpWidth(widget.width ?? context.width, minWidth, _animation.value),
       child: ButtonTheme(
         height: widget.height,
-
         shape: RoundedRectangleBorder(
           side: widget.borderSide,
           borderRadius: BorderRadius.circular(widget.roundLoadingShape
@@ -177,75 +177,19 @@ class _ArgonButtonState extends State<ArgonButton>
                   widget.borderRadius, widget.height / 2, _animation.value)!
               : widget.borderRadius),
         ),
-
-        // data: ElevatedButtonThemeData(
-        //
-        //     style:ElevatedButton.styleFrom(
-        //   elevation: widget.elevation,
-        //   shape: const StadiumBorder(),
-        //   maximumSize: const Size(double.infinity, 56),
-        //   minimumSize: const Size(double.infinity, 56),
-        //
-        // ),
-        //
-        //
-        // ),
         child: MaterialButton(
             key: _buttonKey,
-            /*   style: ElevatedButton.styleFrom(
-              elevation: widget.elevation,
-              backgroundColor: widget.color,
-              shape: const StadiumBorder(),
-              maximumSize: const Size(double.infinity, 56),
-              minimumSize: const Size(double.infinity, 56),
-              padding: widget.padding,
-              // color: widget.color,
-              // focusColor: widget.focusColor,
-              // hoverColor: widget.hoverColor,
-              // highlightColor: widget.highlightColor,
-              // splashColor: widget.splashColor,
-              // colorBrightness: widget.colorBrightness,
-              // elevation: widget.elevation,
-              // focusElevation: widget.focusElevation,
-              // hoverElevation: widget.hoverElevation,
-              // highlightElevation: widget.highlightElevation,
-
-
-
-
-              // clipBehavior: widget.clipBehavior,
-              // focusNode: widget.focusNode,
-              // materialTapTargetSize: widget.materialTapTargetSize,
-              // disabledElevation: widget.disabledElevation,
-              // disabledColor: widget.disabledColor,
-              // disabledTextColor: widget.disabledTextColor,
-
-
-
-
-            ),*/
-
-            elevation: widget.elevation,
-            shape: btn == ButtonState.Busy
-                ? const StadiumBorder()
-                : RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(widget.borderRadius)),
-
-            // maximumSize: const Size(double.infinity, 56),
-            // minimumSize: const Size(double.infinity, 56),
-            minWidth: widget.width ?? MediaQuery.of(context).size.width,
-            textColor: widget.textColor,
-            textTheme: widget.textTheme,
-            padding: widget.padding,
             color: widget.color,
             focusColor: widget.focusColor,
             hoverColor: widget.hoverColor,
             highlightColor: widget.highlightColor,
             splashColor: widget.splashColor,
             colorBrightness: widget.colorBrightness,
+            elevation: widget.elevation,
             focusElevation: widget.focusElevation,
             hoverElevation: widget.hoverElevation,
             highlightElevation: widget.highlightElevation,
+            padding: widget.padding,
             clipBehavior: widget.clipBehavior,
             focusNode: widget.focusNode,
             materialTapTargetSize: widget.materialTapTargetSize,
@@ -262,6 +206,106 @@ class _ArgonButtonState extends State<ArgonButton>
     );
   }
 }
+//
+// Widget buttonBody() {
+//   return SizedBox(
+//     height: widget.height,
+//     width: lerpWidth(widget.width ?? MediaQuery.of(context).size.width,
+//         minWidth, _animation.value),
+//     child: ButtonTheme(
+//       height: widget.height,
+//
+//       shape: RoundedRectangleBorder(
+//         side: widget.borderSide,
+//         borderRadius: BorderRadius.circular(widget.roundLoadingShape
+//             ? lerpDouble(
+//                 widget.borderRadius, widget.height / 2, _animation.value)!
+//             : widget.borderRadius),
+//       ),
+//
+//       // data: ElevatedButtonThemeData(
+//       //
+//       //     style:ElevatedButton.styleFrom(
+//       //   elevation: widget.elevation,
+//       //   shape: const StadiumBorder(),
+//       //   maximumSize: const Size(double.infinity, 56),
+//       //   minimumSize: const Size(double.infinity, 56),
+//       //
+//       // ),
+//       //
+//       //
+//       // ),
+//       child: MaterialButton(
+//           key: _buttonKey,
+//           /*   style: ElevatedButton.styleFrom(
+//             elevation: widget.elevation,
+//             backgroundColor: widget.color,
+//             shape: const StadiumBorder(),
+//             maximumSize: const Size(double.infinity, 56),
+//             minimumSize: const Size(double.infinity, 56),
+//             padding: widget.padding,
+//             // color: widget.color,
+//             // focusColor: widget.focusColor,
+//             // hoverColor: widget.hoverColor,
+//             // highlightColor: widget.highlightColor,
+//             // splashColor: widget.splashColor,
+//             // colorBrightness: widget.colorBrightness,
+//             // elevation: widget.elevation,
+//             // focusElevation: widget.focusElevation,
+//             // hoverElevation: widget.hoverElevation,
+//             // highlightElevation: widget.highlightElevation,
+//
+//
+//
+//
+//             // clipBehavior: widget.clipBehavior,
+//             // focusNode: widget.focusNode,
+//             // materialTapTargetSize: widget.materialTapTargetSize,
+//             // disabledElevation: widget.disabledElevation,
+//             // disabledColor: widget.disabledColor,
+//             // disabledTextColor: widget.disabledTextColor,
+//
+//
+//
+//
+//           ),*/
+//
+//           elevation: widget.elevation,
+//           shape: btn == ButtonState.Busy
+//               ? const StadiumBorder()
+//               : RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(widget.borderRadius)),
+//
+//           // maximumSize: const Size(double.infinity, 56),
+//           // minimumSize: const Size(double.infinity, 56),
+//           minWidth: widget.width ?? MediaQuery.of(context).size.width,
+//           textColor: widget.textColor,
+//           textTheme: widget.textTheme,
+//           padding: widget.padding,
+//           color: widget.color,
+//           focusColor: widget.focusColor,
+//           hoverColor: widget.hoverColor,
+//           highlightColor: widget.highlightColor,
+//           splashColor: widget.splashColor,
+//           colorBrightness: widget.colorBrightness,
+//           focusElevation: widget.focusElevation,
+//           hoverElevation: widget.hoverElevation,
+//           highlightElevation: widget.highlightElevation,
+//           clipBehavior: widget.clipBehavior,
+//           focusNode: widget.focusNode,
+//           materialTapTargetSize: widget.materialTapTargetSize,
+//           disabledElevation: widget.disabledElevation,
+//           disabledColor: widget.disabledColor,
+//           disabledTextColor: widget.disabledTextColor,
+//           onPressed: () {
+//             widget.onTap!(
+//                 () => animateForward(), () => animateReverse(), btn);
+//             // btnClicked();
+//           },
+//           child: btn == ButtonState.Idle ? widget.child : widget.loader),
+//     ),
+//   );
+// }
 
 class ArgonTimerButton extends StatefulWidget {
   final double height;

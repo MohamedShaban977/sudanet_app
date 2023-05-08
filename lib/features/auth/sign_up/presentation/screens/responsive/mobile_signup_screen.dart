@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
@@ -51,7 +50,7 @@ class MobileSignUpScreen extends StatelessWidget {
               ),
 
               /// image
-              Image.asset(ImageAssets.loginImg, alignment: Alignment.center),
+              Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
               const SizedBox(height: AppSize.s38),
 
               ///
@@ -63,7 +62,7 @@ class MobileSignUpScreen extends StatelessWidget {
               Text(AppStrings.welcomeInformationRegister.tr(),
                   style: context.titleLarge),
 
-              const SizedBox(height: AppSize.s48),
+              const SizedBox(height: AppSize.s40),
 
               /// user Name
               CustomTextFormField(

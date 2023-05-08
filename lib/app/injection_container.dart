@@ -11,6 +11,11 @@ import '../core/service/locale_service/data/repositories/locale_repository_impl.
 import '../core/service/locale_service/domain/repositories/locale_repository.dart';
 import '../core/service/locale_service/domain/use_cases/locale_useCase.dart';
 import '../core/service/locale_service/manager/locale_cubit.dart';
+import '../features/auth/login/data/data_sources/login_data_source.dart';
+import '../features/auth/login/data/repositories/login_repositories_impl.dart';
+import '../features/auth/login/domain/repositories/login_repositories.dart';
+import '../features/auth/login/domain/use_cases/login_use_case.dart';
+import '../features/auth/login/presentation/cubit/login_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -21,18 +26,23 @@ class ServiceLocator {
     ///! Features
 
     //Localization data Source
-    sl.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl(cacheHelper: sl()));
+    sl.registerLazySingleton<LocalDataSource>(
+        () => LocalDataSourceImpl(cacheHelper: sl()));
 
     //Localization Repository
-    sl.registerLazySingleton<LocaleRepository>(() => LocaleRepositoryImpl(dataSource: sl()));
+    sl.registerLazySingleton<LocaleRepository>(
+        () => LocaleRepositoryImpl(dataSource: sl()));
     //Localization UseCase
-    sl.registerLazySingleton<GetSavedLangUseCase>(() => GetSavedLangUseCase(repository: sl()));
-    sl.registerLazySingleton<ChangeLangUseCase>(() => ChangeLangUseCase(repository: sl()));
+    sl.registerLazySingleton<GetSavedLangUseCase>(
+        () => GetSavedLangUseCase(repository: sl()));
+    sl.registerLazySingleton<ChangeLangUseCase>(
+        () => ChangeLangUseCase(repository: sl()));
 
     ///Bloc==> cubit
     /// Bloc
     // LocaleCubit
-    sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
+    sl.registerLazySingleton<LocaleCubit>(
+        () => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
     //Connection Cubit
     // sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit(connectivity: sl(), checker: sl()));
 
@@ -41,7 +51,8 @@ class ServiceLocator {
     ///! core
     // sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(connectionChecker: sl()));
     sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(client: sl()));
-    sl.registerLazySingleton<CacheHelper>(() => CacheHelper(sharedPreferences: sl<SharedPreferences>()));
+    sl.registerLazySingleton<CacheHelper>(
+        () => CacheHelper(sharedPreferences: sl<SharedPreferences>()));
 
     ///! External
     /// _initDataExternal();
@@ -63,27 +74,25 @@ class ServiceLocator {
   }
 
   static initLoginGetIt() {
-    //Login Data Source
-    // if (!sl.isRegistered<LoginDataSource>()) {
-    //   sl.registerFactory<LoginDataSource>(
-    //       () => LoginDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
-    // }
-    // //Login Repository
-    // if (!sl.isRegistered<LoginRepository>()) {
-    //   sl.registerFactory<LoginRepository>(
-    //       () => LoginRepositoryImpl(dataSource: sl<LoginDataSource>()));
-    // }
+    // Login Data Source
+    if (!sl.isRegistered<LoginDataSource>()) {
+      sl.registerFactory<LoginDataSource>(
+          () => LoginDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Login Repository
+    if (!sl.isRegistered<LoginRepository>()) {
+      sl.registerFactory<LoginRepository>(
+          () => LoginRepositoryImpl(dataSource: sl<LoginDataSource>()));
+    }
     // //Login Use Cases
-    // if (!sl.isRegistered<LoginUseCases>()) {
-    //   sl.registerFactory<LoginUseCases>(
-    //       () => LoginUseCases(repository: sl<LoginRepository>()));
-    // }
+    if (!sl.isRegistered<LoginUseCases>()) {
+      sl.registerFactory<LoginUseCases>(
+          () => LoginUseCases(repository: sl<LoginRepository>()));
+    }
     // // Login Cubit
-    // if (!GetIt.I.isRegistered<LoginCubit>()) {
-    //   sl.registerFactory<LoginCubit>(
-    //       () => LoginCubit(loginUseCases: sl<LoginUseCases>()));
-    // }
+    if (!GetIt.I.isRegistered<LoginCubit>()) {
+      sl.registerFactory<LoginCubit>(
+          () => LoginCubit(loginUseCases: sl<LoginUseCases>()));
+    }
   }
-
-
 }

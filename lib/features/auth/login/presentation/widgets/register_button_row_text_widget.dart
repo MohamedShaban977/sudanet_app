@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 
+import '../../../../../core/app_manage/color_manager.dart';
 import '../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../core/routes/magic_router.dart';
@@ -21,7 +22,9 @@ class RegisterButtonRowTextWidget extends StatelessWidget {
         const SizedBox(width: AppSize.s11),
         GestureDetector(
           onTap: () => MagicRouterName.navigateTo(RoutesNames.signupRoute),
-          child: Text(AppStrings.signUp.tr(), style: context.displaySmall),
+          child: Text(AppStrings.signUp.tr(),
+              style: context.displayMedium.copyWith(
+                  color: ColorManager.textGray, fontWeight: FontWeight.w800)),
         ),
       ],
     );

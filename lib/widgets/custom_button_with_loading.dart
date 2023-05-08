@@ -18,7 +18,7 @@ class CustomButtonWithLoading extends StatelessWidget {
       {Key? key,
       required this.text,
       required this.onTap,
-      this.height,
+      this.height = 50.0,
       this.width,
       this.color,
       this.textColors,
@@ -28,7 +28,7 @@ class CustomButtonWithLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ArgonButton(
-      height: height ?? 50.0,
+      height: height!,
       roundLoadingShape: true,
       onTap: (startLoading, stopLoading, ButtonState btnState) async {
         if (btnState == ButtonState.Idle) {

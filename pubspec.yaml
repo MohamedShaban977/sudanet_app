@@ -42,7 +42,7 @@ dependencies:
   flutter_bloc: ^8.1.2
 
   # http client
-  dio: ^5.1.1
+  dio: ^5.1.2
   # Functional programming things
   dartz: ^0.10.1
   # Value equatable

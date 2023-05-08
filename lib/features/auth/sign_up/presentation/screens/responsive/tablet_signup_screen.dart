@@ -43,7 +43,7 @@ class TabletLoginScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// image
-                  Image.asset(ImageAssets.loginImg,
+                  Image.asset(ImageAssets.logoImg,
                       alignment: Alignment.center),
                   const SizedBox(height: AppSize.s38),
 

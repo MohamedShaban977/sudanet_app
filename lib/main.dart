@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'app/bloc_observer.dart';
 import 'app/injection_container.dart';
 import 'app/my_app.dart';
+import 'core/app_manage/theme_manager.dart';
 import 'core/cache/hive_helper.dart';
-
 
 Future<void> main() async {
   await _initMain();
@@ -19,8 +19,8 @@ Future<void> _initMain() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  statusBarColor();
   await ServiceLocator.initApp();
   HiveHelper.init();
   Bloc.observer = MyBlocObserver();
 }
-

@@ -1,19 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 
-import '../../../../../app/injection_container.dart';
 import '../../../../../core/app_manage/color_manager.dart';
 import '../../../../../core/app_manage/strings_manager.dart';
+import '../../../../../core/app_manage/theme_manager.dart';
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../core/responsive/responsive.dart';
 import '../../../../../core/routes/magic_router.dart';
 import '../../../../../core/routes/routes_name.dart';
 import '../../../../../widgets/toast_and_snackbar.dart';
 import '../../../../../widgets/unfocused_keyboard.dart';
-import '../../data/models/login_request.dart';
 import '../cubit/login_cubit.dart';
 import 'responsive/mobile_login_screen.dart';
 import 'responsive/tablet_login_screen.dart';
@@ -39,32 +37,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    statusBarColor(color: Colors.grey[100]);
     return BlocConsumer<LoginCubit, LoginState>(
       listener: _listener,
       builder: (context, state) {
-        return UnFocusedKeyboard(
-          child: Scaffold(
-            // resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
-              child: Form(
-                key: _formKey,
-                child: Responsive(
-                  mobile: MobileLoginScreen(
-                    userName: userName,
-                    password: password,
-                    onTap: _submitLoginButton,
-                  ),
-                  tablet: TabletLoginScreen(
-                    userName: userName,
-                    password: password,
-                    onTap: _submitLoginButton,
-                  ),
-                  desktop: TabletLoginScreen(
-                    userName: userName,
-                    password: password,
-                    onTap: _submitLoginButton,
+        return SafeArea(
+          child: UnFocusedKeyboard(
+            child: Scaffold(
+              // resizeToAvoidBottomInset: false,
+              // appBar: _buildAppBar(),
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
+                child: Form(
+                  key: _formKey,
+                  child: Responsive(
+                    mobile: MobileLoginScreen(
+                      userName: userName,
+                      password: password,
+                      onTap: _submitLoginButton,
+                    ),
+                    tablet: TabletLoginScreen(
+                      userName: userName,
+                      password: password,
+                      onTap: _submitLoginButton,
+                    ),
+                    desktop: TabletLoginScreen(
+                      userName: userName,
+                      password: password,
+                      onTap: _submitLoginButton,
+                    ),
                   ),
                 ),
               ),
@@ -100,10 +101,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
-      await Future.sync(() => sl<LoginCubit>().get(context).login(LoginRequest(
-            username: userName.text,
-            password: password.text,
-          )));
+      await Future.delayed(
+        const Duration(seconds: 5),
+        () => null,
+      );
+      // await Future.sync(() => sl<LoginCubit>().get(context).login(LoginRequest(
+      //       username: userName.text,
+      //       password: password.text,
+      //     )));
     }
   }
 }

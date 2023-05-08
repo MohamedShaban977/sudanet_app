@@ -152,3 +152,10 @@ ThemeData getApplicationTheme() {
     // label style
   );
 }
+
+void statusBarColor({Color? color}) {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: color ?? Colors.deepPurpleAccent[200],
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark));
+}
