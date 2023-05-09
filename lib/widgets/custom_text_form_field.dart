@@ -53,29 +53,40 @@ class CustomTextFormField extends StatelessWidget {
           validator: validator,
           obscureText: obscureText,
           decoration: InputDecoration(
-              prefixIcon: prefixWidget ??
-                  Container(
-                    height: 50.0,
-                    width: 50.0,
-                    margin: EdgeInsets.only(
-                        left: context.isEnLocale ? AppSize.s0 : AppMargin.m14,
-                        right: context.isEnLocale ? AppMargin.m14 : AppSize.s0),
-                    decoration: BoxDecoration(
-                        color: ColorManager.primary,
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(
-                              context.isEnLocale ? AppSize.s0 : AppSize.s4),
-                          bottomRight: Radius.circular(
-                              context.isEnLocale ? AppSize.s0 : AppSize.s4),
+              prefixIcon: prefixWidget == null
+                  ? null
+                  : prefixIcon == null
+                      ? null
+                      : Container(
+                          height: 50.0,
+                          width: 50.0,
+                          margin: EdgeInsets.only(
+                              left: context.isEnLocale
+                                  ? AppSize.s0
+                                  : AppMargin.m14,
+                              right: context.isEnLocale
+                                  ? AppMargin.m14
+                                  : AppSize.s0),
+                          decoration: BoxDecoration(
+                              color: ColorManager.primary,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(context.isEnLocale
+                                    ? AppSize.s0
+                                    : AppSize.s4),
+                                bottomRight: Radius.circular(context.isEnLocale
+                                    ? AppSize.s0
+                                    : AppSize.s4),
 
-                          ///
-                          bottomLeft: Radius.circular(
-                              context.isEnLocale ? AppSize.s4 : AppSize.s0),
-                          topLeft: Radius.circular(
-                              context.isEnLocale ? AppSize.s4 : AppSize.s0),
-                        )),
-                    child: Icon(prefixIcon, color: Colors.white),
-                  ),
+                                ///
+                                bottomLeft: Radius.circular(context.isEnLocale
+                                    ? AppSize.s4
+                                    : AppSize.s0),
+                                topLeft: Radius.circular(context.isEnLocale
+                                    ? AppSize.s4
+                                    : AppSize.s0),
+                              )),
+                          child: Icon(prefixIcon, color: Colors.white),
+                        ),
               suffixIcon: GestureDetector(
                 onTap: onTapIcon,
                 child: Icon(

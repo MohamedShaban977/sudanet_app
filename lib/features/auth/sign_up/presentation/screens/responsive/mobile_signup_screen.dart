@@ -15,23 +15,21 @@ import '../../cubit/signup_cubit.dart';
 import '../../widgets/login_button_row_text_widget.dart';
 
 class MobileSignUpScreen extends StatelessWidget {
-  const MobileSignUpScreen(
-      {Key? key,
-      required this.userName,
-      required this.password,
-      required this.onTap,
-      required this.email,
-      required this.firstName,
-      required this.lastName,
-      required this.passwordConfirmation})
-      : super(key: key);
+  const MobileSignUpScreen({
+    Key? key,
+    required this.fullName,
+    required this.password,
+    required this.onTap,
+    required this.email,
+    required this.phoneNumber,
+    required this.phoneNumberParent,
+  }) : super(key: key);
 
-  final TextEditingController userName;
+  final TextEditingController fullName;
   final TextEditingController password;
   final TextEditingController email;
-  final TextEditingController firstName;
-  final TextEditingController lastName;
-  final TextEditingController passwordConfirmation;
+  final TextEditingController phoneNumber;
+  final TextEditingController phoneNumberParent;
   final Future<dynamic> Function() onTap;
 
   @override
@@ -64,20 +62,21 @@ class MobileSignUpScreen extends StatelessWidget {
 
               const SizedBox(height: AppSize.s40),
 
-              /// user Name
+              /// full Name
               CustomTextFormField(
-                label: AppStrings.userName.tr(),
-                controller: userName,
+                hint: AppStrings.fullName.tr(),
+                controller: fullName,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                validator: (value) => Validator.isValidUserName(userName.text),
+                validator: (value) => Validator.isValidUserName(fullName.text),
               ),
 
               const SizedBox(height: AppSize.s16),
 
               /// email
               CustomTextFormField(
-                label: AppStrings.email.tr(),
+                hint: AppStrings.email.tr(),
+                prefixWidget: const SizedBox(),
                 controller: email,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
@@ -86,24 +85,28 @@ class MobileSignUpScreen extends StatelessWidget {
 
               const SizedBox(height: AppSize.s16),
 
-              /// first name
+              /// phoneNumber
               CustomTextFormField(
-                label: AppStrings.firstName.tr(),
-                controller: firstName,
+                hint: AppStrings.phoneNumber.tr(),
+                prefixWidget: const SizedBox(),
+                controller: phoneNumber,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                validator: (value) => Validator.isValidUserName(firstName.text),
+                validator: (value) =>
+                    Validator.isValidUserName(phoneNumber.text),
               ),
 
               const SizedBox(height: AppSize.s16),
 
-              /// last name
+              /// phoneNumberParent
               CustomTextFormField(
-                label: AppStrings.lastName.tr(),
-                controller: lastName,
+                hint: AppStrings.phoneNumberParent.tr(),
+                prefixWidget: const SizedBox(),
+                controller: phoneNumberParent,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                validator: (value) => Validator.isValidUserName(lastName.text),
+                validator: (value) =>
+                    Validator.isValidUserName(phoneNumberParent.text),
               ),
 
               const SizedBox(height: AppSize.s16),
@@ -113,7 +116,8 @@ class MobileSignUpScreen extends StatelessWidget {
                 builder: (context, state) {
                   final cubit = sl<SignUpCubit>().get(context);
                   return CustomTextFormField(
-                    label: AppStrings.password.tr(),
+                    hint: AppStrings.passwordFormat.tr(),
+                    prefixWidget: const SizedBox(),
                     controller: password,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.next,
@@ -127,23 +131,6 @@ class MobileSignUpScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSize.s16),
 
-              /// conform password
-              BlocBuilder<SignUpCubit, SignUpState>(
-                builder: (context, state) {
-                  final cubit = sl<SignUpCubit>().get(context);
-                  return CustomTextFormField(
-                    label: AppStrings.passwordConfirmation.tr(),
-                    controller: passwordConfirmation,
-                    keyboardType: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.done,
-                    obscureText: cubit.isPassword,
-                    iconData: cubit.suffix,
-                    onTapIcon: () => cubit.changePassVisibility(),
-                    validator: (value) => Validator.isValidConfirmPassword(
-                        password.text, passwordConfirmation.text),
-                  );
-                },
-              ),
               const SizedBox(height: AppSize.s30),
 
               /// signUp button

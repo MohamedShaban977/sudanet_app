@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../app/injection_container.dart';
 import '../../../../../core/app_manage/color_manager.dart';
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../core/responsive/responsive.dart';
@@ -10,7 +9,6 @@ import '../../../../../core/routes/magic_router.dart';
 import '../../../../../core/routes/routes_name.dart';
 import '../../../../../widgets/toast_and_snackbar.dart';
 import '../../../../../widgets/unfocused_keyboard.dart';
-import '../../data/models/signup_request.dart';
 import '../cubit/signup_cubit.dart';
 import 'responsive/mobile_signup_screen.dart';
 
@@ -22,23 +20,21 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController userName = TextEditingController();
+  final TextEditingController fullName = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController email = TextEditingController();
-  final TextEditingController firstName = TextEditingController();
-  final TextEditingController lastName = TextEditingController();
-  final TextEditingController passwordConfirmation = TextEditingController();
+  final TextEditingController phoneNumber = TextEditingController();
+  final TextEditingController phoneNumberParent = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    userName.dispose();
+    fullName.dispose();
     password.dispose();
     email.dispose();
-    firstName.dispose();
-    lastName.dispose();
-    passwordConfirmation.dispose();
+    phoneNumber.dispose();
+    phoneNumberParent.dispose();
     super.dispose();
   }
 
@@ -57,30 +53,27 @@ class _SignupScreenState extends State<SignupScreen> {
                 key: _formKey,
                 child: Responsive(
                   mobile: MobileSignUpScreen(
-                    userName: userName,
+                    fullName: fullName,
                     password: password,
                     email: email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    passwordConfirmation: passwordConfirmation,
+                    phoneNumber: phoneNumber,
+                    phoneNumberParent: phoneNumberParent,
                     onTap: _submitLoginButton,
                   ),
                   tablet: MobileSignUpScreen(
-                    userName: userName,
+                    fullName: fullName,
                     password: password,
                     email: email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    passwordConfirmation: passwordConfirmation,
+                    phoneNumber: phoneNumber,
+                    phoneNumberParent: phoneNumberParent,
                     onTap: _submitLoginButton,
                   ),
                   desktop: MobileSignUpScreen(
-                    userName: userName,
+                    fullName: fullName,
                     password: password,
                     email: email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    passwordConfirmation: passwordConfirmation,
+                    phoneNumber: phoneNumber,
+                    phoneNumberParent: phoneNumberParent,
                     onTap: _submitLoginButton,
                   ),
                 ),
@@ -117,14 +110,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
-      await Future.sync(
-          () => sl<SignUpCubit>().get(context).signUp(SignUpRequest(
-                username: userName.text,
-                password: password.text,
-                email: email.text,
-                lastName: lastName.text,
-                firstName: firstName.text,
-              )));
+      await Future.delayed(const Duration(seconds: 5), () => null);
+      // await Future.sync(
+      //     () => sl<SignUpCubit>().get(context).signUp(SignUpRequest(
+      //           username: userName.text,
+      //           password: password.text,
+      //           email: email.text,
+      //           lastName: lastName.text,
+      //           firstName: firstName.text,
+      //         )));
     }
   }
 }

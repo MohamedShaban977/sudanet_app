@@ -95,7 +95,7 @@ ThemeData getApplicationTheme() {
     /// input decoration theme (text form field)
     inputDecorationTheme: InputDecorationTheme(
       // content padding
-      contentPadding: const EdgeInsets.all(AppPadding.p8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: AppPadding.p18),
       fillColor: ColorManager.white,
 
       // hint style
@@ -109,7 +109,7 @@ ThemeData getApplicationTheme() {
       // enabled border style
       enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-          color: ColorManager.borderText,
+          color: ColorManager.secondary,
           width: AppSize.s1,
         ),
         borderRadius: BorderRadius.all(

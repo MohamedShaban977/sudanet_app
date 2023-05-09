@@ -15,10 +15,11 @@ class AppStrings {
   static const invalidPassword = "Invalid_Password";
   static const lang = "lang";
   static const language = "language";
+  static const fullName = "full_name";
   static const email = "email";
-  static const firstName = "first_name";
-  static const lastName = "last_name";
-  static const passwordConfirmation = "password_confirmation";
+  static const phoneNumber = "phone_number";
+  static const phoneNumberParent = "phone_number_parent";
+  static const passwordFormat = "password_format";
   static const newAccount = "New_account";
   static const welcomeInformationRegister = "Welcome_information_register";
   static const youHaveAnAccount = "you_have_an_account";

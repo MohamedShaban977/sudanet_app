@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/features/auth/login/presentation/cubit/login_cubit.dart';
 import 'package:sudanet_app/features/auth/login/presentation/screens/login_screen.dart';
+import 'package:sudanet_app/features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_screen.dart';
 
 import '../../app/injection_container.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -21,6 +23,14 @@ class Routes {
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<LoginCubit>(),
           child: const LoginScreen(),
+        ));
+
+      // loginRoute
+      case RoutesNames.signupRoute:
+        ServiceLocator.initSignupGetIt();
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) => sl<SignUpCubit>(),
+          child: const SignupScreen(),
         ));
 
       default:

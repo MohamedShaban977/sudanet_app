@@ -16,6 +16,11 @@ import '../features/auth/login/data/repositories/login_repositories_impl.dart';
 import '../features/auth/login/domain/repositories/login_repositories.dart';
 import '../features/auth/login/domain/use_cases/login_use_case.dart';
 import '../features/auth/login/presentation/cubit/login_cubit.dart';
+import '../features/auth/sign_up/data/data_sources/signup_data_source.dart';
+import '../features/auth/sign_up/data/repositories/signup_repositories_impl.dart';
+import '../features/auth/sign_up/domain/repositories/signup_repositories.dart';
+import '../features/auth/sign_up/domain/use_cases/signup_use_case.dart';
+import '../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -93,6 +98,29 @@ class ServiceLocator {
     if (!GetIt.I.isRegistered<LoginCubit>()) {
       sl.registerFactory<LoginCubit>(
           () => LoginCubit(loginUseCases: sl<LoginUseCases>()));
+    }
+  }
+
+  static initSignupGetIt() {
+    // Login Data Source
+    if (!sl.isRegistered<SignUpDataSource>()) {
+      sl.registerFactory<SignUpDataSource>(
+          () => SignUpDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Login Repository
+    if (!sl.isRegistered<SignUpRepository>()) {
+      sl.registerFactory<SignUpRepository>(
+          () => SignUpRepositoryImpl(dataSource: sl<SignUpDataSource>()));
+    }
+    // //Login Use Cases
+    if (!sl.isRegistered<SignUpUseCases>()) {
+      sl.registerFactory<SignUpUseCases>(
+          () => SignUpUseCases(repository: sl<SignUpRepository>()));
+    }
+    // // Login Cubit
+    if (!GetIt.I.isRegistered<SignUpCubit>()) {
+      sl.registerFactory<SignUpCubit>(
+          () => SignUpCubit(signupUseCases: sl<SignUpUseCases>()));
     }
   }
 }
