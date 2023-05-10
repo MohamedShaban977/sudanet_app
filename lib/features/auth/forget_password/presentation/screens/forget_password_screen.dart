@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sudanet_app/features/auth/sign_up/presentation/screens/responsive/tablet_signup_screen.dart';
 
 import '../../../../../core/app_manage/color_manager.dart';
 import '../../../../../core/app_manage/values_manager.dart';
@@ -10,17 +9,18 @@ import '../../../../../core/routes/magic_router.dart';
 import '../../../../../core/routes/routes_name.dart';
 import '../../../../../widgets/toast_and_snackbar.dart';
 import '../../../../../widgets/unfocused_keyboard.dart';
-import '../cubit/signup_cubit.dart';
-import 'responsive/mobile_signup_screen.dart';
+import '../cubit/forget_password_cubit.dart';
+import 'responsive/mobile_forget_password_screen.dart';
+import 'responsive/tablet_forget_password_screen.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+class ForgetPasswordScreen extends StatefulWidget {
+  const ForgetPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final TextEditingController fullName = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -41,7 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignUpCubit, SignUpState>(
+    return BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
       listener: _listener,
       builder: (context, state) {
         return SafeArea(
@@ -54,28 +54,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Form(
                   key: _formKey,
                   child: Responsive(
-                    mobile: MobileSignUpScreen(
-                      fullName: fullName,
-                      password: password,
+                    mobile: MobileForgetPasswordScreen(
                       email: email,
-                      phoneNumber: phoneNumber,
-                      phoneNumberParent: phoneNumberParent,
                       onTap: _submitLoginButton,
                     ),
-                    tablet: TabletSignupScreen(
-                      fullName: fullName,
-                      password: password,
+                    tablet: TabletForgetPasswordScreen(
                       email: email,
-                      phoneNumber: phoneNumber,
-                      phoneNumberParent: phoneNumberParent,
                       onTap: _submitLoginButton,
                     ),
-                    desktop: TabletSignupScreen(
-                      fullName: fullName,
-                      password: password,
+                    desktop: TabletForgetPasswordScreen(
                       email: email,
-                      phoneNumber: phoneNumber,
-                      phoneNumberParent: phoneNumberParent,
                       onTap: _submitLoginButton,
                     ),
                   ),
@@ -89,11 +77,11 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _listener(context, state) {
-    if (state is SignUpSuccessState) {
-      ToastAndSnackBar.toastSuccess(message: state.response.message);
+    if (state is ForgetPasswordSuccessState) {
+      ToastAndSnackBar.toastSuccess(message: state.response.code);
       MagicRouterName.navigateAndPopUntilFirstPage(RoutesNames.loginRoute);
     }
-    if (state is SignUpErrorState) {
+    if (state is ForgetPasswordErrorState) {
       ToastAndSnackBar.toastError(message: state.error);
     }
   }

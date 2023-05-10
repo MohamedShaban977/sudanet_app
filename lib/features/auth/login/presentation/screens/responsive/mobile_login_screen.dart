@@ -8,6 +8,8 @@ import '../../../../../../app/injection_container.dart';
 import '../../../../../../core/app_manage/assets_manager.dart';
 import '../../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../../core/app_manage/values_manager.dart';
+import '../../../../../../core/routes/magic_router.dart';
+import '../../../../../../core/routes/routes_name.dart';
 import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
@@ -98,7 +100,7 @@ class MobileLoginScreen extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    // onTap: () => MagicRouterName.navigateTo(RoutesNames.signupRoute),
+                    onTap: () => MagicRouterName.navigateTo(RoutesNames.forgetPasswordRoute),
                     child: Text(AppStrings.forgetPassword.tr(),
                         style: context.displayMedium
                             .copyWith(color: ColorManager.textGray)),

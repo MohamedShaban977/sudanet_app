@@ -53,11 +53,9 @@ class CustomTextFormField extends StatelessWidget {
           validator: validator,
           obscureText: obscureText,
           decoration: InputDecoration(
-              prefixIcon: prefixWidget == null
-                  ? null
-                  : prefixIcon == null
+              prefixIcon: prefixIcon == null
                       ? null
-                      : Container(
+                      :  prefixWidget ?? Container(
                           height: 50.0,
                           width: 50.0,
                           margin: EdgeInsets.only(

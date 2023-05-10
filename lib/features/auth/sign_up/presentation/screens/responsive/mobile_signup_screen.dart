@@ -42,9 +42,14 @@ class MobileSignUpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Align(
-                alignment: Alignment.topRight,
-                child: CustomButtonChangeLanguageWidget(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                children: const [
+                  CustomButtonChangeLanguageWidget(),
+                  CustomButtonBackWidget()
+
+                ],
               ),
 
               /// image
@@ -90,10 +95,10 @@ class MobileSignUpScreen extends StatelessWidget {
                 hint: AppStrings.phoneNumber.tr(),
                 prefixWidget: const SizedBox(),
                 controller: phoneNumber,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 validator: (value) =>
-                    Validator.isValidUserName(phoneNumber.text),
+                    Validator.isValidPhone(phoneNumber.text),
               ),
 
               const SizedBox(height: AppSize.s16),
@@ -103,10 +108,10 @@ class MobileSignUpScreen extends StatelessWidget {
                 hint: AppStrings.phoneNumberParent.tr(),
                 prefixWidget: const SizedBox(),
                 controller: phoneNumberParent,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 validator: (value) =>
-                    Validator.isValidUserName(phoneNumberParent.text),
+                    Validator.isValidPhone(phoneNumberParent.text),
               ),
 
               const SizedBox(height: AppSize.s16),
@@ -135,7 +140,6 @@ class MobileSignUpScreen extends StatelessWidget {
 
               /// signUp button
               CustomButtonWithLoading(
-                height: AppSize.s40,
                 text: AppStrings.signUp.tr(),
                 onTap: onTap,
               ),

@@ -5,4 +5,7 @@ class MyRegex {
       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,16}$');
   static RegExp rxPasswordSimple =
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
+
+  static RegExp rxPhone = RegExp(r'^01[0125][0-9]{8}$');
 }
+

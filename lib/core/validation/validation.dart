@@ -21,6 +21,15 @@ class Validator {
     } else {
       return null;
     }
+  }  static String? isValidPhone(String phone) {
+    if (phone.isEmpty) {
+      return AppStrings.fieldIsRequired.tr();
+    } else if (!MyRegex.rxPhone.hasMatch(phone)) {
+      return AppStrings.fieldIsRequired.tr();
+    }
+    else {
+      return null;
+    }
   }
 
   static String? isValidPassword(String password) {

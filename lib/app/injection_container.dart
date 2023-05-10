@@ -11,6 +11,11 @@ import '../core/service/locale_service/data/repositories/locale_repository_impl.
 import '../core/service/locale_service/domain/repositories/locale_repository.dart';
 import '../core/service/locale_service/domain/use_cases/locale_useCase.dart';
 import '../core/service/locale_service/manager/locale_cubit.dart';
+import '../features/auth/forget_password/data/data_sources/forget_password_data_source.dart';
+import '../features/auth/forget_password/data/repositories/forget_password_repositories_impl.dart';
+import '../features/auth/forget_password/domain/repositories/forget_password_repositories.dart';
+import '../features/auth/forget_password/domain/use_cases/forget_password_use_case.dart';
+import '../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
 import '../features/auth/login/data/data_sources/login_data_source.dart';
 import '../features/auth/login/data/repositories/login_repositories_impl.dart';
 import '../features/auth/login/domain/repositories/login_repositories.dart';
@@ -121,6 +126,29 @@ class ServiceLocator {
     if (!GetIt.I.isRegistered<SignUpCubit>()) {
       sl.registerFactory<SignUpCubit>(
           () => SignUpCubit(signupUseCases: sl<SignUpUseCases>()));
+    }
+  }
+
+  static initForgetPasswordGetIt() {
+    // Login Data Source
+    if (!sl.isRegistered<ForgetPasswordDataSource>()) {
+      sl.registerFactory<ForgetPasswordDataSource>(
+              () => ForgetPasswordDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Login Repository
+    if (!sl.isRegistered<ForgetPasswordRepository>()) {
+      sl.registerFactory<ForgetPasswordRepository>(
+              () => ForgetPasswordRepositoryImpl(dataSource: sl<ForgetPasswordDataSource>()));
+    }
+    // //Login Use Cases
+    if (!sl.isRegistered<ForgetPasswordUseCases>()) {
+      sl.registerFactory<ForgetPasswordUseCases>(
+              () => ForgetPasswordUseCases(repository: sl<ForgetPasswordRepository>()));
+    }
+    // // Login Cubit
+    if (!GetIt.I.isRegistered<ForgetPasswordCubit>()) {
+      sl.registerFactory<ForgetPasswordCubit>(
+              () => ForgetPasswordCubit(forgetPasswordUseCases: sl<ForgetPasswordUseCases>()));
     }
   }
 }

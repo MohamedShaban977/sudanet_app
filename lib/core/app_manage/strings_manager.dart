@@ -9,6 +9,7 @@ class AppStrings {
   static const signUp = "Sign_Up";
   static const registerLater = "Register_later";
   static const forgetPassword = "forget_password";
+  static const sendCode = "send_code";
   static const errorOccurred = "an_error_occurred";
   static const userNameIsEmpty = "UserName_Is_Empty";
   static const fieldIsRequired = "This_field_is_required";
