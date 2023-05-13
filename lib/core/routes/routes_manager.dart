@@ -5,6 +5,7 @@ import 'package:sudanet_app/features/auth/login/presentation/cubit/login_cubit.d
 import 'package:sudanet_app/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/cubit/signup_cubit.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_screen.dart';
+import 'package:sudanet_app/features/main_layout_home/presentation/pages/main_layout_screen.dart';
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
@@ -35,13 +36,17 @@ class Routes {
           child: const SignupScreen(),
         ));
 
-        // loginRoute
+      // loginRoute
       case RoutesNames.forgetPasswordRoute:
         ServiceLocator.initForgetPasswordGetIt();
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<ForgetPasswordCubit>(),
           child: const ForgetPasswordScreen(),
         ));
+      // loginRoute
+      case RoutesNames.mainLayoutApp:
+        // ServiceLocator.initForgetPasswordGetIt();
+        return MagicRouter.pageRoute(MainLayoutScreen());
 
       default:
         return undefinedRoute();

@@ -45,7 +45,8 @@ class MobileLoginScreen extends StatelessWidget {
                 children: [
                   const CustomButtonChangeLanguageWidget(),
                   GestureDetector(
-                    onTap: () => null,
+                    onTap: () =>
+                        MagicRouterName.navigateTo(RoutesNames.mainLayoutApp),
                     child: Text(
                       AppStrings.registerLater.tr(),
                       style: context.displayMedium.copyWith(
@@ -100,7 +101,8 @@ class MobileLoginScreen extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => MagicRouterName.navigateTo(RoutesNames.forgetPasswordRoute),
+                    onTap: () => MagicRouterName.navigateTo(
+                        RoutesNames.forgetPasswordRoute),
                     child: Text(AppStrings.forgetPassword.tr(),
                         style: context.displayMedium
                             .copyWith(color: ColorManager.textGray)),

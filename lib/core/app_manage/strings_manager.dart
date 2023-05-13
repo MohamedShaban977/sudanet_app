@@ -27,9 +27,8 @@ class AppStrings {
   static const passwordDoesNotMatch = "Password_does_not_match";
   static const invalidEmailFormat = "Invalid_Email_Format";
   static const home = "Home";
-  static const category = "Category";
-  static const carts = "carts";
-  static const wishlist = "Wishlist";
+  static const educationalLevels = "educational_levels";
+  static const subjects = "subjects";
   static const profile = "Profile";
   static const categoriesAppBar = "Categories";
   static const mostRecent = "most_recent";
