@@ -5,10 +5,10 @@ import 'package:sudanet_app/features/auth/login/presentation/cubit/login_cubit.d
 import 'package:sudanet_app/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/cubit/signup_cubit.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_screen.dart';
-import 'package:sudanet_app/features/main_layout_home/presentation/pages/main_layout_screen.dart';
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
+import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../app_manage/strings_manager.dart';
 import 'magic_router.dart';
@@ -46,7 +46,7 @@ class Routes {
       // loginRoute
       case RoutesNames.mainLayoutApp:
         // ServiceLocator.initForgetPasswordGetIt();
-        return MagicRouter.pageRoute(MainLayoutScreen());
+        return MagicRouter.pageRoute(const MainLayoutScreen());
 
       default:
         return undefinedRoute();
