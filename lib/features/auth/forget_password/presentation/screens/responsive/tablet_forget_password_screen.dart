@@ -5,19 +5,17 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 import '../../../../../../core/app_manage/assets_manager.dart';
 import '../../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../../core/app_manage/values_manager.dart';
-import '../../../../../../core/responsive/responsive.dart';
 import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
 import '../../../../login/presentation/widgets/custom_button_lang_widget.dart';
 
 class TabletForgetPasswordScreen extends StatelessWidget {
-  const TabletForgetPasswordScreen(
-      {Key? key,
-
-      required this.email, required this.onTap,
-  })
-      : super(key: key);
+  const TabletForgetPasswordScreen({
+    Key? key,
+    required this.email,
+    required this.onTap,
+  }) : super(key: key);
 
   final TextEditingController email;
 
@@ -29,11 +27,9 @@ class TabletForgetPasswordScreen extends StatelessWidget {
       height: context.height,
       child: Column(
         children: [
-          const SizedBox(height: AppSize.s11),
-
+          const SizedBox(height: AppSize.s40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
             children: const [
               CustomButtonChangeLanguageWidget(),
               CustomButtonBackWidget()
@@ -49,18 +45,22 @@ class TabletForgetPasswordScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: AppSize.s40),
 
-
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center, children: [
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Spacer(),
                           Expanded(
+                            flex: 5,
                             child: Column(
                               children: [
                                 /// image
-                                Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
+                                Image.asset(ImageAssets.logoImg,
+                                    alignment: Alignment.center),
                                 const SizedBox(height: AppSize.s38),
 
                                 ///
-                                Text(AppStrings.forgetPassword.tr(), style: context.displayLarge),
+                                Text(AppStrings.forgetPassword.tr(),
+                                    style: context.displayLarge),
 
                                 const SizedBox(height: AppSize.s13),
 
@@ -70,40 +70,40 @@ class TabletForgetPasswordScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          const Spacer(),
                           Expanded(
-                            child: SizedBox(
-                              width: Responsive.isTablet(context) ? 400 : 450,
-                              child: Column(
-                                children: [
-                                  ///
+                            flex: 7,
+                            child: Column(
+                              children: [
+                                ///
 
-                                  const SizedBox(height: AppSize.s50),
-                                  const SizedBox(height: AppSize.s50),
+                                const SizedBox(height: AppSize.s50),
+                                const SizedBox(height: AppSize.s50),
 
-                                  /// email
-                                  CustomTextFormField(
-                                    hint: AppStrings.email.tr(),
-                                    prefixWidget: const SizedBox(),
-                                    controller: email,
-                                    keyboardType: TextInputType.emailAddress,
-                                    textInputAction: TextInputAction.next,
-                                    validator: (value) => Validator.isValidEmail(email.text),
-                                  ),
+                                /// email
+                                CustomTextFormField(
+                                  hint: AppStrings.email.tr(),
+                                  prefixWidget: const SizedBox(),
+                                  controller: email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) =>
+                                      Validator.isValidEmail(email.text),
+                                ),
 
-                                  const SizedBox(height: AppSize.s37),
+                                const SizedBox(height: AppSize.s37),
 
-                                  ///  button
-                                  CustomButtonWithLoading(
-                                    text: AppStrings.sendCode.tr(),
-                                    onTap: onTap,
-                                  ),
+                                ///  button
+                                CustomButtonWithLoading(
+                                  text: AppStrings.sendCode.tr(),
+                                  onTap: onTap,
+                                ),
 
-                                  const SizedBox(height: AppSize.s37),
-
-                                ],
-                              ),
+                                const SizedBox(height: AppSize.s37),
+                              ],
                             ),
                           ),
+                          const Spacer(),
                         ],
                       ),
                       // const Spacer(),

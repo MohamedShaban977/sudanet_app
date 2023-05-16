@@ -44,28 +44,26 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     return BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
       listener: _listener,
       builder: (context, state) {
-        return SafeArea(
-          child: UnFocusedKeyboard(
-            child: Scaffold(
-              // resizeToAvoidBottomInset: false,
-              // appBar: _buildAppBar(),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
-                child: Form(
-                  key: _formKey,
-                  child: Responsive(
-                    mobile: MobileForgetPasswordScreen(
-                      email: email,
-                      onTap: _submitLoginButton,
-                    ),
-                    tablet: TabletForgetPasswordScreen(
-                      email: email,
-                      onTap: _submitLoginButton,
-                    ),
-                    desktop: TabletForgetPasswordScreen(
-                      email: email,
-                      onTap: _submitLoginButton,
-                    ),
+        return UnFocusedKeyboard(
+          child: Scaffold(
+            // resizeToAvoidBottomInset: false,
+            // appBar: _buildAppBar(),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
+              child: Form(
+                key: _formKey,
+                child: Responsive(
+                  mobile: MobileForgetPasswordScreen(
+                    email: email,
+                    onTap: _submitLoginButton,
+                  ),
+                  tablet: TabletForgetPasswordScreen(
+                    email: email,
+                    onTap: _submitLoginButton,
+                  ),
+                  desktop: TabletForgetPasswordScreen(
+                    email: email,
+                    onTap: _submitLoginButton,
                   ),
                 ),
               ),

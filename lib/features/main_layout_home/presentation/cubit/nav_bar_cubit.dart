@@ -23,16 +23,9 @@ class NavBarCubit extends Cubit<NavBarState> {
 
   void changeIndex(int index) {
     currentIndex = index;
-    // titleAppbar = listTitleAppBar()[currentTab];
-    // currentScreen = screens()[currentIndex];
     emit(NavBarChangeState());
   }
 
-  // Color inactiveColor = ColorManager.nonSelectNavBar;
-  // Color inactiveColorText = ColorManager.textGray;
 
-  // Color changeColorIcon(int index, {Color activeColor = ColorManager.primary}) {
-  //   return currentIndex == index ? activeColor : inactiveColor;
-  // }
 
 }

@@ -7,7 +7,6 @@ import '../../../../../../app/injection_container.dart';
 import '../../../../../../core/app_manage/assets_manager.dart';
 import '../../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../../core/app_manage/values_manager.dart';
-import '../../../../../../core/responsive/responsive.dart';
 import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
@@ -39,7 +38,7 @@ class TabletSignupScreen extends StatelessWidget {
       height: context.height,
       child: Column(
         children: [
-          const SizedBox(height: AppSize.s11),
+          const SizedBox(height: AppSize.s40),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +62,9 @@ class TabletSignupScreen extends StatelessWidget {
 
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center, children: [
+                        const Spacer(),
                           Expanded(
+                            flex: 5,
                             child: Column(
                               children: [
                                 /// image
@@ -81,101 +82,98 @@ class TabletSignupScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                        const Spacer(),
+
+                        Expanded(
+                            flex: 7,
+                            child: Column(
                               children: [
-                                SizedBox(
-                                  width: Responsive.isTablet(context) ? 400 : 450,
-                                  child: Column(
-                                    children: [
-                                      ///
+                                ///
 
-                                      /// full Name
-                                      CustomTextFormField(
-                                        hint: AppStrings.fullName.tr(),
-                                        controller: fullName,
-                                        keyboardType: TextInputType.name,
-                                        textInputAction: TextInputAction.next,
-                                        validator: (value) => Validator.isValidUserName(fullName.text),
-                                      ),
-
-                                      const SizedBox(height: AppSize.s12),
-
-                                      /// email
-                                      CustomTextFormField(
-                                        hint: AppStrings.email.tr(),
-                                        prefixWidget: const SizedBox(),
-                                        controller: email,
-                                        keyboardType: TextInputType.emailAddress,
-                                        textInputAction: TextInputAction.next,
-                                        validator: (value) => Validator.isValidEmail(email.text),
-                                      ),
-
-                                      const SizedBox(height: AppSize.s12),
-
-                                      /// phoneNumber
-                                      CustomTextFormField(
-                                        hint: AppStrings.phoneNumber.tr(),
-                                        prefixWidget: const SizedBox(),
-                                        controller: phoneNumber,
-                                        keyboardType: TextInputType.name,
-                                        textInputAction: TextInputAction.next,
-                                        validator: (value) =>
-                                            Validator.isValidPhone(phoneNumber.text),
-                                      ),
-
-                                      const SizedBox(height: AppSize.s12),
-
-                                      /// phoneNumberParent
-                                      CustomTextFormField(
-                                        hint: AppStrings.phoneNumberParent.tr(),
-                                        prefixWidget: const SizedBox(),
-                                        controller: phoneNumberParent,
-                                        keyboardType: TextInputType.name,
-                                        textInputAction: TextInputAction.next,
-                                        validator: (value) =>
-                                            Validator.isValidPhone(phoneNumberParent.text),
-                                      ),
-
-                                      const SizedBox(height: AppSize.s12),
-
-                                      /// password
-                                      BlocBuilder<SignUpCubit, SignUpState>(
-                                        builder: (context, state) {
-                                          final cubit = sl<SignUpCubit>().get(context);
-                                          return CustomTextFormField(
-                                            hint: AppStrings.passwordFormat.tr(),
-                                            prefixWidget: const SizedBox(),
-                                            controller: password,
-                                            keyboardType: TextInputType.visiblePassword,
-                                            textInputAction: TextInputAction.next,
-                                            obscureText: cubit.isPassword,
-                                            iconData: cubit.suffix,
-                                            onTapIcon: () => cubit.changePassVisibility(),
-                                            validator: (value) =>
-                                                Validator.isValidPassword(password.text),
-                                          );
-                                        },
-                                      ),
-                                      const SizedBox(height: AppSize.s12),
-                                      /// login button
-                                      CustomButtonWithLoading(
-                                        text: AppStrings.signUp.tr(),
-                                        onTap: onTap,
-                                      ),
-
-                                      const SizedBox(height: AppSize.s37),
-
-                                      ///
-                                      const LoginButtonRowTextWidget(),
-                                    ],
-                                  ),
+                                /// full Name
+                                CustomTextFormField(
+                                  hint: AppStrings.fullName.tr(),
+                                  controller: fullName,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) => Validator.isValidUserName(fullName.text),
                                 ),
+
+                                const SizedBox(height: AppSize.s12),
+
+                                /// email
+                                CustomTextFormField(
+                                  hint: AppStrings.email.tr(),
+                                  prefixWidget: const SizedBox(),
+                                  controller: email,
+                                  keyboardType: TextInputType.emailAddress,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) => Validator.isValidEmail(email.text),
+                                ),
+
+                                const SizedBox(height: AppSize.s12),
+
+                                /// phoneNumber
+                                CustomTextFormField(
+                                  hint: AppStrings.phoneNumber.tr(),
+                                  prefixWidget: const SizedBox(),
+                                  controller: phoneNumber,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) =>
+                                      Validator.isValidPhone(phoneNumber.text),
+                                ),
+
+                                const SizedBox(height: AppSize.s12),
+
+                                /// phoneNumberParent
+                                CustomTextFormField(
+                                  hint: AppStrings.phoneNumberParent.tr(),
+                                  prefixWidget: const SizedBox(),
+                                  controller: phoneNumberParent,
+                                  keyboardType: TextInputType.name,
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) =>
+                                      Validator.isValidPhone(phoneNumberParent.text),
+                                ),
+
+                                const SizedBox(height: AppSize.s12),
+
+                                /// password
+                                BlocBuilder<SignUpCubit, SignUpState>(
+                                  builder: (context, state) {
+                                    final cubit = sl<SignUpCubit>().get(context);
+                                    return CustomTextFormField(
+                                      hint: AppStrings.passwordFormat.tr(),
+                                      prefixWidget: const SizedBox(),
+                                      controller: password,
+                                      keyboardType: TextInputType.visiblePassword,
+                                      textInputAction: TextInputAction.next,
+                                      obscureText: cubit.isPassword,
+                                      iconData: cubit.suffix,
+                                      onTapIcon: () => cubit.changePassVisibility(),
+                                      validator: (value) =>
+                                          Validator.isValidPassword(password.text),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: AppSize.s12),
+                                /// login button
+                                CustomButtonWithLoading(
+                                  text: AppStrings.signUp.tr(),
+                                  onTap: onTap,
+                                ),
+
+                                const SizedBox(height: AppSize.s37),
+
+                                ///
+                                const LoginButtonRowTextWidget(),
                               ],
                             ),
                           ),
-                        ],
+                        const Spacer(),
+
+                      ],
                       ),
                       // const Spacer(),
                     ],

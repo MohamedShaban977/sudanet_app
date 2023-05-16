@@ -44,40 +44,38 @@ class _SignupScreenState extends State<SignupScreen> {
     return BlocConsumer<SignUpCubit, SignUpState>(
       listener: _listener,
       builder: (context, state) {
-        return SafeArea(
-          child: UnFocusedKeyboard(
-            child: Scaffold(
-              // resizeToAvoidBottomInset: false,
-              // appBar: _buildAppBar(),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
-                child: Form(
-                  key: _formKey,
-                  child: Responsive(
-                    mobile: MobileSignUpScreen(
-                      fullName: fullName,
-                      password: password,
-                      email: email,
-                      phoneNumber: phoneNumber,
-                      phoneNumberParent: phoneNumberParent,
-                      onTap: _submitLoginButton,
-                    ),
-                    tablet: TabletSignupScreen(
-                      fullName: fullName,
-                      password: password,
-                      email: email,
-                      phoneNumber: phoneNumber,
-                      phoneNumberParent: phoneNumberParent,
-                      onTap: _submitLoginButton,
-                    ),
-                    desktop: TabletSignupScreen(
-                      fullName: fullName,
-                      password: password,
-                      email: email,
-                      phoneNumber: phoneNumber,
-                      phoneNumberParent: phoneNumberParent,
-                      onTap: _submitLoginButton,
-                    ),
+        return UnFocusedKeyboard(
+          child: Scaffold(
+            // resizeToAvoidBottomInset: false,
+            // appBar: _buildAppBar(),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
+              child: Form(
+                key: _formKey,
+                child: Responsive(
+                  mobile: MobileSignUpScreen(
+                    fullName: fullName,
+                    password: password,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    phoneNumberParent: phoneNumberParent,
+                    onTap: _submitLoginButton,
+                  ),
+                  tablet: TabletSignupScreen(
+                    fullName: fullName,
+                    password: password,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    phoneNumberParent: phoneNumberParent,
+                    onTap: _submitLoginButton,
+                  ),
+                  desktop: TabletSignupScreen(
+                    fullName: fullName,
+                    password: password,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    phoneNumberParent: phoneNumberParent,
+                    onTap: _submitLoginButton,
                   ),
                 ),
               ),

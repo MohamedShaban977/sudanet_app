@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,6 +38,12 @@ class _MyAppState extends State<MyApp> {
         builder: (context, state) => MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
+
+          useInheritedMediaQuery: true,
+          // locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          // theme: ThemeData.light(),
+          // darkTheme: ThemeData.dark(),
           //Themes
           theme: getApplicationTheme(),
           // darkTheme: appThemeDark(), // darkTheme

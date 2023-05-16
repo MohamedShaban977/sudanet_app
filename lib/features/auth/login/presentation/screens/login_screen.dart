@@ -41,31 +41,29 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: _listener,
       builder: (context, state) {
-        return SafeArea(
-          child: UnFocusedKeyboard(
-            child: Scaffold(
-              // resizeToAvoidBottomInset: false,
-              // appBar: _buildAppBar(),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
-                child: Form(
-                  key: _formKey,
-                  child: Responsive(
-                    mobile: MobileLoginScreen(
-                      userName: userName,
-                      password: password,
-                      onTap: _submitLoginButton,
-                    ),
-                    tablet: TabletLoginScreen(
-                      userName: userName,
-                      password: password,
-                      onTap: _submitLoginButton,
-                    ),
-                    desktop: TabletLoginScreen(
-                      userName: userName,
-                      password: password,
-                      onTap: _submitLoginButton,
-                    ),
+        return UnFocusedKeyboard(
+          child: Scaffold(
+            // resizeToAvoidBottomInset: false,
+            // appBar: _buildAppBar(),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppPadding.p26),
+              child: Form(
+                key: _formKey,
+                child: Responsive(
+                  mobile: MobileLoginScreen(
+                    userName: userName,
+                    password: password,
+                    onTap: _submitLoginButton,
+                  ),
+                  tablet: TabletLoginScreen(
+                    userName: userName,
+                    password: password,
+                    onTap: _submitLoginButton,
+                  ),
+                  desktop: TabletLoginScreen(
+                    userName: userName,
+                    password: password,
+                    onTap: _submitLoginButton,
                   ),
                 ),
               ),
