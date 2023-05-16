@@ -31,17 +31,22 @@ class ViewInfoDataEducationalWidget extends StatelessWidget {
           style: context.displaySmall.copyWith(color: ColorManager.textGray),
         ),
         const Spacer(),
-        SizedBox(
-          width: context.width,
-          height: AppSize.s50,
-          child: ElevatedButton(
-              onPressed: () {
-                ///TODO:
-              },
-              child: Text(
-                AppStrings.findAvailableSubjects.tr(),
-              )),
-        ),
+        ElevatedButton(
+            onPressed: () {
+              ///TODO:
+            },
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(12.0),
+              minimumSize: const Size.fromHeight(40.0),
+            ),
+            child: Text(
+              AppStrings.findAvailableSubjects.tr(),
+              textAlign: TextAlign.center,
+              style: context.displayMedium.copyWith(
+                  color: ColorManager.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15.0),
+            )),
       ],
     );
   }

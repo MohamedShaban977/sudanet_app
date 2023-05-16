@@ -2,7 +2,6 @@ library bottom_navy_bar;
 
 import 'package:flutter/material.dart';
 
-
 /// A beautiful and animated bottom navigation that paints a rounded shape
 /// around its [items] to provide a wonderful look.
 ///
@@ -33,7 +32,7 @@ class BottomNavyBar extends StatelessWidget {
     this.unselectedFontSize = 12.0,
     this.selectedIconSize = 23.0,
     this.unselectedIconSize = 20.0,
-    this.flexIndex=1,
+    this.flexIndex = 1,
   })  : assert(items.length >= 2 && items.length <= 5),
         super(key: key);
 
@@ -204,39 +203,47 @@ class _ItemWidget extends StatelessWidget {
               : backgroundColor,
           borderRadius: BorderRadius.circular(itemCornerRadius),
         ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconTheme(
-                data: IconThemeData(
-                  size: iconSize ??
-                      (isSelected ? selectedIconSize : unselectedIconSize),
-                  color: isSelected
-                      ? item.activeColor.withOpacity(1)
-                      : item.inactiveColor ?? item.activeColor,
-                ),
-                child: item.icon,
-              ),
-              const SizedBox(height: 3.0),
-              // if (isSelected)
-              Container(
-                padding: itemPadding,
-                child: DefaultTextStyle.merge(
-                  style: TextStyle(
-                    color: isSelected ? item.activeColor : item.inactiveColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize:
-                    isSelected ? selectedFontSize : unselectedFontSize,
+        child: SingleChildScrollView(
+          // scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          child: SizedBox(
+            height: kToolbarHeight,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconTheme(
+                    data: IconThemeData(
+                      size: iconSize ??
+                          (isSelected ? selectedIconSize : unselectedIconSize),
+                      color: isSelected
+                          ? item.activeColor.withOpacity(1)
+                          : item.inactiveColor ?? item.activeColor,
+                    ),
+                    child: item.icon,
                   ),
-                  maxLines: 1,
-                  textAlign: item.textAlign,
-                  child: item.title,
-                ),
+                  const SizedBox(height: 3.0),
+                  // if (isSelected)
+                  Container(
+                    padding: itemPadding,
+                    child: DefaultTextStyle.merge(
+                      style: TextStyle(
+                        color:
+                            isSelected ? item.activeColor : item.inactiveColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize:
+                            isSelected ? selectedFontSize : unselectedFontSize,
+                      ),
+                      maxLines: 1,
+                      textAlign: item.textAlign,
+                      child: item.title,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

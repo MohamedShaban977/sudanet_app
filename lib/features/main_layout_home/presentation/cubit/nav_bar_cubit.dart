@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/features/profile/presentation/screens/profile_screen.dart';
 
 import '../../../educational_levels/presentation/screens/educational_levels_screen.dart';
+import '../../../subjects/presentation/screens/subjects_screen.dart';
 import '../screens/main_layout_screen.dart';
 
 part 'nav_bar_state.dart';
@@ -11,11 +13,11 @@ class NavBarCubit extends Cubit<NavBarState> {
 
   static NavBarCubit get(context) => BlocProvider.of(context);
 
-   List<Widget> screens() => [
+  List<Widget> screens() => [
         const Home(),
         const EducationalLevelsScreen(),
-        const Massages(),
-        const Settings(),
+        const SubjectsScreen(),
+        const ProfileScreen(),
       ];
 
   int currentIndex = 0; // to keep track of active tab index
@@ -25,7 +27,4 @@ class NavBarCubit extends Cubit<NavBarState> {
     currentIndex = index;
     emit(NavBarChangeState());
   }
-
-
-
 }

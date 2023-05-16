@@ -15,9 +15,7 @@ class MobileForgetPasswordScreen extends StatelessWidget {
     Key? key,
     required this.onTap,
     required this.email,
-
   }) : super(key: key);
-
 
   final TextEditingController email;
   final Future<dynamic> Function() onTap;
@@ -32,15 +30,16 @@ class MobileForgetPasswordScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: AppSize.s40),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: const [
                   CustomButtonChangeLanguageWidget(),
                   CustomButtonBackWidget()
-
                 ],
               ),
+
               /// image
               Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
               const SizedBox(height: AppSize.s38),
@@ -50,10 +49,7 @@ class MobileForgetPasswordScreen extends StatelessWidget {
 
               const SizedBox(height: AppSize.s13),
 
-
-
               const SizedBox(height: AppSize.s40),
-
 
               /// email
               CustomTextFormField(
@@ -65,7 +61,6 @@ class MobileForgetPasswordScreen extends StatelessWidget {
                 validator: (value) => Validator.isValidEmail(email.text),
               ),
 
-
               const SizedBox(height: AppSize.s30),
 
               /// signUp button
@@ -73,7 +68,6 @@ class MobileForgetPasswordScreen extends StatelessWidget {
                 text: AppStrings.sendCode.tr(),
                 onTap: onTap,
               ),
-
 
               const SizedBox(height: AppSize.s16),
             ],

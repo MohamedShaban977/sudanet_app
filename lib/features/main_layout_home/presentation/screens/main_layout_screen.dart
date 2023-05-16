@@ -7,6 +7,7 @@ import 'package:sudanet_app/core/app_manage/strings_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/main_layout_home/presentation/cubit/nav_bar_cubit.dart';
 
+import '../../../../core/service/locale_service/manager/locale_cubit.dart';
 import '../../../../widgets/bottom_navy_bar.dart';
 import '../widgets/custom_nav_bar_widget.dart';
 
@@ -18,8 +19,6 @@ class MainLayoutScreen extends StatefulWidget {
 }
 
 class _MainLayoutScreenState extends State<MainLayoutScreen> {
-
-
   final menuItemList = <MenuItem>[
     MenuItem(
       0,
@@ -59,12 +58,49 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
       create: (context) => NavBarCubit(),
       child: BlocBuilder<NavBarCubit, NavBarState>(
         builder: (context, state) {
-         final cubit = NavBarCubit.get(context);
+          final cubit = NavBarCubit.get(context);
           return Scaffold(
-            bottomNavigationBar: CustomNavBarWidget(
-              currentIndex: cubit.currentIndex,
-              onItemSelected: (int index)=>cubit.changeIndex(index),
-              items: items,
+            bottomNavigationBar: BlocBuilder<LocaleCubit, LocaleState>(
+              builder: (context, state) {
+                return Localizations.override(
+                  context: context,
+                  locale: state.locale,
+                  child: CustomNavBarWidget(
+                    currentIndex: cubit.currentIndex,
+                    onItemSelected: (int index) => cubit.changeIndex(index),
+                    items: <BottomNavyBarItem>[
+                      BottomNavyBarItem(
+                        icon: const Icon(FontAwesomeIcons.houseChimney),
+                        title: Text(AppStrings.home.tr()),
+                        activeColor: ColorManager.primary,
+                        inactiveColor: Colors.grey,
+                        backgroundColorItem: ColorManager.secondary,
+                      ),
+                      BottomNavyBarItem(
+                        icon: const Icon(Icons.grid_view_sharp),
+                        title: Text(AppStrings.educationalLevels.tr()),
+                        activeColor: ColorManager.primary,
+                        inactiveColor: Colors.grey,
+                        backgroundColorItem: ColorManager.secondary,
+                      ),
+                      BottomNavyBarItem(
+                        icon: const Icon(FontAwesomeIcons.book),
+                        title: Text(AppStrings.subjects.tr()),
+                        activeColor: ColorManager.primary,
+                        inactiveColor: Colors.grey,
+                        backgroundColorItem: ColorManager.secondary,
+                      ),
+                      BottomNavyBarItem(
+                        icon: const Icon(Icons.person_2),
+                        title: Text(AppStrings.profile.tr()),
+                        activeColor: ColorManager.primary,
+                        inactiveColor: Colors.grey,
+                        backgroundColorItem: ColorManager.secondary,
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
             body: cubit.screens()[cubit.currentIndex],
           );
@@ -91,20 +127,6 @@ class Home extends StatelessWidget {
     return Center(
       child: Text(
         'Home',
-        style: context.bodyLarge.copyWith(color: Colors.black),
-      ),
-    );
-  }
-}
-
-class User extends StatelessWidget {
-  const User({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'User',
         style: context.bodyLarge.copyWith(color: Colors.black),
       ),
     );

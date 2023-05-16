@@ -42,13 +42,13 @@ class MobileSignUpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: AppSize.s40),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: const [
                   CustomButtonChangeLanguageWidget(),
                   CustomButtonBackWidget()
-
                 ],
               ),
 
@@ -97,8 +97,7 @@ class MobileSignUpScreen extends StatelessWidget {
                 controller: phoneNumber,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
-                validator: (value) =>
-                    Validator.isValidPhone(phoneNumber.text),
+                validator: (value) => Validator.isValidPhone(phoneNumber.text),
               ),
 
               const SizedBox(height: AppSize.s16),
