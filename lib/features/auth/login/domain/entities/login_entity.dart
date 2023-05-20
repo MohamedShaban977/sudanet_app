@@ -1,11 +1,31 @@
 import 'package:equatable/equatable.dart';
 
-class LoginEntity extends Equatable {
-  final String refresh;
-  final String access;
+class UserEntity extends Equatable {
+  final String? token;
+  final String name;
+  final String? guid;
+  final int expiresIn;
 
-  const LoginEntity({required this.refresh, required this.access});
+  const UserEntity(
+      {required this.token,
+      required this.name,
+      required this.guid,
+      required this.expiresIn});
 
   @override
-  List<Object?> get props => [refresh, access];
+  List<Object?> get props => [token, name, guid, expiresIn];
+
+  factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
+        token: json["token"],
+        name: json["name"],
+        guid: json["guid"],
+        expiresIn: json["expires_in"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "token": token,
+        "name": name,
+        "guid": guid,
+        "expires_in": expiresIn,
+      };
 }

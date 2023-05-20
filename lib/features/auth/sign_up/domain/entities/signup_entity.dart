@@ -1,3 +1,4 @@
+/*
 import 'package:equatable/equatable.dart';
 
 class SignUpEntity extends Equatable {
@@ -55,3 +56,4 @@ class UserEntity extends Equatable {
         userPermissions
       ];
 }
+*/

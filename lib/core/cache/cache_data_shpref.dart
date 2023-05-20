@@ -1,7 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../app_manage/contents_manager.dart';
-
 class CacheHelper {
   final SharedPreferences sharedPreferences;
 
@@ -25,7 +23,8 @@ class CacheHelper {
   Future<bool> removeData({required String key}) async =>
       await sharedPreferences.remove(key);
 
-  String? getToken() {
-    return getData(key: Constants.cachedDataLogin);
-  }
+// String? getToken() {
+//   var res = getData(key: Constants.cachedDataLogin);
+//   return res != null ? UserData.fromJson(jsonDecode(res)).token : null;
+// }
 }

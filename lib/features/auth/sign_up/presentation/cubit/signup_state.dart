@@ -12,7 +12,7 @@ class SignUpInitial extends SignUpState {}
 class SignUpLoadingState extends SignUpState {}
 
 class SignUpSuccessState extends SignUpState {
-  final SignUpEntity response;
+  final BaseResponseEntity<UserEntity> response;
 
   const SignUpSuccessState({required this.response});
 

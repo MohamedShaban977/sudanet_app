@@ -32,6 +32,8 @@ class AppStrings {
   static const profile = "Profile";
   static const viewAllEducationalLevels = "view_all_educational_levels";
   static const findAvailableSubjects = "find_available_subjects";
+  static const viewAllFirstStageSubjects = "view_all_first_stage_subjects";
+  static const purchase = "purchase";
   static const categoriesAppBar = "Categories";
   static const mostRecent = "most_recent";
   static const mostPopular = "most_popular";

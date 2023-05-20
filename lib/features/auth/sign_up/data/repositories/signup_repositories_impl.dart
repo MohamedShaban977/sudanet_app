@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:sudanet_app/core/api/service_response.dart';
 
 import '../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../core/error/exceptions.dart';
 import '../../../../../core/error/failures.dart';
-import '../../domain/entities/signup_entity.dart';
+import '../../../login/domain/entities/login_entity.dart';
 import '../../domain/repositories/signup_repositories.dart';
 import '../data_sources/signup_data_source.dart';
 import '../models/signup_request.dart';
@@ -14,11 +15,12 @@ class SignUpRepositoryImpl implements SignUpRepository {
   SignUpRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, SignUpEntity>> signUpUser(SignUpRequest request) async {
+  Future<Either<Failure, BaseResponseEntity<UserEntity>>> signUpUser(
+      SignUpRequest request) async {
     try {
       final res = await dataSource.signUpDataSource(request);
 
-      return res.user != null
+      return res.success
           ? Right(res)
           : left(const ServerFailure(AppStrings.errorOccurred));
     } on ServerException catch (error) {

@@ -3,9 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/api/service_response.dart';
 import '../../../../../core/error/failures.dart';
+import '../../../login/domain/entities/login_entity.dart';
 import '../../data/models/signup_request.dart';
-import '../../domain/entities/signup_entity.dart';
 import '../../domain/use_cases/signup_use_case.dart';
 
 part 'signup_state.dart';
@@ -19,7 +20,8 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   Future<void> signUp(SignUpRequest request) async {
     emit(SignUpLoadingState());
-    Either<Failure, SignUpEntity> response = await signupUseCases.call(request);
+    Either<Failure, BaseResponseEntity<UserEntity>> response =
+        await signupUseCases.call(request);
 
     response.fold(
       (failure) =>

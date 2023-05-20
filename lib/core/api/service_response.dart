@@ -1,17 +1,28 @@
 import 'package:equatable/equatable.dart';
-import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+
+// {
+// "success": true,
+// "message": "تمت العملية بنجاح",
+// "data": [],
+// "statusCode": 200
+// }
 
 /// Base Service Response
 class BaseResponseEntity<T> extends Equatable {
-  final String message;
   final bool success;
+  final String message;
   final T? data;
+  final int statusCode;
 
-  const BaseResponseEntity(
-      {required this.message, required this.success, required this.data});
+  const BaseResponseEntity({
+    required this.success,
+    required this.message,
+    required this.data,
+    required this.statusCode,
+  });
 
   @override
-  List<Object?> get props => [success, message, data];
+  List<Object?> get props => [success, message, data, statusCode];
 }
 
 class BaseResponse<T> extends BaseResponseEntity<T> {
@@ -19,7 +30,12 @@ class BaseResponse<T> extends BaseResponseEntity<T> {
     required bool success,
     required String message,
     required T? data,
-  }) : super(success: success, message: message, data: data);
+    required int statusCode,
+  }) : super(
+            success: success,
+            message: message,
+            data: data,
+            statusCode: statusCode);
 
   factory BaseResponse.fromJson(Map<String, dynamic> json,
       [Function(Map<String, dynamic> data)? build]) {
@@ -31,18 +47,24 @@ class BaseResponse<T> extends BaseResponseEntity<T> {
               ? json["data"]
               : build(json["data"])
           : null,
+      statusCode: json["statusCode"],
     );
   }
 }
 
 /// Base Response collection
-/*class CollectionResponseEntity<T> extends Equatable {
-  final String message;
+class CollectionResponseEntity<T> extends Equatable {
   final bool success;
+  final String message;
   final List<T>? data;
+  final int statusCode;
 
-  const CollectionResponseEntity(
-      {required this.message, required this.success, required this.data});
+  const CollectionResponseEntity({
+    required this.message,
+    required this.success,
+    required this.data,
+    required this.statusCode,
+  });
 
   @override
   List<Object?> get props => [success, message, data];
@@ -53,7 +75,12 @@ class CollectionResponse<T> extends CollectionResponseEntity<T> {
     required bool success,
     required String message,
     required List<T>? data,
-  }) : super(success: success, message: message, data: data);
+    required int statusCode,
+  }) : super(
+            success: success,
+            message: message,
+            data: data,
+            statusCode: statusCode);
 
   factory CollectionResponse.fromJson(Map<String, dynamic> json,
       [Function(List<dynamic> list)? build]) {
@@ -65,55 +92,7 @@ class CollectionResponse<T> extends CollectionResponseEntity<T> {
               ? json["data"]
               : build(json["data"])
           : [],
+      statusCode: json["statusCode"],
     );
   }
-}*/
-
-
-
-class CollectionResponseEntity<T> extends Equatable {
-  final int count;
-  final dynamic next;
-  final dynamic previous;
-  final List<T> results;
-
-  const CollectionResponseEntity(
-      {required this.count,required this.next,required this.previous,required this.results, });
-
-  @override
-  List<Object?> get props => [count,next,previous,results];
 }
-
-class CollectionResponse<T> extends CollectionResponseEntity<T> {
-   CollectionResponse({
-    required int? count,
-    required dynamic next,
-    required dynamic previous,
-    required List<T>? results,
-  }) : super(count:count.orZero(), next: next,previous: previous, results:  results.orEmptyList());
-
-  factory CollectionResponse.fromJson(Map<String, dynamic> json, [Function(List<dynamic> list)? build]) {
-    return CollectionResponse<T>(
-      count: json["count"],
-      next: json["next"],
-      previous: json["previous"],
-      results: json["results"] != null
-          ? build == null
-          ? json["results"]
-          : build(json["results"])
-          : [],
-    );
-
-
-  }
-   Map<String, dynamic> toJson() => {
-     "count": count,
-     "next": next,
-     "previous": previous,
-     "results": results,
-   };
-
-
-}
-
-

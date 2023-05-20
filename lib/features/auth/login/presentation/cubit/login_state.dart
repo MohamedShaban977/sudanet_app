@@ -12,7 +12,7 @@ class LoginInitial extends LoginState {}
 class LoginLoadingState extends LoginState {}
 
 class LoginSuccessState extends LoginState {
-  final LoginEntity response;
+  final BaseResponseEntity<UserEntity> response;
 
   const LoginSuccessState({required this.response});
 

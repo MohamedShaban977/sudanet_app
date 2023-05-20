@@ -1,14 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
+import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 
 import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
-import '../../../../core/app_manage/contents_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
-import '../../../../core/cache/cache_data_shpref.dart';
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
 import '../../../../core/service/locale_service/manager/locale_cubit.dart';
@@ -52,11 +50,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     iconData: Icons.logout,
                     text: 'Logout'.tr(),
                     onTap: () async {
-                      await sl<CacheHelper>()
-                          .removeData(key: Constants.cachedDataLogin)
-                          .then((value) {
+                      await UserSecureStorage.removeUser().then((value) {
                         MagicRouterName.navigateAndPopAll(
                             RoutesNames.loginRoute);
+
+                        print(UserSecureStorage.getMacId());
                       });
                     },
                   ),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/screens/responsive/tablet_signup_screen.dart';
 
-import '../../../../../core/app_manage/color_manager.dart';
+import '../../../../../app/injection_container.dart';
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../core/responsive/responsive.dart';
 import '../../../../../core/routes/magic_router.dart';
 import '../../../../../core/routes/routes_name.dart';
 import '../../../../../widgets/toast_and_snackbar.dart';
 import '../../../../../widgets/unfocused_keyboard.dart';
+import '../../data/models/signup_request.dart';
 import '../cubit/signup_cubit.dart';
 import 'responsive/mobile_signup_screen.dart';
 
@@ -86,8 +87,9 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void _listener(context, state) {
+  Future<void> _listener(context, state) async {
     if (state is SignUpSuccessState) {
+      await UserSecureStorage.setUser(data: state.response.data!);
       ToastAndSnackBar.toastSuccess(message: state.response.message);
       MagicRouterName.navigateAndPopUntilFirstPage(RoutesNames.loginRoute);
     }
@@ -96,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  AppBar _buildAppBar() {
+/*  AppBar _buildAppBar() {
     return AppBar(
       elevation: 0.0,
       backgroundColor: Colors.transparent,
@@ -107,19 +109,18 @@ class _SignupScreenState extends State<SignupScreen> {
         statusBarBrightness: Brightness.dark,
       ),
     );
-  }
+  }*/
 
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
-      await Future.delayed(const Duration(seconds: 5), () => null);
-      // await Future.sync(
-      //     () => sl<SignUpCubit>().get(context).signUp(SignUpRequest(
-      //           username: userName.text,
-      //           password: password.text,
-      //           email: email.text,
-      //           lastName: lastName.text,
-      //           firstName: firstName.text,
-      //         )));
+      await Future.sync(
+          () => sl<SignUpCubit>().get(context).signUp(SignUpRequest(
+                username: fullName.text,
+                password: password.text,
+                email: email.text,
+                phoneNumber: phoneNumber.text,
+                parentPhone: phoneNumberParent.text,
+              )));
     }
   }
 }

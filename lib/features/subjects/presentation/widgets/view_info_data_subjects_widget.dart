@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
+import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 
 class ViewInfoDataSubjectsWidget extends StatelessWidget {
@@ -16,9 +18,9 @@ class ViewInfoDataSubjectsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Spacer(),
+        const SizedBox(height: AppSize.s5),
         Text(
           'المرحلة ${index + 1}',
           style: context.displayLarge.copyWith(color: ColorManager.primary),
@@ -26,7 +28,7 @@ class ViewInfoDataSubjectsWidget extends StatelessWidget {
         const SizedBox(height: AppSize.s5),
         Text(
           '6 مواد',
-          style: context.displaySmall.copyWith(color: ColorManager.textGray),
+          style: context.titleMedium.copyWith(color: ColorManager.textGray),
         ),
         const SizedBox(height: AppSize.s5),
         Text(
@@ -58,10 +60,11 @@ class ViewInfoDataSubjectsWidget extends StatelessWidget {
                     minimumSize: const Size.fromHeight(40.0),
                   ),
                   child: Text(
-                    'شراء الكورس',
-                    style: context.displayMedium.copyWith(
+                    AppStrings.purchase.tr(),
+                    style: context.titleLarge.copyWith(
                         color: ColorManager.primary,
                         fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
                     // overflow: TextOverflow.fade,
                   )),
             ),

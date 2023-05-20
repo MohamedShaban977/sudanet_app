@@ -1,23 +1,23 @@
 class SignUpRequest {
+  String username;
+  String email;
+  String password;
+  String parentPhone;
+  String phoneNumber;
+
   SignUpRequest({
     required this.username,
     required this.password,
     required this.email,
-    required this.firstName,
-    required this.lastName,
+    required this.parentPhone,
+    required this.phoneNumber,
   });
 
-  String username;
-  String password;
-  String email;
-  String firstName;
-  String lastName;
-
   Map<String, dynamic> toJson() => {
-        "username": username,
-        "password": password,
+        "name": username,
         "email": email,
-        "first_name": firstName,
-        "last_name": lastName,
+        "password": password,
+        "parentPhone": parentPhone,
+        "phoneNumber": phoneNumber,
       };
 }

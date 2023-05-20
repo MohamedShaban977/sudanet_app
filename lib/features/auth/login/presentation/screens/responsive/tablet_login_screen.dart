@@ -20,12 +20,12 @@ import '../../widgets/register_button_row_text_widget.dart';
 class TabletLoginScreen extends StatelessWidget {
   const TabletLoginScreen(
       {Key? key,
-      required this.userName,
+      required this.email,
       required this.password,
       required this.onTap})
       : super(key: key);
 
-  final TextEditingController userName;
+  final TextEditingController email;
 
   final TextEditingController password;
 
@@ -91,11 +91,11 @@ class TabletLoginScreen extends StatelessWidget {
                                 CustomTextFormField(
                                   hint: AppStrings.userName.tr(),
                                   prefixIcon: Icons.person_2_rounded,
-                                  controller: userName,
+                                  controller: email,
                                   keyboardType: TextInputType.name,
                                   textInputAction: TextInputAction.next,
                                   validator: (value) =>
-                                      Validator.isValidUserName(userName.text),
+                                      Validator.isValidUserName(email.text),
                                 ),
                                 const SizedBox(height: AppSize.s16),
 

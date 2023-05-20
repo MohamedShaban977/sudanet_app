@@ -20,12 +20,12 @@ import '../../widgets/register_button_row_text_widget.dart';
 class MobileLoginScreen extends StatelessWidget {
   const MobileLoginScreen(
       {Key? key,
-      required this.userName,
+      required this.email,
       required this.password,
       required this.onTap})
       : super(key: key);
 
-  final TextEditingController userName;
+  final TextEditingController email;
   final TextEditingController password;
   final Future<dynamic> Function() onTap;
 
@@ -45,8 +45,8 @@ class MobileLoginScreen extends StatelessWidget {
                 children: [
                   const CustomButtonChangeLanguageWidget(),
                   GestureDetector(
-                    onTap: () =>
-                        MagicRouterName.navigateTo(RoutesNames.mainLayoutApp),
+                    onTap: () => MagicRouterName.navigateReplacementTo(
+                        RoutesNames.mainLayoutApp),
                     child: Text(
                       AppStrings.registerLater.tr(),
                       style: context.displayMedium.copyWith(
@@ -70,10 +70,10 @@ class MobileLoginScreen extends StatelessWidget {
               CustomTextFormField(
                 hint: AppStrings.userName.tr(),
                 prefixIcon: Icons.person_2_rounded,
-                controller: userName,
+                controller: email,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                validator: (value) => Validator.isValidUserName(userName.text),
+                validator: (value) => Validator.isValidUserName(email.text),
               ),
 
               const SizedBox(height: AppSize.s16),

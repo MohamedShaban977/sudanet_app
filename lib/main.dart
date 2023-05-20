@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'app/bloc_observer.dart';
@@ -13,7 +12,8 @@ Future<void> main() async {
   await _initMain();
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode,
+      enabled: false,
+      // enabled: !kReleaseMode,
       builder: (context) => MyApp(), // Wrap your app
     ),
   );
@@ -25,6 +25,8 @@ Future<void> _initMain() async {
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   // ]);
+  // final directory = await getLibraryDirectory();
+  // print('getLibraryDirectory =>${directory.path}');
 
   statusBarColor();
   await ServiceLocator.initApp();

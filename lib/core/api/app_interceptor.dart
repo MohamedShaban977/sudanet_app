@@ -1,9 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../app/injection_container.dart';
-import '../cache/cache_data_shpref.dart';
-
 class AppInterceptors extends Interceptor {
   @override
   Future<void> onRequest(
@@ -32,22 +29,22 @@ class AppInterceptors extends Interceptor {
       debugPrint('REQUEST[${options.method}] => Request Data: ${options.data}');
     }
 
-    if (sl<CacheHelper>().getToken() != null) {
-      options.headers = {
-        "Content-Type": options.data.runtimeType == FormData
-            ? 'multipart/form-data'
-            : "application/json",
-        'Accept': '*/*',
-        'Authorization': 'Bearer ${sl<CacheHelper>().getToken()}',
-      };
-    } else {
-      options.headers = {
-        "Content-Type": options.data.runtimeType == FormData
-            ? 'multipart/form-data'
-            : "application/json",
-        'Accept': '*/*',
-      };
-    }
+    // if (sl<CacheHelper>().getToken() != null) {
+    //   options.headers = {
+    //     "Content-Type": options.data.runtimeType == FormData
+    //         ? 'multipart/form-data'
+    //         : "application/json",
+    //     'Accept': '*/*',
+    //     'Authorization': 'Bearer ${sl<CacheHelper>().getToken()}',
+    //   };
+    // } else {
+    options.headers = {
+      "Content-Type": options.data.runtimeType == FormData
+          ? 'multipart/form-data'
+          : "application/json",
+      'Accept': '*/*',
+    };
+    // }
 
     /// => Headers
     debugPrint('REQUEST[${options.method}] => Headers: ${options.headers}');

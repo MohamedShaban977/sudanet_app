@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
+import 'package:sudanet_app/core/api/service_response.dart';
+import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 
-import '../../../../../app/injection_container.dart';
-import '../../../../../core/app_manage/contents_manager.dart';
-import '../../../../../core/app_manage/strings_manager.dart';
-import '../../../../../core/cache/cache_data_shpref.dart';
 import '../../../../../core/error/exceptions.dart';
 import '../../../../../core/error/failures.dart';
 import '../../domain/entities/login_entity.dart';
@@ -19,18 +15,29 @@ class LoginRepositoryImpl implements LoginRepository {
   LoginRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, LoginEntity>> loginUser(LoginRequest request) async {
+  Future<Either<Failure, BaseResponseEntity<UserEntity>>> loginUser(
+      LoginRequest request) async {
+    // try {
+    //   final res = await dataSource.loginDataSource(request);
+    //   res.refresh.isNotEmpty
+    //       ? await sl<CacheHelper>().saveData(
+    //           key: Constants.cachedDataLogin,
+    //           value: json.encode(res.access),
+    //         )
+    //       : null;
+    //   return res.refresh.isNotEmpty
+    //       ? Right(res)
+    //       : left(const ServerFailure(AppStrings.errorOccurred));
+    // } on ServerException catch (error) {
+    //   return left(ServerFailure(error.message));
+    // }
+
     try {
       final res = await dataSource.loginDataSource(request);
-      res.refresh.isNotEmpty
-          ? await sl<CacheHelper>().saveData(
-              key: Constants.cachedDataLogin,
-              value: json.encode(res.access),
-            )
-          : null;
-      return res.refresh.isNotEmpty
-          ? Right(res)
-          : left(const ServerFailure(AppStrings.errorOccurred));
+
+      res.success ? await UserSecureStorage.setUser(data: res.data!) : null;
+
+      return res.success ? Right(res) : left(ServerFailure(res.message));
     } on ServerException catch (error) {
       return left(ServerFailure(error.message));
     }

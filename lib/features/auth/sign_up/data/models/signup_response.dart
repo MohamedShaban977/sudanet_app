@@ -1,3 +1,4 @@
+/*
 
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 
@@ -82,3 +83,4 @@ class User extends UserEntity {
             : List<dynamic>.from(userPermissions!.map((x) => x)),
       };
 }
+*/

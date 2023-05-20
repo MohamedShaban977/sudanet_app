@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/core/api/service_response.dart';
 
 import '../../../../../core/error/failures.dart';
 import '../../data/models/login_request.dart';
@@ -19,7 +20,8 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> login(LoginRequest request) async {
     emit(LoginLoadingState());
-    Either<Failure, LoginEntity> response = await loginUseCases.call(request);
+    Either<Failure, BaseResponseEntity<UserEntity>> response =
+        await loginUseCases.call(request);
 
     response.fold(
       (failure) =>

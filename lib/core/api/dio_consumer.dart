@@ -168,8 +168,8 @@ class DioConsumer implements ApiConsumer {
         final json = jsonDecode(response.data);
         final ErrorBadRequestResponse res =
             ErrorBadRequestResponse.fromJson(json);
-        throw BadRequestException(
-            '${res.username?.first ?? ''} , ${res.password ?? ''}');
+        throw BadRequestException(res.errors?.name?.first ?? '');
+
       case StatusCode.unauthorized:
         final json = jsonDecode(response.data);
         final ErrorUnauthorizedResponse res =
