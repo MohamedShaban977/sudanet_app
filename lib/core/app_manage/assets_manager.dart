@@ -2,6 +2,11 @@ const String imagePath = "assets/images/";
 class ImageAssets {
   static const String logoImg = "${imagePath}logo.png";
   static const String splashImg = "${imagePath}splash-screen.png";
+  static const String homeBanner1 = "${imagePath}home_banner.jpg";
+  static const String homeBanner2 = "${imagePath}home_banner1.jpg";
+  static const String homeBanner3 = "${imagePath}homebanner.jpg";
+
+
 }
 
 

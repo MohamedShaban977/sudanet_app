@@ -64,5 +64,8 @@
   "try_again": "try again",
   "reload_screen": "reload screen",
   "Verification_completed_successfully": "Verification completed successfully",
-  "Moved_to_cart": "Moved to cart"
+  "Moved_to_cart": "Moved to cart",
+  "error": "an error occurred",
+  "help": "Help",
+  "cancel": "cancel"
 }

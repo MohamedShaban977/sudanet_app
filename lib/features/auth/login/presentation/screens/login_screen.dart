@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sudanet_app/core/app_manage/color_manager.dart';
+import 'package:sudanet_app/core/app_manage/strings_manager.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
 
 import '../../../../../app/injection_container.dart';
 import '../../../../../core/app_manage/theme_manager.dart';
 import '../../../../../core/app_manage/values_manager.dart';
+import '../../../../../core/packages/quickalert/models/quickalert_type.dart';
+import '../../../../../core/packages/quickalert/widgets/quickalert_dialog.dart';
 import '../../../../../core/responsive/responsive.dart';
 import '../../../../../core/routes/magic_router.dart';
 import '../../../../../core/routes/routes_name.dart';
@@ -92,27 +98,46 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is LoginSuccessState) {
       guidId = state.response.data!.guid;
       ToastAndSnackBar.toastSuccess(message: state.response.message);
+
       MagicRouterName.navigateAndPopAll(RoutesNames.mainLayoutApp);
     }
     if (state is LoginErrorState) {
-      ToastAndSnackBar.toastError(message: state.error);
+      _alertHelper(context, state);
     }
+
   }
 
-/*
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: ColorManager.background,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
+   _alertHelper(context, LoginErrorState state) {
+     QuickAlert.show(
+      context: context,
+      type: QuickAlertType.error,
+      title: AppStrings.error.tr(),
+      text: state.error,
+      confirmBtnText: AppStrings.help.tr(),
+      cancelBtnText: AppStrings.cancel.tr(),
+      confirmBtnColor: ColorManager.primary,
+      showCancelBtn: true,
+      customWidget: Container(
+        color: Colors.red,
+        height: 150.0,
+        margin: const EdgeInsets.all(50.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: Colors.white,
+            width: 2.0,
+          ),
+        ),
+        child: const Icon(
+          FontAwesomeIcons.xmark,
+          color: Colors.white,
+        ),
       ),
+      onConfirmBtnTap: () {
+        /// TODO:Go to help screen
+      },
     );
   }
-*/
 
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {

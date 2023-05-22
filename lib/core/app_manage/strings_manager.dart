@@ -66,4 +66,7 @@ class AppStrings {
   static const verificationCompletedSuccessfully =
       "Verification_completed_successfully";
   static const movedToCart = "Moved_to_cart";
+  static const error = "error";
+  static const help = "help";
+  static const cancel = "cancel";
 }
