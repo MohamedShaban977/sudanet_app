@@ -26,6 +26,7 @@ import '../features/auth/sign_up/data/repositories/signup_repositories_impl.dart
 import '../features/auth/sign_up/domain/repositories/signup_repositories.dart';
 import '../features/auth/sign_up/domain/use_cases/signup_use_case.dart';
 import '../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import '../features/home/presentation/cubit/home_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -43,18 +44,17 @@ class ServiceLocator {
     sl.registerLazySingleton<LocaleRepository>(
         () => LocaleRepositoryImpl(dataSource: sl()));
     //Localization UseCase
-    sl.registerLazySingleton<GetSavedLangUseCase>(
-        () => GetSavedLangUseCase(repository: sl()));
-    sl.registerLazySingleton<ChangeLangUseCase>(
-        () => ChangeLangUseCase(repository: sl()));
+    sl.registerLazySingleton<GetSavedLangUseCase>(() => GetSavedLangUseCase(repository: sl()));
+    sl.registerLazySingleton<ChangeLangUseCase>(() => ChangeLangUseCase(repository: sl()));
 
     ///Bloc==> cubit
     /// Bloc
     // LocaleCubit
-    sl.registerLazySingleton<LocaleCubit>(
-        () => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
+    sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
     //Connection Cubit
     // sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit(connectivity: sl(), checker: sl()));
+    sl.registerLazySingleton<HomeCubit>(() => HomeCubit());
+
 
     ///! core
     ///_initDataCore();
