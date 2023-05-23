@@ -8,7 +8,6 @@ import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_sc
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
-import '../../features/home/presentation/cubit/home_cubit.dart';
 import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../app_manage/strings_manager.dart';
@@ -21,7 +20,7 @@ class Routes {
       case RoutesNames.initialRoute:
         return MagicRouter.pageRoute(const SplashScreen());
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.loginRoute:
         ServiceLocator.initLoginGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -29,7 +28,7 @@ class Routes {
           child: const LoginScreen(),
         ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.signupRoute:
         ServiceLocator.initSignupGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -37,20 +36,17 @@ class Routes {
           child: const SignupScreen(),
         ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.forgetPasswordRoute:
         ServiceLocator.initForgetPasswordGetIt();
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<ForgetPasswordCubit>(),
           child: const ForgetPasswordScreen(),
         ));
-    // loginRoute
+      // loginRoute
       case RoutesNames.mainLayoutApp:
-      // ServiceLocator.initForgetPasswordGetIt();
-        return MagicRouter.pageRoute(
-          BlocProvider(create: (context) => sl<HomeCubit>(),
-          child: const MainLayoutScreen(),
-        ));
+        // ServiceLocator.initHomeGetIt();
+        return MagicRouter.pageRoute(const MainLayoutScreen());
 
       default:
         return undefinedRoute();

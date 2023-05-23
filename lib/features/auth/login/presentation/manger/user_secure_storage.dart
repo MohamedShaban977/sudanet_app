@@ -29,15 +29,13 @@ class UserSecureStorage {
     }
   }
 
-  static removeUser() async =>
-      await _storage.delete(key: _userKeyToken);
-
+  static removeUser() async => await _storage.delete(key: _userKeyToken);
 
   static Future setMacId({required String macID}) async {
     await _storage.write(key: _userMacId, value: macID);
   }
 
-  static Future<String?> getMacId() async =>
-      await _storage.read(key: _userMacId);
-
+  static Future<String?> getMacId() async {
+    await _storage.read(key: _userMacId);
+  }
 }

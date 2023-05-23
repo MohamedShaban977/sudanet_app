@@ -7,8 +7,6 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
-
-
   HomeCubit get(context) => BlocProvider.of(context);
 
   List<String> imageSlider() {
@@ -25,6 +23,7 @@ class HomeCubit extends Cubit<HomeState> {
   int yourActiveIndex = 0;
 
   onPageChanged(int index) {
+    print(index);
     yourActiveIndex = index;
     emit(ChangeSliderState());
   }

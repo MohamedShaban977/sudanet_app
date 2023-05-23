@@ -98,17 +98,15 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is LoginSuccessState) {
       guidId = state.response.data!.guid;
       ToastAndSnackBar.toastSuccess(message: state.response.message);
-
       MagicRouterName.navigateAndPopAll(RoutesNames.mainLayoutApp);
     }
     if (state is LoginErrorState) {
       _alertHelper(context, state);
     }
-
   }
 
-   _alertHelper(context, LoginErrorState state) {
-     QuickAlert.show(
+  _alertHelper(context, LoginErrorState state) {
+    QuickAlert.show(
       context: context,
       type: QuickAlertType.error,
       title: AppStrings.error.tr(),

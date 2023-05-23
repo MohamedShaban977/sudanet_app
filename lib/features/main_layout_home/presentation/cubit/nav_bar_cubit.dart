@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:sudanet_app/features/profile/presentation/screens/profile_screen.dart';
 
+import '../../../../app/injection_container.dart';
 import '../../../educational_levels/presentation/screens/educational_levels_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../subjects/presentation/screens/subjects_screen.dart';
-import '../screens/main_layout_screen.dart';
 
 part 'nav_bar_state.dart';
 
@@ -15,7 +16,13 @@ class NavBarCubit extends Cubit<NavBarState> {
   static NavBarCubit get(context) => BlocProvider.of(context);
 
   List<Widget> screens() => [
-        const HomeScreen(),
+        BlocProvider(
+          create: (context) {
+            ServiceLocator.initHomeGetIt();
+            return sl<HomeCubit>();
+          },
+          child: const HomeScreen(),
+        ),
         const EducationalLevelsScreen(),
         const SubjectsScreen(),
         const ProfileScreen(),

@@ -44,17 +44,18 @@ class ServiceLocator {
     sl.registerLazySingleton<LocaleRepository>(
         () => LocaleRepositoryImpl(dataSource: sl()));
     //Localization UseCase
-    sl.registerLazySingleton<GetSavedLangUseCase>(() => GetSavedLangUseCase(repository: sl()));
-    sl.registerLazySingleton<ChangeLangUseCase>(() => ChangeLangUseCase(repository: sl()));
+    sl.registerLazySingleton<GetSavedLangUseCase>(
+        () => GetSavedLangUseCase(repository: sl()));
+    sl.registerLazySingleton<ChangeLangUseCase>(
+        () => ChangeLangUseCase(repository: sl()));
 
     ///Bloc==> cubit
     /// Bloc
     // LocaleCubit
-    sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
+    sl.registerLazySingleton<LocaleCubit>(
+        () => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
     //Connection Cubit
     // sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit(connectivity: sl(), checker: sl()));
-    sl.registerLazySingleton<HomeCubit>(() => HomeCubit());
-
 
     ///! core
     ///_initDataCore();
@@ -133,22 +134,31 @@ class ServiceLocator {
     // Login Data Source
     if (!sl.isRegistered<ForgetPasswordDataSource>()) {
       sl.registerFactory<ForgetPasswordDataSource>(
-              () => ForgetPasswordDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+          () => ForgetPasswordDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
     }
     //Login Repository
     if (!sl.isRegistered<ForgetPasswordRepository>()) {
-      sl.registerFactory<ForgetPasswordRepository>(
-              () => ForgetPasswordRepositoryImpl(dataSource: sl<ForgetPasswordDataSource>()));
+      sl.registerFactory<ForgetPasswordRepository>(() =>
+          ForgetPasswordRepositoryImpl(
+              dataSource: sl<ForgetPasswordDataSource>()));
     }
     // //Login Use Cases
     if (!sl.isRegistered<ForgetPasswordUseCases>()) {
-      sl.registerFactory<ForgetPasswordUseCases>(
-              () => ForgetPasswordUseCases(repository: sl<ForgetPasswordRepository>()));
+      sl.registerFactory<ForgetPasswordUseCases>(() =>
+          ForgetPasswordUseCases(repository: sl<ForgetPasswordRepository>()));
     }
     // // Login Cubit
     if (!GetIt.I.isRegistered<ForgetPasswordCubit>()) {
-      sl.registerFactory<ForgetPasswordCubit>(
-              () => ForgetPasswordCubit(forgetPasswordUseCases: sl<ForgetPasswordUseCases>()));
+      sl.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(
+          forgetPasswordUseCases: sl<ForgetPasswordUseCases>()));
+    }
+  }
+
+  static initHomeGetIt() {
+    if (!sl.isRegistered<HomeCubit>()) {
+      sl.registerLazySingleton<HomeCubit>(() => HomeCubit());
+    } else {
+      sl.resetLazySingleton<HomeCubit>();
     }
   }
 }

@@ -12,7 +12,7 @@ class ForgetPasswordInitial extends ForgetPasswordState {}
 class ForgetPasswordLoadingState extends ForgetPasswordState {}
 
 class ForgetPasswordSuccessState extends ForgetPasswordState {
-  final ForgetPasswordEntity response;
+  final BaseResponseEntity<String> response;
 
   const ForgetPasswordSuccessState({required this.response});
 

@@ -1,10 +1,11 @@
 import '../../../../../../core/api/api_consumer.dart';
 import '../../../../../../core/api/end_point.dart';
+import '../../../../../core/api/service_response.dart';
 import '../models/forget_password_request.dart';
-import '../models/forget_password_response.dart';
 
 abstract class ForgetPasswordDataSource {
-  Future<ForgetPasswordResponse> forgetPasswordDataSource(ForgetPasswordRequest request);
+  Future<BaseResponse<String>> forgetPasswordDataSource(
+      ForgetPasswordRequest request);
 }
 
 class ForgetPasswordDataSourceImpl implements ForgetPasswordDataSource {
@@ -13,12 +14,15 @@ class ForgetPasswordDataSourceImpl implements ForgetPasswordDataSource {
   ForgetPasswordDataSourceImpl({required this.apiConsumer});
 
   @override
-  Future<ForgetPasswordResponse> forgetPasswordDataSource(ForgetPasswordRequest request) async {
+  Future<BaseResponse<String>> forgetPasswordDataSource(
+      ForgetPasswordRequest request) async {
     final response = await apiConsumer.post(
-      EndPoint.register,
+      EndPoint.resetPassword,
       data: request.toJson(),
+      isFormData: true,
     );
-    final res = ForgetPasswordResponse.fromJson(response);
+
+    final res = BaseResponse<String>.fromJson(response);
     return res;
   }
 }
