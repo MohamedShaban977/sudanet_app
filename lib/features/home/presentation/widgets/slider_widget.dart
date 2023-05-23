@@ -32,7 +32,6 @@ class SliderWidget extends StatelessWidget {
                   ),
                   options: CarouselOptions(
                     aspectRatio: 16 / 8,
-
                     viewportFraction: 1.0,
                     initialPage: 0,
                     autoPlay: true,

@@ -51,23 +51,21 @@ class HomeScreen extends StatelessWidget {
           statusBarIconBrightness: Brightness.dark,
           statusBarBrightness: Brightness.dark,
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              ImageAssets.logoImg,
-              alignment: Alignment.center,
-              height: kToolbarHeight - 5,
+        title:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Image.asset(
+            ImageAssets.logoImg,
+            alignment: Alignment.center,
+            height: kToolbarHeight - 5,
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'تسجيل الدخول',
+              style: context.displaySmall,
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'تسجيل الدخول',
-                style: context.displaySmall,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }

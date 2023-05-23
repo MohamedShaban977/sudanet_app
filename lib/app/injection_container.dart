@@ -55,7 +55,9 @@ class ServiceLocator {
     sl.registerLazySingleton<LocaleCubit>(
         () => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
     //Connection Cubit
+
     // sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit(connectivity: sl(), checker: sl()));
+    // sl.registerLazySingleton<HomeCubit>(() => HomeCubit());
 
     ///! core
     ///_initDataCore();
