@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/contents_manager.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/features/home/domain/entities/categories_entity.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 import '../../../educational_levels/presentation/widgets/view_image_widget.dart';
 
 class CardCategoryWidget extends StatelessWidget {
-  const CardCategoryWidget({Key? key}) : super(key: key);
+  final CategoriesEntity category;
+
+  const CardCategoryWidget({Key? key, required this.category})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +25,9 @@ class CardCategoryWidget extends StatelessWidget {
         child: IntrinsicHeight(
           child: Column(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 5,
-                child: ImageWidget(
-                  imagePath:
-                      'https://images.pexels.com/photos/13650913/pexels-photo-13650913.jpeg?auto=compress&cs=tinysrgb&w=600',
-                ),
+                child: ImageWidget(imagePath: category.imagePath),
               ),
               Expanded(
                   flex: 4,
@@ -38,7 +39,7 @@ class CardCategoryWidget extends StatelessWidget {
                       children: [
                         const SizedBox(height: AppSize.s5),
                         Text(
-                          'المرحلة الاولى',
+                          category.name,
                           style: context.displayLarge
                               .copyWith(color: ColorManager.primary),
                         ),

@@ -96,28 +96,16 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/gif/glass-hour.gif
-    - assets/images/gif/quick_alert/confirm.gif
-    - assets/images/gif/quick_alert/error.gif
-    - assets/images/gif/quick_alert/info.gif
-    - assets/images/gif/quick_alert/loading.gif
-    - assets/images/gif/quick_alert/success.gif
-    - assets/images/gif/quick_alert/warning.gif
     - assets/images/logo.png
     - assets/images/splash-screen.png
     - assets/images/json/loader.json
     - assets/lang/ar.json
     - assets/lang/en.json
-<<<<<<< HEAD
     - assets/images/gif/quick_alert/
     - assets/images/home_banner.jpg
     - assets/images/home_banner1.jpg
     - assets/images/homebanner.jpg
-=======
-    - assets/images/home_banner.jpg
-    - assets/images/home_banner1.jpg
-    - assets/images/homebanner.jpg
 
->>>>>>> c6f8336fb10e595e8110294447933993187122c4
 
   fonts:
     - family: Tajawal

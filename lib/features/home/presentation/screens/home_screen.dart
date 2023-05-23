@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/features/home/presentation/cubit/home_cubit.dart';
 
 import '../../../../core/app_manage/assets_manager.dart';
 import '../../../../core/app_manage/color_manager.dart';
@@ -8,29 +11,48 @@ import '../widgets/categories_widget.dart';
 import '../widgets/courses_widget.dart';
 import '../widgets/slider_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        physics: const AlwaysScrollableScrollPhysics(
-            parent: ClampingScrollPhysics()),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            SizedBox(height: 20.0),
-            SliderWidget(),
-            SizedBox(height: 20.0),
-            CategoriesWidget(),
-            SizedBox(height: 20.0),
-            CoursesWidget(),
-            SizedBox(height: 20.0),
-          ],
-        ),
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: state is GetCategoriesLoadingState ||
+                state is GetCoursesLoadingState ||
+                state is GetSliderLoadingState,
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              physics: const AlwaysScrollableScrollPhysics(
+                  parent: ClampingScrollPhysics()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  SizedBox(height: 20.0),
+                  SliderWidget(),
+                  SizedBox(height: 20.0),
+                  CategoriesWidget(),
+                  SizedBox(height: 20.0),
+                  CoursesWidget(),
+                  SizedBox(height: 20.0),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

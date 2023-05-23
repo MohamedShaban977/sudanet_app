@@ -4,9 +4,12 @@ import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 import '../../../educational_levels/presentation/widgets/view_image_widget.dart';
+import '../../domain/entities/courses_entity.dart';
 
 class CardCourseWidget extends StatelessWidget {
-  const CardCourseWidget({Key? key}) : super(key: key);
+  final CoursesEntity course;
+
+  const CardCourseWidget({Key? key, required this.course}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +23,9 @@ class CardCourseWidget extends StatelessWidget {
         child: IntrinsicHeight(
           child: Column(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 5,
-                child: ImageWidget(
-                  imagePath:
-                      'https://images.pexels.com/photos/13650913/pexels-photo-13650913.jpeg?auto=compress&cs=tinysrgb&w=600',
-                ),
+                child: ImageWidget(imagePath: course.imagePath),
               ),
               Expanded(
                   flex: 4,
@@ -37,13 +37,13 @@ class CardCourseWidget extends StatelessWidget {
                       children: [
                         const SizedBox(height: AppSize.s5),
                         Text(
-                          'الكورس الاول للمرحلة الاوالى',
+                          course.name,
                           style: context.displayMedium
                               .copyWith(color: ColorManager.primary),
                         ),
                         const SizedBox(height: AppSize.s5),
                         Text(
-                          'المدرس الاول',
+                          course.teacherName,
                           style: context.bodySmall
                               .copyWith(color: ColorManager.textGray),
                         ),
@@ -58,7 +58,7 @@ class CardCourseWidget extends StatelessWidget {
                               backgroundColor: ColorManager.secondary,
                             ),
                             child: Text(
-                              '4 \$',
+                              '${course.price} ${course.currencyName}',
                               textAlign: TextAlign.center,
                               style: context.displayMedium.copyWith(
                                   color: ColorManager.primary,

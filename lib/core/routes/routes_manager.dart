@@ -46,8 +46,16 @@ class Routes {
         ));
       // loginRoute
       case RoutesNames.mainLayoutApp:
-        return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<HomeCubit>(),
+        ServiceLocator.initHomeGetIt();
+        return MagicRouter.pageRoute(MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<HomeCubit>()
+                ..getCategories()
+                ..getCourses()
+                ..getSlider(),
+            ),
+          ],
           child: const MainLayoutScreen(),
         ));
 
