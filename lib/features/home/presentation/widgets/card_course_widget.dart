@@ -3,7 +3,7 @@ import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
-import '../../../educational_levels/presentation/widgets/view_image_widget.dart';
+import '../../../../widgets/view_image_widget.dart';
 import '../../domain/entities/courses_entity.dart';
 
 class CardCourseWidget extends StatelessWidget {

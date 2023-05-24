@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
-import '../../widgets/view_image_widget.dart';
-import '../../widgets/view_info_data_subjects_widget.dart';
+import '../../../../../widgets/view_image_widget.dart';
+import '../../widgets/view_info_data_courses_widget.dart';
 
 class CardSubjectsMobileWidget extends StatelessWidget {
   final int index;
@@ -40,7 +40,7 @@ class CardSubjectsMobileWidget extends StatelessWidget {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
-                  child: ViewInfoDataSubjectsWidget(index: index),
+                  child: ViewInfoDataCoursesWidget(index: index),
                 )),
           ],
         ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
-import '../../widgets/view_image_widget.dart';
-import '../../widgets/view_info_data_subjects_widget.dart';
+import '../../../../../widgets/view_image_widget.dart';
+import '../../widgets/view_info_data_courses_widget.dart';
 
 class CardSubjectsTabletWidget extends StatelessWidget {
   final int index;
@@ -34,7 +34,7 @@ class CardSubjectsTabletWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(AppPadding.p8),
-            child: ViewInfoDataSubjectsWidget(index: index),
+            child: ViewInfoDataCoursesWidget(index: index),
           ),
         ],
       ),

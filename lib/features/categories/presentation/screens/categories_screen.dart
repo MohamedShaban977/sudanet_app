@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
+import 'package:sudanet_app/features/categories/presentation/screens/responsive_widget/card_mobile_widget.dart';
+import 'package:sudanet_app/features/categories/presentation/screens/responsive_widget/card_tablet_widget.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/responsive/responsive.dart';
 import '../../../../core/responsive/responsive_grid.dart';
-import 'responsive_widget/card_mobile_widget.dart';
-import 'responsive_widget/card_tablet_widget.dart';
 
 const double _heightItem = 160;
 const double _desiredItemWidth = 250;
 
-class EducationalLevelsScreen extends StatelessWidget {
-  const EducationalLevelsScreen({Key? key}) : super(key: key);
+class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,52 +38,6 @@ class EducationalLevelsScreen extends StatelessWidget {
             ),
 
             ///
-
-            ///
-            /*   GridView.count(
-              crossAxisCount:
-                  Responsive.isMobile(context) || Responsive.isMobileS(context)
-                      ? 1
-                      : Responsive.isTablet(context)
-                          ? 3
-                          : 4,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-              shrinkWrap: true,
-              childAspectRatio: Responsive.isMobile(context)
-                  ? 2.6
-                  : Responsive.isMobileS(context)
-                      ? 2.0
-                      : Responsive.isTablet(context)
-                          ? 0.8
-                          : 0.7,
-
-              // Responsive.isMobile(context) ? 2.6 : 1.3,
-              // padding: const EdgeInsets.all(4.0),
-              physics: const ClampingScrollPhysics(),
-              children: List.generate(
-                10,
-                (index) => LayoutBuilder(
-                    builder: (context, BoxConstraints constraints) {
-                  return Responsive(
-                    mobile: CardEducationalLevelsRowWidget(
-                      index: index,
-                      height: constraints.maxHeight,
-                    ),
-                    tablet: CardEducationalLevelsColumnWidget(
-                      index: index,
-                      width: constraints.maxWidth,
-                    ),
-                    desktop: CardEducationalLevelsColumnWidget(
-                      index: index,
-                      width: constraints.maxWidth,
-                    ),
-                  );
-                }),
-              ),
-            ),*/
-
-            ///
             ResponsiveGridList(
               rowMainAxisAlignment: MainAxisAlignment.start,
               desiredItemWidth:
@@ -96,15 +50,15 @@ class EducationalLevelsScreen extends StatelessWidget {
               children: List.generate(
                 10,
                 (index) => Responsive(
-                  mobile: CardEducationalLevelsMobileWidget(
+                  mobile: CardCategoriesMobileWidget(
                     index: index,
                     height: _heightItem,
                   ),
-                  tablet: CardEducationalLevelsTabletWidget(
+                  tablet: CardCategoriesTabletWidget(
                     index: index,
                     width: context.width,
                   ),
-                  desktop: CardEducationalLevelsTabletWidget(
+                  desktop: CardCategoriesTabletWidget(
                     index: index,
                     width: context.width,
                   ),

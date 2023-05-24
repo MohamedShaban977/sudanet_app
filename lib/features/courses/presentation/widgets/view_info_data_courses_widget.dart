@@ -6,8 +6,8 @@ import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 
-class ViewInfoDataSubjectsWidget extends StatelessWidget {
-  const ViewInfoDataSubjectsWidget({
+class ViewInfoDataCoursesWidget extends StatelessWidget {
+  const ViewInfoDataCoursesWidget({
     super.key,
     required this.index,
   });

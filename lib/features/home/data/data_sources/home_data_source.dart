@@ -30,7 +30,7 @@ class HomeDataSourceImpl implements HomeDataSource {
 
   @override
   Future<CollectionResponse<CoursesResponse>> getCoursesDataSource() async {
-    final response = await apiConsumer.get(EndPoint.getCategories);
+    final response = await apiConsumer.get(EndPoint.getCourses);
 
     final res = CollectionResponse<CoursesResponse>.fromJson(response,
         (list) => list.map((e) => CoursesResponse.fromJson(e)).toList());

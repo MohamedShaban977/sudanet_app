@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/features/home/presentation/cubit/home_cubit.dart';
 
-import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../main_layout_home/presentation/cubit/nav_bar_cubit.dart';
 import 'card_category_widget.dart';
 
 class CategoriesWidget extends StatelessWidget {
-  const CategoriesWidget({Key? key}) : super(key: key);
+  final HomeCubit cubit;
+
+  const CategoriesWidget({Key? key, required this.cubit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cubit = sl<HomeCubit>().get(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -69,4 +69,5 @@ class AppStrings {
   static const error = "error";
   static const help = "help";
   static const cancel = "cancel";
+  static const course = "course";
 }

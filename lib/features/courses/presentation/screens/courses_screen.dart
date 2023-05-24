@@ -13,8 +13,8 @@ import 'responsive_widget/card_tablet_widget.dart';
 const double _heightItem = 180;
 const double _desiredItemWidth = 260;
 
-class SubjectsScreen extends StatelessWidget {
-  const SubjectsScreen({Key? key}) : super(key: key);
+class CoursesScreen extends StatelessWidget {
+  const CoursesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -29,6 +29,10 @@ import '../features/auth/sign_up/data/repositories/signup_repositories_impl.dart
 import '../features/auth/sign_up/domain/repositories/signup_repositories.dart';
 import '../features/auth/sign_up/domain/use_cases/signup_use_case.dart';
 import '../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import '../features/courses_by_category/data/data_sources/courses_by_category_data_source.dart';
+import '../features/courses_by_category/data/repositories/courses_by_category_repo_impl.dart';
+import '../features/courses_by_category/domain/repositories/courses_by_category_repo.dart';
+import '../features/courses_by_category/domain/use_cases/courses_by_category_use_case.dart';
 import '../features/home/data/repositories/home_repository_impl.dart';
 import '../features/home/presentation/cubit/home_cubit.dart';
 
@@ -183,6 +187,36 @@ class ServiceLocator {
     if (!sl.isRegistered<SliderUseCases>()) {
       sl.registerLazySingleton<SliderUseCases>(
           () => SliderUseCases(repository: sl<HomeRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<HomeCubit>()) {
+      sl.registerLazySingleton<HomeCubit>(() => HomeCubit(
+            categoriesUseCases: sl<CategoriesUseCases>(),
+            coursesUseCases: sl<CourseUseCases>(),
+            sliderUseCases: sl<SliderUseCases>(),
+          ));
+    } else {
+      sl.resetLazySingleton<HomeCubit>();
+    }
+  }
+
+  static initCoursesByCategoryGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<CoursesByCategoryDataSource>()) {
+      sl.registerLazySingleton<CoursesByCategoryDataSource>(
+          () => CoursesByCategoryDataSourceImpl(consumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<CourseByCategoryRepo>()) {
+      sl.registerLazySingleton<CourseByCategoryRepo>(() =>
+          CoursesByCategoryRepoImpl(
+              dataSource: sl<CoursesByCategoryDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<CoursesByCategoryUseCases>()) {
+      sl.registerLazySingleton<CoursesByCategoryUseCases>(() =>
+          CoursesByCategoryUseCases(repository: sl<CourseByCategoryRepo>()));
     }
 
     // // Home Cubit

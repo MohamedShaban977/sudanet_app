@@ -5,8 +5,8 @@ import 'app_localizations.dart';
 
 class AppLocalizationsSetup {
   static const Iterable<Locale> supportedLocales = [
-    Locale('en'),
     Locale('ar'),
+    Locale('en'),
   ];
 
   static const Iterable<LocalizationsDelegate<dynamic>> localizationsDelegates =

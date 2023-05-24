@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/api/service_response.dart';
 import 'package:sudanet_app/features/home/domain/use_cases/home_useCase.dart';
 
-import '../../../../core/app_manage/assets_manager.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/useCases/use_case.dart';
 import '../../domain/entities/categories_entity.dart';
@@ -24,26 +23,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit get(context) => BlocProvider.of(context);
 
-  List<String> imageSlider() {
-    return [
-      ImageAssets.homeBanner1,
-      ImageAssets.homeBanner2,
-      ImageAssets.homeBanner3,
-      ImageAssets.homeBanner1,
-      ImageAssets.homeBanner2,
-      ImageAssets.homeBanner3,
-    ];
-  }
-
-  int yourActiveIndex = 0;
-
-  onPageChanged(int index) {
-    print(index);
-    yourActiveIndex = index;
-    emit(ChangeSliderState());
-  }
-
-  final List categoriesItems = [];
+  final List<CategoriesEntity> categoriesItems = [];
 
   Future<void> getCategories() async {
     emit(GetCategoriesLoadingState());
@@ -52,12 +32,15 @@ class HomeCubit extends Cubit<HomeState> {
     response.fold(
         (failure) => emit(GetCategoriesErrorState(
             error: HandleFailure.mapFailureToMsg(failure))), (response) {
+      // categoriesItems =  response.data!;
+      categoriesItems.clear();
       categoriesItems.addAll(response.data!);
+
       emit(GetCategoriesSuccessState(response: response));
     });
   }
 
-  final List coursesItems = [];
+  final List<CoursesEntity> coursesItems = [];
 
   Future<void> getCourses() async {
     emit(GetCoursesLoadingState());
@@ -66,6 +49,8 @@ class HomeCubit extends Cubit<HomeState> {
     response.fold(
         (failure) => emit(GetCoursesErrorState(
             error: HandleFailure.mapFailureToMsg(failure))), (response) {
+      coursesItems.clear();
+
       coursesItems.addAll(response.data!);
       emit(GetCoursesSuccessState(response: response));
     });
@@ -81,6 +66,7 @@ class HomeCubit extends Cubit<HomeState> {
         (failure) => emit(
             GetSliderErrorState(error: HandleFailure.mapFailureToMsg(failure))),
         (response) {
+      sliderItems.clear();
       sliderItems.addAll(response.data!);
       emit(GetSliderSuccessState(response: response));
     });

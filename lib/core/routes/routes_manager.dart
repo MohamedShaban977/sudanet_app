@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/core/routes/routes_request.dart';
 import 'package:sudanet_app/features/auth/forget_password/presentation/screens/forget_password_screen.dart';
 import 'package:sudanet_app/features/auth/login/presentation/cubit/login_cubit.dart';
 import 'package:sudanet_app/features/auth/login/presentation/screens/login_screen.dart';
@@ -8,6 +9,7 @@ import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_sc
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
+import '../../features/courses_by_category/presentation/screens/corses_by_category_screen.dart';
 import '../../features/home/presentation/cubit/home_cubit.dart';
 import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
@@ -58,6 +60,12 @@ class Routes {
           ],
           child: const MainLayoutScreen(),
         ));
+
+      // loginRoute
+      case RoutesNames.coursesByCategoryScreen:
+        final RouteRequest res =
+            RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
+        return MagicRouter.pageRoute(CoursesByCategoryScreen());
 
       default:
         return undefinedRoute();
