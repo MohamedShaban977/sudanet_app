@@ -104,11 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is LoginErrorState) {
       _alertHelper(context, state);
     }
-
   }
 
-   _alertHelper(context, LoginErrorState state) {
-     QuickAlert.show(
+  _alertHelper(context, LoginErrorState state) {
+    QuickAlert.show(
       context: context,
       type: QuickAlertType.error,
       title: AppStrings.error.tr(),
@@ -119,18 +118,21 @@ class _LoginScreenState extends State<LoginScreen> {
       showCancelBtn: true,
       customWidget: Container(
         color: Colors.red,
-        height: 150.0,
-        margin: const EdgeInsets.all(50.0),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: Colors.white,
-            width: 2.0,
+
+        child: Container(
+          height: 150.0,
+          margin: const EdgeInsets.all(50.0),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white,
+              width: 2.0,
+            ),
           ),
-        ),
-        child: const Icon(
-          FontAwesomeIcons.xmark,
-          color: Colors.white,
+          child: const Icon(
+            FontAwesomeIcons.xmark,
+            color: Colors.white,
+          ),
         ),
       ),
       onConfirmBtnTap: () {
@@ -142,7 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
       await Future.sync(
-          () async => sl<LoginCubit>().get(context).login(LoginRequest(
+              () async =>
+              sl<LoginCubit>().get(context).login(LoginRequest(
                 email: email.text,
                 password: password.text,
                 macAddress: guidId,

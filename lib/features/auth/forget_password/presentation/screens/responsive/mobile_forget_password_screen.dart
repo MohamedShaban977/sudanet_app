@@ -23,7 +23,7 @@ class MobileForgetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: context.heightBody,
+      height: context.height,
       width: context.width,
       child: IntrinsicHeight(
         child: SingleChildScrollView(

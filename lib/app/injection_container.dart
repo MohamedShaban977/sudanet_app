@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudanet_app/features/home/data/data_sources/home_data_source.dart';
+import 'package:sudanet_app/features/home/domain/repositories/home_repository.dart';
+import 'package:sudanet_app/features/home/domain/use_cases/home_useCase.dart';
 
 import '../core/api/api_consumer.dart';
 import '../core/api/app_interceptor.dart';
@@ -26,6 +29,7 @@ import '../features/auth/sign_up/data/repositories/signup_repositories_impl.dart
 import '../features/auth/sign_up/domain/repositories/signup_repositories.dart';
 import '../features/auth/sign_up/domain/use_cases/signup_use_case.dart';
 import '../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import '../features/home/data/repositories/home_repository_impl.dart';
 import '../features/home/presentation/cubit/home_cubit.dart';
 
 final sl = GetIt.instance;
@@ -44,17 +48,20 @@ class ServiceLocator {
     sl.registerLazySingleton<LocaleRepository>(
         () => LocaleRepositoryImpl(dataSource: sl()));
     //Localization UseCase
-    sl.registerLazySingleton<GetSavedLangUseCase>(() => GetSavedLangUseCase(repository: sl()));
-    sl.registerLazySingleton<ChangeLangUseCase>(() => ChangeLangUseCase(repository: sl()));
+    sl.registerLazySingleton<GetSavedLangUseCase>(
+        () => GetSavedLangUseCase(repository: sl()));
+    sl.registerLazySingleton<ChangeLangUseCase>(
+        () => ChangeLangUseCase(repository: sl()));
 
     ///Bloc==> cubit
     /// Bloc
     // LocaleCubit
-    sl.registerLazySingleton<LocaleCubit>(() => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
+    sl.registerLazySingleton<LocaleCubit>(
+        () => LocaleCubit(savedLangUseCase: sl(), changeLangUseCase: sl()));
     //Connection Cubit
-    // sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit(connectivity: sl(), checker: sl()));
-    sl.registerLazySingleton<HomeCubit>(() => HomeCubit());
 
+    // sl.registerLazySingleton<ConnectionCubit>(() => ConnectionCubit(connectivity: sl(), checker: sl()));
+    // sl.registerLazySingleton<HomeCubit>(() => HomeCubit());
 
     ///! core
     ///_initDataCore();
@@ -133,22 +140,60 @@ class ServiceLocator {
     // Login Data Source
     if (!sl.isRegistered<ForgetPasswordDataSource>()) {
       sl.registerFactory<ForgetPasswordDataSource>(
-              () => ForgetPasswordDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+          () => ForgetPasswordDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
     }
     //Login Repository
     if (!sl.isRegistered<ForgetPasswordRepository>()) {
-      sl.registerFactory<ForgetPasswordRepository>(
-              () => ForgetPasswordRepositoryImpl(dataSource: sl<ForgetPasswordDataSource>()));
+      sl.registerFactory<ForgetPasswordRepository>(() =>
+          ForgetPasswordRepositoryImpl(
+              dataSource: sl<ForgetPasswordDataSource>()));
     }
     // //Login Use Cases
     if (!sl.isRegistered<ForgetPasswordUseCases>()) {
-      sl.registerFactory<ForgetPasswordUseCases>(
-              () => ForgetPasswordUseCases(repository: sl<ForgetPasswordRepository>()));
+      sl.registerFactory<ForgetPasswordUseCases>(() =>
+          ForgetPasswordUseCases(repository: sl<ForgetPasswordRepository>()));
     }
     // // Login Cubit
     if (!GetIt.I.isRegistered<ForgetPasswordCubit>()) {
-      sl.registerFactory<ForgetPasswordCubit>(
-              () => ForgetPasswordCubit(forgetPasswordUseCases: sl<ForgetPasswordUseCases>()));
+      sl.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(
+          forgetPasswordUseCases: sl<ForgetPasswordUseCases>()));
+    }
+  }
+
+  static initHomeGetIt() {
+    // Home Data Source
+    if (!sl.isRegistered<HomeDataSource>()) {
+      sl.registerLazySingleton<HomeDataSource>(
+          () => HomeDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Home Repository
+    if (!sl.isRegistered<HomeRepository>()) {
+      sl.registerLazySingleton<HomeRepository>(
+          () => HomeRepositoryImpl(dataSource: sl<HomeDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<CategoriesUseCases>()) {
+      sl.registerLazySingleton<CategoriesUseCases>(
+          () => CategoriesUseCases(repository: sl<HomeRepository>()));
+    }
+    if (!sl.isRegistered<CourseUseCases>()) {
+      sl.registerLazySingleton<CourseUseCases>(
+          () => CourseUseCases(repository: sl<HomeRepository>()));
+    }
+    if (!sl.isRegistered<SliderUseCases>()) {
+      sl.registerLazySingleton<SliderUseCases>(
+          () => SliderUseCases(repository: sl<HomeRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<HomeCubit>()) {
+      sl.registerLazySingleton<HomeCubit>(() => HomeCubit(
+            categoriesUseCases: sl<CategoriesUseCases>(),
+            coursesUseCases: sl<CourseUseCases>(),
+            sliderUseCases: sl<SliderUseCases>(),
+          ));
+    } else {
+      sl.resetLazySingleton<HomeCubit>();
     }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/features/auth/forget_password/data/models/forget_password_request.dart';
 
-import '../../../../../core/app_manage/color_manager.dart';
+import '../../../../../app/injection_container.dart';
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../core/responsive/responsive.dart';
 import '../../../../../core/routes/magic_router.dart';
@@ -21,21 +21,13 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final TextEditingController fullName = TextEditingController();
-  final TextEditingController password = TextEditingController();
   final TextEditingController email = TextEditingController();
-  final TextEditingController phoneNumber = TextEditingController();
-  final TextEditingController phoneNumberParent = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    fullName.dispose();
-    password.dispose();
     email.dispose();
-    phoneNumber.dispose();
-    phoneNumberParent.dispose();
     super.dispose();
   }
 
@@ -76,7 +68,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   void _listener(context, state) {
     if (state is ForgetPasswordSuccessState) {
-      ToastAndSnackBar.toastSuccess(message: state.response.code);
+      ToastAndSnackBar.toastSuccess(message: state.response.message);
       MagicRouterName.navigateAndPopUntilFirstPage(RoutesNames.loginRoute);
     }
     if (state is ForgetPasswordErrorState) {
@@ -84,30 +76,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     }
   }
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      foregroundColor: ColorManager.textGray,
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: ColorManager.background,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
-  }
-
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
-      await Future.delayed(const Duration(seconds: 5), () => null);
-      // await Future.sync(
-      //     () => sl<SignUpCubit>().get(context).signUp(SignUpRequest(
-      //           username: userName.text,
-      //           password: password.text,
-      //           email: email.text,
-      //           lastName: lastName.text,
-      //           firstName: firstName.text,
-      //         )));
+      // await Future.delayed(const Duration(seconds: 5), () => null);
+      await Future.sync(() => sl<ForgetPasswordCubit>()
+          .get(context)
+          .forgetPassword(ForgetPasswordRequest(
+            email: email.text,
+          )));
     }
   }
 }

@@ -5,7 +5,6 @@ import 'package:sudanet_app/features/profile/presentation/screens/profile_screen
 import '../../../educational_levels/presentation/screens/educational_levels_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../subjects/presentation/screens/subjects_screen.dart';
-import '../screens/main_layout_screen.dart';
 
 part 'nav_bar_state.dart';
 

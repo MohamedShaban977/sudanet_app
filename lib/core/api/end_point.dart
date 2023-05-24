@@ -7,6 +7,12 @@ class EndPoint {
   static const String login = '${baseUrl}Account/Login';
   static const String register = '${baseUrl}Account/Register';
   static const String resetPassword = '${baseUrl}Account/ResetPassword';
+
+  /// end Point Home
+  static const String getSliders = '${baseUrl}Home/GetSliders';
+  static const String getCategories = '${baseUrl}Home/GetCategories';
+  static const String getCourses = '${baseUrl}Home/GetCourses';
+
 //
 // static const String products = '${baseUrl}api/v1/products/';
 //

@@ -42,7 +42,6 @@ class AppInterceptors extends Interceptor {
       "Content-Type": options.data.runtimeType == FormData
           ? 'multipart/form-data'
           : "application/json",
-      'Accept': '*/*',
     };
     // }
 

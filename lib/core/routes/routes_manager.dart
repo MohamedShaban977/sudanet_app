@@ -21,7 +21,7 @@ class Routes {
       case RoutesNames.initialRoute:
         return MagicRouter.pageRoute(const SplashScreen());
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.loginRoute:
         ServiceLocator.initLoginGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -29,7 +29,7 @@ class Routes {
           child: const LoginScreen(),
         ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.signupRoute:
         ServiceLocator.initSignupGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -37,18 +37,25 @@ class Routes {
           child: const SignupScreen(),
         ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.forgetPasswordRoute:
         ServiceLocator.initForgetPasswordGetIt();
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<ForgetPasswordCubit>(),
           child: const ForgetPasswordScreen(),
         ));
-    // loginRoute
+      // loginRoute
       case RoutesNames.mainLayoutApp:
-      // ServiceLocator.initForgetPasswordGetIt();
-        return MagicRouter.pageRoute(
-          BlocProvider(create: (context) => sl<HomeCubit>(),
+        ServiceLocator.initHomeGetIt();
+        return MagicRouter.pageRoute(MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<HomeCubit>()
+                ..getCategories()
+                ..getCourses()
+                ..getSlider(),
+            ),
+          ],
           child: const MainLayoutScreen(),
         ));
 
