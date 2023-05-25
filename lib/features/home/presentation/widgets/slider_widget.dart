@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/features/home/domain/entities/slider_entity.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 
 class SliderWidget extends StatefulWidget {
-  final List<String> slidersItems;
+  final List<SliderEntity> slidersItems;
 
   const SliderWidget({
     super.key,
@@ -89,9 +91,11 @@ class _SliderWidgetState extends State<SliderWidget> {
           children: [
             CarouselSlider.builder(
               itemCount: widget.slidersItems.length,
-              itemBuilder: (_, itemIndex, i) => Image.asset(
-                widget.slidersItems[itemIndex],
+              itemBuilder: (_, itemIndex, i) => Image.network(
+                widget.slidersItems[itemIndex].imagePath,
+                width: context.width,
                 fit: BoxFit.fill,
+                gaplessPlayback: true,
               ),
               options: CarouselOptions(
                 aspectRatio: 16 / 8,

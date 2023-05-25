@@ -5,14 +5,15 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
+import '../../domain/entities/courses_entity.dart';
 
 class ViewInfoDataCoursesWidget extends StatelessWidget {
   const ViewInfoDataCoursesWidget({
     super.key,
-    required this.index,
+    required this.course,
   });
 
-  final int index;
+  final CoursesEntity course;
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +23,17 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
       children: [
         const SizedBox(height: AppSize.s5),
         Text(
-          'المرحلة ${index + 1}',
+          course.name,
           style: context.displayLarge.copyWith(color: ColorManager.primary),
         ),
         const SizedBox(height: AppSize.s5),
         Text(
-          '6 مواد',
+          course.categoryName,
           style: context.titleMedium.copyWith(color: ColorManager.textGray),
         ),
         const SizedBox(height: AppSize.s5),
         Text(
-          'المدرس الاول',
+          course.teacherName,
           style: context.bodyMedium.copyWith(color: ColorManager.textGray),
         ),
         const SizedBox(height: AppSize.s5),
@@ -42,7 +43,7 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Text(
-                '6 \$',
+                '${course.price} ${course.currencyName}',
                 style:
                     context.displayLarge.copyWith(color: ColorManager.primary),
                 overflow: TextOverflow.fade,
@@ -52,7 +53,7 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
               flex: 4,
               child: ElevatedButton(
                   onPressed: () {
-                    ///TODO:
+                    ///TODO: go to details  course
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorManager.secondary,

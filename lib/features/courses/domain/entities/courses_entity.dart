@@ -5,6 +5,8 @@
             "teacherName": "أ/ مازن",
             "price": "200",
             "currencyName": "جنية"
+               "categoryName": "الصف الدراسي السادس",
+            "categoryId": 1
         }
         */
 
@@ -17,14 +19,19 @@ class CoursesEntity extends Equatable {
   final String teacherName;
   final String price;
   final String currencyName;
+  final String categoryName;
+  final int categoryId;
 
-  const CoursesEntity(
-      {required this.id,
-      required this.name,
-      required this.imagePath,
-      required this.teacherName,
-      required this.price,
-      required this.currencyName});
+  const CoursesEntity({
+    required this.id,
+    required this.name,
+    required this.imagePath,
+    required this.teacherName,
+    required this.price,
+    required this.currencyName,
+    required this.categoryName,
+    required this.categoryId,
+  });
 
   @override
   List<Object?> get props => [
@@ -34,5 +41,7 @@ class CoursesEntity extends Equatable {
         teacherName,
         price,
         currencyName,
+        categoryName,
+        categoryId,
       ];
 }

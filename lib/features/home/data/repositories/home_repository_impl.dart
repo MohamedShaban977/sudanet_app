@@ -3,8 +3,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
-import '../../domain/entities/categories_entity.dart';
-import '../../domain/entities/courses_entity.dart';
+import '../../../categories/domain/entities/categories_entity.dart';
+import '../../../courses/domain/entities/courses_entity.dart';
+import '../../domain/entities/slider_entity.dart';
 import '../../domain/repositories/home_repository.dart';
 import '../data_sources/home_data_source.dart';
 
@@ -36,7 +37,8 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<Either<Failure, CollectionResponseEntity>> getSliders() async {
+  Future<Either<Failure, CollectionResponseEntity<SliderEntity>>>
+      getSliders() async {
     try {
       final res = await dataSource.getSliders();
       return res.success ? Right(res) : left(ServerFailure(res.message));

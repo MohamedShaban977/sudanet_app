@@ -1,11 +1,12 @@
 import '../../../../core/api/api_consumer.dart';
 import '../../../../core/api/end_point.dart';
 import '../../../../core/api/service_response.dart';
-import '../models/categories_response.dart';
-import '../models/courses_response.dart';
+import '../../../categories/data/models/categories_response.dart';
+import '../../../courses/data/models/courses_response.dart';
+import '../models/sliders_response.dart';
 
 abstract class HomeDataSource {
-  Future<CollectionResponse> getSliders();
+  Future<CollectionResponse<SliderResponse>> getSliders();
 
   Future<CollectionResponse<CoursesResponse>> getCoursesDataSource();
 
@@ -39,10 +40,11 @@ class HomeDataSourceImpl implements HomeDataSource {
   }
 
   @override
-  Future<CollectionResponse> getSliders() async {
+  Future<CollectionResponse<SliderResponse>> getSliders() async {
     final response = await apiConsumer.get(EndPoint.getSliders);
 
-    final res = CollectionResponse.fromJson(response);
+    final res = CollectionResponse<SliderResponse>.fromJson(response,
+        (list) => list.map((e) => SliderResponse.fromJson(e)).toList());
 
     return res;
   }

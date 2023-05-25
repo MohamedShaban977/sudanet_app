@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:sudanet_app/core/api/service_response.dart';
 import 'package:sudanet_app/core/error/failures.dart';
+import 'package:sudanet_app/features/courses/domain/entities/courses_entity.dart';
 import 'package:sudanet_app/features/courses_by_category/data/data_sources/courses_by_category_data_source.dart';
-import 'package:sudanet_app/features/home/domain/entities/courses_entity.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../domain/repositories/courses_by_category_repo.dart';

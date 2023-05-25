@@ -105,7 +105,7 @@ class BodyHomeWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20.0),
-          SliderWidget(slidersItems: imageSlider()),
+          SliderWidget(slidersItems: cubit.sliderItems),
           const SizedBox(height: 20.0),
           CategoriesWidget(cubit: cubit),
           const SizedBox(height: 20.0),

@@ -38,7 +38,7 @@ class GetCoursesErrorState extends HomeState {
 class GetSliderLoadingState extends HomeState {}
 
 class GetSliderSuccessState extends HomeState {
-  final CollectionResponseEntity response;
+  final CollectionResponseEntity<SliderEntity> response;
 
   GetSliderSuccessState({required this.response});
 }

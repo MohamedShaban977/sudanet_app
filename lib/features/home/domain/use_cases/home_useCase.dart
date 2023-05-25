@@ -1,17 +1,18 @@
 import 'package:dartz/dartz.dart';
-import 'package:sudanet_app/features/home/domain/entities/courses_entity.dart';
+import 'package:sudanet_app/features/courses/domain/entities/courses_entity.dart';
 import 'package:sudanet_app/features/home/domain/repositories/home_repository.dart';
 
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/useCases/use_case.dart';
-import '../entities/categories_entity.dart';
+import '../../../categories/domain/entities/categories_entity.dart';
+import '../entities/slider_entity.dart';
 
-class CategoriesUseCases
+class HomeCategoriesUseCases
     implements UseCase<CollectionResponseEntity<CategoriesEntity>, NoParams> {
   final HomeRepository repository;
 
-  CategoriesUseCases({required this.repository});
+  HomeCategoriesUseCases({required this.repository});
 
   @override
   Future<Either<Failure, CollectionResponseEntity<CategoriesEntity>>> call(
@@ -19,11 +20,11 @@ class CategoriesUseCases
       repository.getCategoriesRepo();
 }
 
-class CourseUseCases
+class HomeCourseUseCases
     implements UseCase<CollectionResponseEntity<CoursesEntity>, NoParams> {
   final HomeRepository repository;
 
-  CourseUseCases({required this.repository});
+  HomeCourseUseCases({required this.repository});
 
   @override
   Future<Either<Failure, CollectionResponseEntity<CoursesEntity>>> call(
@@ -31,12 +32,14 @@ class CourseUseCases
       repository.getCoursesRepo();
 }
 
-class SliderUseCases implements UseCase<CollectionResponseEntity, NoParams> {
+class SliderUseCases
+    implements UseCase<CollectionResponseEntity<SliderEntity>, NoParams> {
   final HomeRepository repository;
 
   SliderUseCases({required this.repository});
 
   @override
-  Future<Either<Failure, CollectionResponseEntity>> call(NoParams params) =>
+  Future<Either<Failure, CollectionResponseEntity<SliderEntity>>> call(
+          NoParams params) =>
       repository.getSliders();
 }

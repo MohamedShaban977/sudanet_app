@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sudanet_app/features/courses/domain/entities/courses_entity.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../widgets/view_image_widget.dart';
 import '../../widgets/view_info_data_courses_widget.dart';
 
 class CardSubjectsMobileWidget extends StatelessWidget {
-  final int index;
+  final CoursesEntity course;
   final double height;
   final double? width;
 
   const CardSubjectsMobileWidget({
     super.key,
-    required this.index,
+    required this.course,
     required this.height,
     this.width,
   });
@@ -32,15 +33,13 @@ class CardSubjectsMobileWidget extends StatelessWidget {
               child: ImageWidget(
                 width: width,
                 height: height,
-                imagePath:
-                    'https://images.pexels.com/photos/13650913/pexels-photo-13650913.jpeg?auto=compress&cs=tinysrgb&w=600',
-              ),
+                imagePath:course.imagePath),
             ),
             Expanded(
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
-                  child: ViewInfoDataCoursesWidget(index: index),
+                  child: ViewInfoDataCoursesWidget(course:  course),
                 )),
           ],
         ),

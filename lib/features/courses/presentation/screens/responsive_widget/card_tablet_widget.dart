@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/features/courses/domain/entities/courses_entity.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../widgets/view_image_widget.dart';
 import '../../widgets/view_info_data_courses_widget.dart';
 
 class CardSubjectsTabletWidget extends StatelessWidget {
-  final int index;
+  final CoursesEntity course;
   final double? height;
   final double? width;
 
   const CardSubjectsTabletWidget({
     super.key,
-    required this.index,
+    required this.course,
     this.height,
     this.width,
   });
@@ -29,12 +30,10 @@ class CardSubjectsTabletWidget extends StatelessWidget {
         children: [
           ImageWidget(
             width: context.width,
-            imagePath:
-                'https://images.pexels.com/photos/13650913/pexels-photo-13650913.jpeg?auto=compress&cs=tinysrgb&w=600',
-          ),
+            imagePath:course.imagePath),
           Padding(
             padding: const EdgeInsets.all(AppPadding.p8),
-            child: ViewInfoDataCoursesWidget(index: index),
+            child: ViewInfoDataCoursesWidget(course:  course),
           ),
         ],
       ),

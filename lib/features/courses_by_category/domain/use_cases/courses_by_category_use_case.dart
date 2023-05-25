@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/useCases/use_case.dart';
-import '../../../home/domain/entities/courses_entity.dart';
+import '../../../courses/domain/entities/courses_entity.dart';
 import '../repositories/courses_by_category_repo.dart';
 
 class CoursesByCategoryUseCases

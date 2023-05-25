@@ -5,7 +5,7 @@ import 'package:sudanet_app/core/app_manage/strings_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/core/routes/magic_router.dart';
 import 'package:sudanet_app/core/routes/routes_name.dart';
-import 'package:sudanet_app/features/home/domain/entities/categories_entity.dart';
+import 'package:sudanet_app/features/categories/domain/entities/categories_entity.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
@@ -22,6 +22,7 @@ class CardCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Constants.desiredItemWidth,
+      height: context.height * 0.4,
       child: Card(
         margin: const EdgeInsets.all(AppPadding.p12),
         shape: RoundedRectangleBorder(

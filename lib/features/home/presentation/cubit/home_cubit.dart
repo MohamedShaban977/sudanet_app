@@ -5,8 +5,9 @@ import 'package:sudanet_app/features/home/domain/use_cases/home_useCase.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/useCases/use_case.dart';
-import '../../domain/entities/categories_entity.dart';
-import '../../domain/entities/courses_entity.dart';
+import '../../../categories/domain/entities/categories_entity.dart';
+import '../../../courses/domain/entities/courses_entity.dart';
+import '../../domain/entities/slider_entity.dart';
 
 part 'home_state.dart';
 
@@ -56,11 +57,11 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  final List sliderItems = [];
+  final List<SliderEntity> sliderItems = [];
 
   Future<void> getSlider() async {
     emit(GetSliderLoadingState());
-    Either<Failure, CollectionResponseEntity> response =
+    Either<Failure, CollectionResponseEntity<SliderEntity>> response =
         await sliderUseCases.call(NoParams());
     response.fold(
         (failure) => emit(

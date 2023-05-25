@@ -4,7 +4,7 @@ import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 import '../../../../widgets/view_image_widget.dart';
-import '../../domain/entities/courses_entity.dart';
+import '../../../courses/domain/entities/courses_entity.dart';
 
 class CardCourseWidget extends StatelessWidget {
   final CoursesEntity course;
@@ -14,7 +14,8 @@ class CardCourseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200.0,
+      width: 220.0,
+      height: 310.0,
       child: Card(
         margin: const EdgeInsets.all(AppPadding.p12),
         shape: RoundedRectangleBorder(
@@ -24,7 +25,7 @@ class CardCourseWidget extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                flex: 5,
+                flex: 4,
                 child: ImageWidget(imagePath: course.imagePath),
               ),
               Expanded(

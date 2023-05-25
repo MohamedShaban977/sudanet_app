@@ -2,7 +2,7 @@ import 'package:sudanet_app/core/api/api_consumer.dart';
 
 import '../../../../core/api/end_point.dart';
 import '../../../../core/api/service_response.dart';
-import '../../../home/data/models/courses_response.dart';
+import '../../../courses/data/models/courses_response.dart';
 
 abstract class CoursesByCategoryDataSource {
   Future<CollectionResponse<CoursesResponse>> getCoursesByCategoryDataSource(

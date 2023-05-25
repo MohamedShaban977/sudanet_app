@@ -10,6 +10,8 @@ class CoursesResponse extends CoursesEntity {
     final String? teacherName,
     final String? price,
     final String? currencyName,
+    final String? categoryName,
+    final int? categoryId,
   }) : super(
           id: id.orZero(),
           name: name.orEmpty(),
@@ -17,6 +19,8 @@ class CoursesResponse extends CoursesEntity {
           teacherName: teacherName.orEmpty(),
           price: price.orEmpty(),
           currencyName: currencyName.orEmpty(),
+          categoryName: categoryName.orEmpty(),
+          categoryId: categoryId.orZero(),
         );
 
   factory CoursesResponse.fromJson(Map<String, dynamic> json) =>
@@ -27,5 +31,7 @@ class CoursesResponse extends CoursesEntity {
         teacherName: json["teacherName"],
         price: json["price"],
         currencyName: json["currencyName"],
+        categoryName: json["categoryName"],
+        categoryId: json["categoryId"],
       );
 }

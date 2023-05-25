@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudanet_app/features/courses/data/data_sources/courses_data_sources.dart';
+import 'package:sudanet_app/features/courses/presentation/cubit/courses_cubit.dart';
 import 'package:sudanet_app/features/home/data/data_sources/home_data_source.dart';
 import 'package:sudanet_app/features/home/domain/repositories/home_repository.dart';
 import 'package:sudanet_app/features/home/domain/use_cases/home_useCase.dart';
@@ -29,6 +31,9 @@ import '../features/auth/sign_up/data/repositories/signup_repositories_impl.dart
 import '../features/auth/sign_up/domain/repositories/signup_repositories.dart';
 import '../features/auth/sign_up/domain/use_cases/signup_use_case.dart';
 import '../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import '../features/courses/data/repositories/course_repository_impl.dart';
+import '../features/courses/domain/repositories/courses_repository.dart';
+import '../features/courses/domain/use_cases/courses_use_case.dart';
 import '../features/courses_by_category/data/data_sources/courses_by_category_data_source.dart';
 import '../features/courses_by_category/data/repositories/courses_by_category_repo_impl.dart';
 import '../features/courses_by_category/domain/repositories/courses_by_category_repo.dart';
@@ -176,13 +181,13 @@ class ServiceLocator {
           () => HomeRepositoryImpl(dataSource: sl<HomeDataSource>()));
     }
     // //Home Use Cases
-    if (!sl.isRegistered<CategoriesUseCases>()) {
-      sl.registerLazySingleton<CategoriesUseCases>(
-          () => CategoriesUseCases(repository: sl<HomeRepository>()));
+    if (!sl.isRegistered<HomeCategoriesUseCases>()) {
+      sl.registerLazySingleton<HomeCategoriesUseCases>(
+          () => HomeCategoriesUseCases(repository: sl<HomeRepository>()));
     }
-    if (!sl.isRegistered<CourseUseCases>()) {
-      sl.registerLazySingleton<CourseUseCases>(
-          () => CourseUseCases(repository: sl<HomeRepository>()));
+    if (!sl.isRegistered<HomeCourseUseCases>()) {
+      sl.registerLazySingleton<HomeCourseUseCases>(
+          () => HomeCourseUseCases(repository: sl<HomeRepository>()));
     }
     if (!sl.isRegistered<SliderUseCases>()) {
       sl.registerLazySingleton<SliderUseCases>(
@@ -192,8 +197,8 @@ class ServiceLocator {
     // // Home Cubit
     if (!sl.isRegistered<HomeCubit>()) {
       sl.registerLazySingleton<HomeCubit>(() => HomeCubit(
-            categoriesUseCases: sl<CategoriesUseCases>(),
-            coursesUseCases: sl<CourseUseCases>(),
+            categoriesUseCases: sl<HomeCategoriesUseCases>(),
+            coursesUseCases: sl<HomeCourseUseCases>(),
             sliderUseCases: sl<SliderUseCases>(),
           ));
     } else {
@@ -201,33 +206,62 @@ class ServiceLocator {
     }
   }
 
-  static initCoursesByCategoryGetIt() {
+
+  static initCoursesGetIt() {
     // Course By Category Data Source
-    if (!sl.isRegistered<CoursesByCategoryDataSource>()) {
-      sl.registerLazySingleton<CoursesByCategoryDataSource>(
-          () => CoursesByCategoryDataSourceImpl(consumer: sl<ApiConsumer>()));
+    if (!sl.isRegistered<CoursesDataSource>()) {
+      sl.registerLazySingleton<CoursesDataSource>(
+              () => CoursesDataSourceImpl(consumer: sl<ApiConsumer>()));
     }
     //Course By Category Repository
-    if (!sl.isRegistered<CourseByCategoryRepo>()) {
-      sl.registerLazySingleton<CourseByCategoryRepo>(() =>
-          CoursesByCategoryRepoImpl(
-              dataSource: sl<CoursesByCategoryDataSource>()));
+    if (!sl.isRegistered<CourseRepository>()) {
+      sl.registerLazySingleton<CourseRepository>(() =>
+          CourseRepositoryImpl(
+              dataSource: sl<CoursesDataSource>()));
     }
     // //Home Use Cases
-    if (!sl.isRegistered<CoursesByCategoryUseCases>()) {
+    if (!sl.isRegistered<CoursesUseCases>()) {
       sl.registerLazySingleton<CoursesByCategoryUseCases>(() =>
           CoursesByCategoryUseCases(repository: sl<CourseByCategoryRepo>()));
     }
 
     // // Home Cubit
-    if (!sl.isRegistered<HomeCubit>()) {
-      sl.registerLazySingleton<HomeCubit>(() => HomeCubit(
-            categoriesUseCases: sl<CategoriesUseCases>(),
-            coursesUseCases: sl<CourseUseCases>(),
-            sliderUseCases: sl<SliderUseCases>(),
-          ));
+    if (!sl.isRegistered<CoursesCubit>()) {
+      sl.registerLazySingleton<CoursesCubit>(() => CoursesCubit(
+        coursesUseCases: sl<CoursesUseCases>(),
+      ));
     } else {
-      sl.resetLazySingleton<HomeCubit>();
+      sl.resetLazySingleton<CoursesCubit>();
     }
   }
+
+  // static initCoursesByCategoryGetIt() {
+  //   // Course By Category Data Source
+  //   if (!sl.isRegistered<CoursesByCategoryDataSource>()) {
+  //     sl.registerLazySingleton<CoursesByCategoryDataSource>(
+  //         () => CoursesByCategoryDataSourceImpl(consumer: sl<ApiConsumer>()));
+  //   }
+  //   //Course By Category Repository
+  //   if (!sl.isRegistered<CourseByCategoryRepo>()) {
+  //     sl.registerLazySingleton<CourseByCategoryRepo>(() =>
+  //         CoursesByCategoryRepoImpl(
+  //             dataSource: sl<CoursesByCategoryDataSource>()));
+  //   }
+  //   // //Home Use Cases
+  //   if (!sl.isRegistered<CoursesByCategoryUseCases>()) {
+  //     sl.registerLazySingleton<CoursesByCategoryUseCases>(() =>
+  //         CoursesByCategoryUseCases(repository: sl<CourseByCategoryRepo>()));
+  //   }
+  //
+  //   // // Home Cubit
+  //   if (!sl.isRegistered<HomeCubit>()) {
+  //     sl.registerLazySingleton<HomeCubit>(() => HomeCubit(
+  //           categoriesUseCases: sl<CategoriesUseCases>(),
+  //           coursesUseCases: sl<CourseUseCases>(),
+  //           sliderUseCases: sl<SliderUseCases>(),
+  //         ));
+  //   } else {
+  //     sl.resetLazySingleton<HomeCubit>();
+  //   }
+  // }
 }
