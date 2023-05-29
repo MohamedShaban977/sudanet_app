@@ -9,7 +9,6 @@ import 'package:sudanet_app/features/categories/domain/entities/categories_entit
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
-import '../../../../core/routes/routes_request.dart';
 import '../../../../widgets/view_image_widget.dart';
 
 class CardCategoryWidget extends StatelessWidget {
@@ -54,7 +53,7 @@ class CardCategoryWidget extends StatelessWidget {
                             onPressed: () {
                               MagicRouterName.navigateTo(
                                 RoutesNames.coursesByCategoryScreen,
-                                arguments: RouteRequest(id: '${category.id}'),
+                                arguments: {"id": '${category.id}'},
                               );
                             },
                             style: ElevatedButton.styleFrom(

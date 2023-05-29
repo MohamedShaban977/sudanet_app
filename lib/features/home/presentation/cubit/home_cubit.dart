@@ -18,8 +18,8 @@ class HomeCubit extends Cubit<HomeState> {
     required this.sliderUseCases,
   }) : super(HomeInitial());
 
-  final CategoriesUseCases categoriesUseCases;
-  final CourseUseCases coursesUseCases;
+  final HomeCategoriesUseCases categoriesUseCases;
+  final HomeCourseUseCases coursesUseCases;
   final SliderUseCases sliderUseCases;
 
   HomeCubit get(context) => BlocProvider.of(context);

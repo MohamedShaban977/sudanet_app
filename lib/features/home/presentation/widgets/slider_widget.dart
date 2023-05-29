@@ -90,9 +90,12 @@ class _SliderWidgetState extends State<SliderWidget> {
           alignment: Alignment.center,
           children: [
             CarouselSlider.builder(
-              itemCount: widget.slidersItems.length,
+              itemCount:
+                  widget.slidersItems.isEmpty ? 1 : widget.slidersItems.length,
               itemBuilder: (_, itemIndex, i) => Image.network(
-                widget.slidersItems[itemIndex].imagePath,
+                widget.slidersItems[itemIndex].imagePath.isNotEmpty
+                    ? widget.slidersItems[itemIndex].imagePath
+                    : "https://suda-net.com/Upload/23595242023101537PMscreencapture-localhost-59241-Client-Index-2023-05-25-07_37_33.png",
                 width: context.width,
                 fit: BoxFit.fill,
                 gaplessPlayback: true,

@@ -37,40 +37,48 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
           style: context.bodyMedium.copyWith(color: ColorManager.textGray),
         ),
         const SizedBox(height: AppSize.s5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                '${course.price} ${course.currencyName}',
-                style:
-                    context.displayLarge.copyWith(color: ColorManager.primary),
-                overflow: TextOverflow.fade,
-              ),
-            ),
-            Flexible(
-              flex: 4,
-              child: ElevatedButton(
-                  onPressed: () {
-                    ///TODO: go to details  course
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.secondary,
-                    padding: const EdgeInsets.all(12.0),
-                    minimumSize: const Size.fromHeight(40.0),
-                  ),
-                  child: Text(
-                    AppStrings.purchase.tr(),
-                    style: context.titleLarge.copyWith(
-                        color: ColorManager.primary,
-                        fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center,
-                    // overflow: TextOverflow.fade,
-                  )),
-            ),
-          ],
+        Text(
+          '${course.price} ${course.currencyName}',
+          style:
+          context.displayLarge.copyWith(color: ColorManager.primary),
+          overflow: TextOverflow.fade,
         ),
+        const SizedBox(height: AppSize.s5),
+        ElevatedButton(
+            onPressed: () {
+              ///TODO: go to details  course
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorManager.secondary,
+              padding: const EdgeInsets.all(12.0),
+              minimumSize: const Size.fromHeight(40.0),
+            ),
+            child: Text(
+              AppStrings.purchase.tr(),
+              style: context.titleLarge.copyWith(
+                  color: ColorManager.primary,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+              // overflow: TextOverflow.fade,
+            )),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Expanded(
+        //       flex: 2,
+        //       child: Text(
+        //         '${course.price} ${course.currencyName}',
+        //         style:
+        //             context.displayLarge.copyWith(color: ColorManager.primary),
+        //         overflow: TextOverflow.fade,
+        //       ),
+        //     ),
+        //     Flexible(
+        //       flex: 4,
+        //       child:
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

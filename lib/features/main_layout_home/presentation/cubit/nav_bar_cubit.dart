@@ -4,7 +4,6 @@ import 'package:sudanet_app/features/profile/presentation/screens/profile_screen
 
 import '../../../categories/presentation/screens/categories_screen.dart';
 import '../../../courses/presentation/screens/courses_screen.dart';
-import '../../../home/presentation/manager/cubit_slider/slider_cubit.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 
 part 'nav_bar_state.dart';
@@ -15,10 +14,7 @@ class NavBarCubit extends Cubit<NavBarState> {
   static NavBarCubit get(context) => BlocProvider.of(context);
 
   List<Widget> screens() => [
-        BlocProvider(
-          create: (context) => SliderCubit(),
-          child: const HomeScreen(),
-        ),
+        const HomeScreen(),
         const CategoriesScreen(),
         const CoursesScreen(),
         const ProfileScreen(),

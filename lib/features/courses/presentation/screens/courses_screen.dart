@@ -14,7 +14,7 @@ import '../../../../core/responsive/responsive_grid.dart';
 import '../../../../widgets/custom_app_bar_widget.dart';
 import 'responsive_widget/card_tablet_widget.dart';
 
-const double _heightItem = 180;
+const double _heightItem = 150;
 const double _desiredItemWidth = 260;
 
 class CoursesScreen extends StatelessWidget {
@@ -27,7 +27,7 @@ class CoursesScreen extends StatelessWidget {
       body: BlocBuilder<CoursesCubit, CoursesState>(
         builder: (context, state) {
           final cubit = sl<CoursesCubit>().get(context);
-          if(state is GetCoursesLoadingState){
+          if (state is GetCoursesLoadingState) {
             return const CustomLoadingScreen();
           }
           return SingleChildScrollView(
@@ -56,8 +56,10 @@ class CoursesScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const ClampingScrollPhysics(),
                     children: List.generate(
-                      10,
-                      (index) => CardSubjectsTabletWidget(course: ),
+                      cubit.coursesAllItems.length,
+                      (index) => CardCoursesTabletWidget(
+                          height: _heightItem,
+                          course: cubit.coursesAllItems[index]),
                     ),
                   ),
                 ),

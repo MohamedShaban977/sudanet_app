@@ -6,12 +6,12 @@ import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../widgets/view_image_widget.dart';
 import '../../widgets/view_info_data_courses_widget.dart';
 
-class CardSubjectsTabletWidget extends StatelessWidget {
+class CardCoursesTabletWidget extends StatelessWidget {
   final CoursesEntity course;
   final double? height;
   final double? width;
 
-  const CardSubjectsTabletWidget({
+  const CardCoursesTabletWidget({
     super.key,
     required this.course,
     this.height,
@@ -29,11 +29,12 @@ class CardSubjectsTabletWidget extends StatelessWidget {
       child: Column(
         children: [
           ImageWidget(
-            width: context.width,
-            imagePath:course.imagePath),
+              width: context.width,
+              height: height,
+              imagePath: course.imagePath),
           Padding(
             padding: const EdgeInsets.all(AppPadding.p8),
-            child: ViewInfoDataCoursesWidget(course:  course),
+            child: ViewInfoDataCoursesWidget(course: course),
           ),
         ],
       ),

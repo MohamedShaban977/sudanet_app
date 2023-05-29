@@ -6,9 +6,11 @@ import 'package:sudanet_app/features/auth/login/presentation/cubit/login_cubit.d
 import 'package:sudanet_app/features/auth/login/presentation/screens/login_screen.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/cubit/signup_cubit.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_screen.dart';
+import 'package:sudanet_app/features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
+import '../../features/courses/presentation/cubit/courses_cubit.dart';
 import '../../features/courses_by_category/presentation/screens/corses_by_category_screen.dart';
 import '../../features/home/presentation/cubit/home_cubit.dart';
 import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
@@ -23,7 +25,7 @@ class Routes {
       case RoutesNames.initialRoute:
         return MagicRouter.pageRoute(const SplashScreen());
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.loginRoute:
         ServiceLocator.initLoginGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -31,7 +33,7 @@ class Routes {
           child: const LoginScreen(),
         ));
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.signupRoute:
         ServiceLocator.initSignupGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -39,33 +41,49 @@ class Routes {
           child: const SignupScreen(),
         ));
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.forgetPasswordRoute:
         ServiceLocator.initForgetPasswordGetIt();
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<ForgetPasswordCubit>(),
           child: const ForgetPasswordScreen(),
         ));
-      // loginRoute
+    // loginRoute
       case RoutesNames.mainLayoutApp:
         ServiceLocator.initHomeGetIt();
-        return MagicRouter.pageRoute(MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => sl<HomeCubit>()
-                ..getCategories()
-                ..getCourses()
-                ..getSlider(),
-            ),
-          ],
-          child: const MainLayoutScreen(),
-        ));
+        ServiceLocator.initCoursesGetIt();
+        return MagicRouter.pageRoute(
+            MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                  sl<HomeCubit>()
+                    ..getCategories()
+                    ..getCourses()
+                    ..getSlider(),),
+                BlocProvider(
+                  create: (context) =>
+                  sl<CoursesCubit>()
+                    ..getAllCourses(),
+                ),
+              ],
+              child: const MainLayoutScreen(),
+            ));
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.coursesByCategoryScreen:
+        ServiceLocator.initCoursesByCategoryGetIt();
         final RouteRequest res =
-            RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
-        return MagicRouter.pageRoute(CoursesByCategoryScreen());
+        RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
+
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) =>
+          sl<CoursesByCategoryCubit>()
+            ..getCoursesByCategoryId(res.id!),
+          child: CoursesByCategoryScreen(
+            categoryId: res.id!,
+          ),
+        ));
 
       default:
         return undefinedRoute();

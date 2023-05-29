@@ -38,6 +38,7 @@ import '../features/courses_by_category/data/data_sources/courses_by_category_da
 import '../features/courses_by_category/data/repositories/courses_by_category_repo_impl.dart';
 import '../features/courses_by_category/domain/repositories/courses_by_category_repo.dart';
 import '../features/courses_by_category/domain/use_cases/courses_by_category_use_case.dart';
+import '../features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
 import '../features/home/data/repositories/home_repository_impl.dart';
 import '../features/home/presentation/cubit/home_cubit.dart';
 
@@ -206,62 +207,59 @@ class ServiceLocator {
     }
   }
 
-
   static initCoursesGetIt() {
     // Course By Category Data Source
     if (!sl.isRegistered<CoursesDataSource>()) {
       sl.registerLazySingleton<CoursesDataSource>(
-              () => CoursesDataSourceImpl(consumer: sl<ApiConsumer>()));
+          () => CoursesDataSourceImpl(consumer: sl<ApiConsumer>()));
     }
     //Course By Category Repository
     if (!sl.isRegistered<CourseRepository>()) {
-      sl.registerLazySingleton<CourseRepository>(() =>
-          CourseRepositoryImpl(
-              dataSource: sl<CoursesDataSource>()));
+      sl.registerLazySingleton<CourseRepository>(
+          () => CourseRepositoryImpl(dataSource: sl<CoursesDataSource>()));
     }
     // //Home Use Cases
     if (!sl.isRegistered<CoursesUseCases>()) {
-      sl.registerLazySingleton<CoursesByCategoryUseCases>(() =>
-          CoursesByCategoryUseCases(repository: sl<CourseByCategoryRepo>()));
+      sl.registerLazySingleton<CoursesUseCases>(
+          () => CoursesUseCases(repository: sl<CourseRepository>()));
     }
 
     // // Home Cubit
     if (!sl.isRegistered<CoursesCubit>()) {
       sl.registerLazySingleton<CoursesCubit>(() => CoursesCubit(
-        coursesUseCases: sl<CoursesUseCases>(),
-      ));
+            coursesUseCases: sl<CoursesUseCases>(),
+          ));
     } else {
       sl.resetLazySingleton<CoursesCubit>();
     }
   }
 
-  // static initCoursesByCategoryGetIt() {
-  //   // Course By Category Data Source
-  //   if (!sl.isRegistered<CoursesByCategoryDataSource>()) {
-  //     sl.registerLazySingleton<CoursesByCategoryDataSource>(
-  //         () => CoursesByCategoryDataSourceImpl(consumer: sl<ApiConsumer>()));
-  //   }
-  //   //Course By Category Repository
-  //   if (!sl.isRegistered<CourseByCategoryRepo>()) {
-  //     sl.registerLazySingleton<CourseByCategoryRepo>(() =>
-  //         CoursesByCategoryRepoImpl(
-  //             dataSource: sl<CoursesByCategoryDataSource>()));
-  //   }
-  //   // //Home Use Cases
-  //   if (!sl.isRegistered<CoursesByCategoryUseCases>()) {
-  //     sl.registerLazySingleton<CoursesByCategoryUseCases>(() =>
-  //         CoursesByCategoryUseCases(repository: sl<CourseByCategoryRepo>()));
-  //   }
-  //
-  //   // // Home Cubit
-  //   if (!sl.isRegistered<HomeCubit>()) {
-  //     sl.registerLazySingleton<HomeCubit>(() => HomeCubit(
-  //           categoriesUseCases: sl<CategoriesUseCases>(),
-  //           coursesUseCases: sl<CourseUseCases>(),
-  //           sliderUseCases: sl<SliderUseCases>(),
-  //         ));
-  //   } else {
-  //     sl.resetLazySingleton<HomeCubit>();
-  //   }
-  // }
+  static initCoursesByCategoryGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<CoursesByCategoryDataSource>()) {
+      sl.registerLazySingleton<CoursesByCategoryDataSource>(
+          () => CoursesByCategoryDataSourceImpl(consumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<CourseByCategoryRepo>()) {
+      sl.registerLazySingleton<CourseByCategoryRepo>(() =>
+          CoursesByCategoryRepoImpl(
+              dataSource: sl<CoursesByCategoryDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<CoursesByCategoryUseCases>()) {
+      sl.registerLazySingleton<CoursesByCategoryUseCases>(() =>
+          CoursesByCategoryUseCases(repository: sl<CourseByCategoryRepo>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<CoursesByCategoryCubit>()) {
+      sl.registerLazySingleton<CoursesByCategoryCubit>(
+          () => CoursesByCategoryCubit(
+                coursesByCategoryUseCases: sl<CoursesByCategoryUseCases>(),
+              ));
+    } else {
+      sl.resetLazySingleton<CoursesByCategoryCubit>();
+    }
+  }
 }
