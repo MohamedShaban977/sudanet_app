@@ -25,7 +25,7 @@ class Routes {
       case RoutesNames.initialRoute:
         return MagicRouter.pageRoute(const SplashScreen());
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.loginRoute:
         ServiceLocator.initLoginGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -33,7 +33,7 @@ class Routes {
           child: const LoginScreen(),
         ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.signupRoute:
         ServiceLocator.initSignupGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -41,45 +41,38 @@ class Routes {
           child: const SignupScreen(),
         ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.forgetPasswordRoute:
         ServiceLocator.initForgetPasswordGetIt();
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<ForgetPasswordCubit>(),
           child: const ForgetPasswordScreen(),
         ));
-    // loginRoute
+      // loginRoute
       case RoutesNames.mainLayoutApp:
         ServiceLocator.initHomeGetIt();
         ServiceLocator.initCoursesGetIt();
-        return MagicRouter.pageRoute(
-            MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) =>
-                  sl<HomeCubit>()
-                    ..getCategories()
-                    ..getCourses()
-                    ..getSlider(),),
-                BlocProvider(
-                  create: (context) =>
-                  sl<CoursesCubit>()
-                    ..getAllCourses(),
-                ),
-              ],
-              child: const MainLayoutScreen(),
-            ));
+        return MagicRouter.pageRoute(MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<HomeCubit>()..getSlider(),
+            ),
+            BlocProvider(
+              create: (context) => sl<CoursesCubit>()..getAllCourses(),
+            ),
+          ],
+          child: const MainLayoutScreen(),
+        ));
 
-    // loginRoute
+      // loginRoute
       case RoutesNames.coursesByCategoryScreen:
         ServiceLocator.initCoursesByCategoryGetIt();
         final RouteRequest res =
-        RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
+            RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
 
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) =>
-          sl<CoursesByCategoryCubit>()
-            ..getCoursesByCategoryId(res.id!),
+              sl<CoursesByCategoryCubit>()..getCoursesByCategoryId(res.id!),
           child: CoursesByCategoryScreen(
             categoryId: res.id!,
           ),
