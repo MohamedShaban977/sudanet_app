@@ -6,6 +6,6 @@ class RoutesNames {
   static const String mainLayoutApp = '/mainLayoutApp';
   static const String coursesByCategoryScreen = '/CoursesByCategoryScreen';
 
-  static const String productDetails = '/product_details';
+  static const String contactInfo = '/ContactInfoScreen';
   static const String products = '/ProductsScreen';
 }

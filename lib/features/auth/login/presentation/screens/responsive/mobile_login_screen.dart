@@ -170,7 +170,7 @@ class HelperButtonWidget extends StatelessWidget {
                 color: ColorManager.primary),
           ],
         ),
-        onPressed: () {},
+        onPressed: () => MagicRouterName.navigateTo(RoutesNames.contactInfo),
         // splashColor: Colors.transparent,
         // highlightColor: Colors.transparent,
       ),

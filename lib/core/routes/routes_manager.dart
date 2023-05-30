@@ -11,6 +11,7 @@ import 'package:sudanet_app/features/courses_by_category/presentation/cubit/cour
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
 import '../../features/categories/presentation/cubit/categories_cubit.dart';
+import '../../features/contact_info/presentation/screens/contact_info_screen.dart';
 import '../../features/courses/presentation/cubit/courses_cubit.dart';
 import '../../features/courses_by_category/presentation/screens/corses_by_category_screen.dart';
 import '../../features/home/presentation/cubit/home_cubit.dart';
@@ -85,6 +86,9 @@ class Routes {
             categoryId: res.id!,
           ),
         ));
+
+      case RoutesNames.contactInfo:
+        return MagicRouter.pageRoute(const ContactInfoScreen());
 
       default:
         return undefinedRoute();

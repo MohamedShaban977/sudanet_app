@@ -19,7 +19,7 @@ class EndPoint {
   static const String getAllCategory = '${baseUrl}Category/Get';
 
 //
-// static const String productById = '${baseUrl}api/v1/products/';
+  static const String getContactInfo = '${baseUrl}ContactInfo/Get';
 //
 // static const String categories = '${baseUrl}api/v1/categories/';
 //
