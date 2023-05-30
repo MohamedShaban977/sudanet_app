@@ -98,7 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is LoginSuccessState) {
       guidId = state.response.data!.guid;
       ToastAndSnackBar.toastSuccess(message: state.response.message);
-
       MagicRouterName.navigateAndPopAll(RoutesNames.mainLayoutApp);
     }
     if (state is LoginErrorState) {
@@ -118,7 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
       showCancelBtn: true,
       customWidget: Container(
         color: Colors.red,
-
         child: Container(
           height: 150.0,
           margin: const EdgeInsets.all(50.0),
@@ -144,8 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
       await Future.sync(
-              () async =>
-              sl<LoginCubit>().get(context).login(LoginRequest(
+          () async => sl<LoginCubit>().get(context).login(LoginRequest(
                 email: email.text,
                 password: password.text,
                 macAddress: guidId,

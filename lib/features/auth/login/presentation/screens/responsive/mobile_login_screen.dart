@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sudanet_app/core/app_manage/color_manager.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
@@ -14,7 +15,6 @@ import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
 import '../../cubit/login_cubit.dart';
-import '../../widgets/custom_button_lang_widget.dart';
 import '../../widgets/register_button_row_text_widget.dart';
 
 class MobileLoginScreen extends StatelessWidget {
@@ -39,11 +39,12 @@ class MobileLoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: AppSize.s40),
+              const SizedBox(height: kToolbarHeight),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CustomButtonChangeLanguageWidget(),
+                  // const CustomButtonChangeLanguageWidget(),
+                  const HelperButtonWidget(),
                   GestureDetector(
                     onTap: () => MagicRouterName.navigateReplacementTo(
                         RoutesNames.mainLayoutApp),
@@ -56,6 +57,7 @@ class MobileLoginScreen extends StatelessWidget {
                   )
                 ],
               ),
+              const SizedBox(height: AppSize.s40),
 
               /// image
               Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
@@ -121,11 +123,56 @@ class MobileLoginScreen extends StatelessWidget {
 
               ///
               const RegisterButtonRowTextWidget(),
+              const SizedBox(height: AppSize.s37),
+
+              /*     Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: HelperButonWidget(),
+              ),*/
 
               /// image
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HelperButtonWidget extends StatelessWidget {
+  const HelperButtonWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50.0,
+      child: RawMaterialButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            side: const BorderSide(color: ColorManager.primary)),
+        fillColor: ColorManager.white,
+        elevation: 5.0,
+        highlightElevation: 5.0,
+        highlightColor: ColorManager.secondary.withOpacity(0.3),
+        splashColor: ColorManager.secondary.withOpacity(0.3),
+        padding: const EdgeInsetsDirectional.symmetric(horizontal: 15.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'مساعدة',
+              style: context.labelLarge.copyWith(color: ColorManager.primary),
+            ),
+            const SizedBox(width: 10.0),
+            const Icon(FontAwesomeIcons.circleQuestion,
+                color: ColorManager.primary),
+          ],
+        ),
+        onPressed: () {},
+        // splashColor: Colors.transparent,
+        // highlightColor: Colors.transparent,
       ),
     );
   }
