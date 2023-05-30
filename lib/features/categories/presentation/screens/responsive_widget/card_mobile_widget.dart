@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sudanet_app/features/categories/domain/entities/categories_entity.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../widgets/view_image_widget.dart';
 import '../../widgets/view_info_data_category_widget.dart';
 
 class CardCategoriesMobileWidget extends StatelessWidget {
-  final int index;
+  final CategoriesEntity category;
   final double height;
   final double? width;
 
   const CardCategoriesMobileWidget({
     super.key,
-    required this.index,
+    required this.category,
     required this.height,
     this.width,
   });
@@ -32,15 +33,14 @@ class CardCategoriesMobileWidget extends StatelessWidget {
               child: ImageWidget(
                 width: width,
                 height: height,
-                imagePath:
-                    'https://images.pexels.com/photos/13650913/pexels-photo-13650913.jpeg?auto=compress&cs=tinysrgb&w=600',
+                imagePath: category.imagePath,
               ),
             ),
             Expanded(
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
-                  child: ViewInfoDataCardCategoriesWidget(index: index),
+                  child: ViewInfoDataCardCategoriesWidget(category: category),
                 )),
           ],
         ),

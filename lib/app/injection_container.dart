@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudanet_app/features/categories/domain/useCases/Categories_use_case.dart';
 import 'package:sudanet_app/features/courses/data/data_sources/courses_data_sources.dart';
 import 'package:sudanet_app/features/courses/presentation/cubit/courses_cubit.dart';
 import 'package:sudanet_app/features/home/data/data_sources/home_data_source.dart';
@@ -31,6 +32,10 @@ import '../features/auth/sign_up/data/repositories/signup_repositories_impl.dart
 import '../features/auth/sign_up/domain/repositories/signup_repositories.dart';
 import '../features/auth/sign_up/domain/use_cases/signup_use_case.dart';
 import '../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import '../features/categories/data/data_sources/categories_data_source.dart';
+import '../features/categories/data/repositories/categories_repository_impl.dart';
+import '../features/categories/domain/repositories/categories_repository.dart';
+import '../features/categories/presentation/cubit/categories_cubit.dart';
 import '../features/courses/data/repositories/course_repository_impl.dart';
 import '../features/courses/domain/repositories/courses_repository.dart';
 import '../features/courses/domain/use_cases/courses_use_case.dart';
@@ -231,6 +236,33 @@ class ServiceLocator {
           ));
     } else {
       sl.resetLazySingleton<CoursesCubit>();
+    }
+  }
+
+  static initCategoriesGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<CategoriesDataSource>()) {
+      sl.registerLazySingleton<CategoriesDataSource>(
+          () => CategoriesDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<CategoriesRepository>()) {
+      sl.registerLazySingleton<CategoriesRepository>(() =>
+          CategoriesRepositoryImpl(dataSource: sl<CategoriesDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<GetAllCategoriesUseCases>()) {
+      sl.registerLazySingleton<GetAllCategoriesUseCases>(() =>
+          GetAllCategoriesUseCases(repository: sl<CategoriesRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<CategoriesCubit>()) {
+      sl.registerLazySingleton<CategoriesCubit>(() => CategoriesCubit(
+            getAllCategoriesUseCases: sl<GetAllCategoriesUseCases>(),
+          ));
+    } else {
+      sl.resetLazySingleton<CategoriesCubit>();
     }
   }
 

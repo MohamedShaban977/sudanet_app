@@ -5,14 +5,15 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
+import '../../domain/entities/categories_entity.dart';
 
 class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
   const ViewInfoDataCardCategoriesWidget({
     super.key,
-    required this.index,
+    required this.category,
   });
 
-  final int index;
+  final CategoriesEntity category;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
       children: [
         const Spacer(),
         Text(
-          'المرحلة ${index + 1}',
+          category.name,
           style: context.displayLarge.copyWith(color: ColorManager.primary),
         ),
         const SizedBox(height: AppSize.s5),

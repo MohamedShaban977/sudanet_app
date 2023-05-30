@@ -16,8 +16,8 @@ class EndPoint {
   static String getCoursesByCategoriesId(String categoryId) =>
       '${baseUrl}Course/GetByCategoryId?CategoryId=$categoryId';
 
-//
-// static const String products = '${baseUrl}api/v1/products/';
+  static const String getAllCategory = '${baseUrl}Category/Get';
+
 //
 // static const String productById = '${baseUrl}api/v1/products/';
 //
