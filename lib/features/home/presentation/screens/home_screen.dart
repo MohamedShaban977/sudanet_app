@@ -26,6 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: _buildAppBar(context),
       body: BlocBuilder<HomeCubit, HomeState>(
         buildWhen: (previous, current) {
+          if (current is GetSliderSuccessState ||
+              current is GetSliderErrorState) {
+            Future.sync(
+                () async => await sl<HomeCubit>().get(context).getCategories());
+          }
+          if (current is GetCategoriesSuccessState ||
+              current is GetCategoriesErrorState) {
+            Future.wait([
+              sl<HomeCubit>().get(context).getCourses(),
+            ]);
+          }
           return previous != current;
         },
         builder: (context, state) {
