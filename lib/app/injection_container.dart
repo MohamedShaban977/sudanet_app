@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudanet_app/features/categories/domain/useCases/Categories_use_case.dart';
+import 'package:sudanet_app/features/contact_info/domain/repositories/contact_info_repository.dart';
 import 'package:sudanet_app/features/courses/data/data_sources/courses_data_sources.dart';
 import 'package:sudanet_app/features/courses/presentation/cubit/courses_cubit.dart';
 import 'package:sudanet_app/features/home/data/data_sources/home_data_source.dart';
@@ -36,6 +37,10 @@ import '../features/categories/data/data_sources/categories_data_source.dart';
 import '../features/categories/data/repositories/categories_repository_impl.dart';
 import '../features/categories/domain/repositories/categories_repository.dart';
 import '../features/categories/presentation/cubit/categories_cubit.dart';
+import '../features/contact_info/data/data_sources/contact_info_data_source.dart';
+import '../features/contact_info/data/repositories/contact_info_repository_impl.dart';
+import '../features/contact_info/domain/use_cases/contact_info_use_case.dart';
+import '../features/contact_info/presentation/cubit/contact_info_cubit.dart';
 import '../features/courses/data/repositories/course_repository_impl.dart';
 import '../features/courses/domain/repositories/courses_repository.dart';
 import '../features/courses/domain/use_cases/courses_use_case.dart';
@@ -292,6 +297,33 @@ class ServiceLocator {
               ));
     } else {
       sl.resetLazySingleton<CoursesByCategoryCubit>();
+    }
+  }
+
+  static initGetContactInfoGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<ContactInfoDataSource>()) {
+      sl.registerLazySingleton<ContactInfoDataSource>(
+          () => ContactInfoDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<ContactInfoRepository>()) {
+      sl.registerLazySingleton<ContactInfoRepository>(() =>
+          ContactInfoRepositoryImpl(dataSource: sl<ContactInfoDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<ContactInfoUseCase>()) {
+      sl.registerLazySingleton<ContactInfoUseCase>(
+          () => ContactInfoUseCase(repository: sl<ContactInfoRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<ContactInfoCubit>()) {
+      sl.registerLazySingleton<ContactInfoCubit>(() => ContactInfoCubit(
+            contactInfoUseCase: sl<ContactInfoUseCase>(),
+          ));
+    } else {
+      sl.resetLazySingleton<ContactInfoCubit>();
     }
   }
 }

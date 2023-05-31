@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   late Timer _timer;
 
   _startDelay() async {
+    // await  Future.sync(() => sl<ContactInfoCubit>().getContactInfo());
     _timer =
         Timer(const Duration(seconds: Constants.splashDelay), () => _goNext());
   }
@@ -46,7 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  _buildImage() => Image.asset(
+  _buildImage() =>
+      Image.asset(
         ImageAssets.splashImg,
         fit: BoxFit.fill,
         width: context.width,
