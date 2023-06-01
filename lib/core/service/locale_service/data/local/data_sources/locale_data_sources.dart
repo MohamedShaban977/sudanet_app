@@ -20,5 +20,5 @@ class LocalDataSourceImpl implements LocalDataSource {
   Future<String> getSavedLang() async =>
       await cacheHelper.containsKey(key: Constants.locale)
           ? cacheHelper.getData(key: Constants.locale)
-          : Constants.englishCode;
+          : Constants.arabicCode;
 }

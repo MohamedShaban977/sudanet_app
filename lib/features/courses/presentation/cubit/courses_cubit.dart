@@ -11,31 +11,28 @@ import '../../domain/entities/courses_entity.dart';
 part 'courses_state.dart';
 
 class CoursesCubit extends Cubit<CoursesState> {
-  CoursesCubit({required this.coursesUseCases}) : super(CoursesInitial());
-
+  CoursesCubit({
+    required this.coursesUseCases,
+  }) : super(CoursesInitial());
 
   final CoursesUseCases coursesUseCases;
 
-
   CoursesCubit get(context) => BlocProvider.of(context);
-
 
   final List<CoursesEntity> coursesAllItems = [];
 
   Future<void> getAllCourses() async {
     emit(GetCoursesLoadingState());
     Either<Failure, CollectionResponseEntity<CoursesEntity>> response =
-    await coursesUseCases.call(NoParams());
+        await coursesUseCases.call(NoParams());
     response.fold(
-            (failure) =>
-            emit(GetCoursesErrorState(
-                error: HandleFailure.mapFailureToMsg(failure))), (response) {
+        (failure) => emit(GetCoursesErrorState(
+            error: HandleFailure.mapFailureToMsg(failure))), (response) {
       coursesAllItems.clear();
       coursesAllItems.addAll(response.data!);
       emit(GetCoursesSuccessState(response: response));
     });
   }
 }
-
 
 // extension ReplaceAllList on

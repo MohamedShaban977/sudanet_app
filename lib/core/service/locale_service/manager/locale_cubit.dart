@@ -13,12 +13,12 @@ part 'locale_state.dart';
 
 class LocaleCubit extends Cubit<LocaleState> {
   LocaleCubit({required this.savedLangUseCase, required this.changeLangUseCase})
-      : super(const ChangeLocalState(Locale(Constants.englishCode)));
+      : super(const ChangeLocalState(Locale(Constants.arabicCode)));
 
   final GetSavedLangUseCase savedLangUseCase;
   final ChangeLangUseCase changeLangUseCase;
 
-  String currentLangCode = Constants.englishCode;
+  String currentLangCode = Constants.arabicCode;
 
   LocaleCubit get(context) => BlocProvider.of<LocaleCubit>(context);
 
