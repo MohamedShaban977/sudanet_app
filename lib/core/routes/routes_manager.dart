@@ -7,6 +7,7 @@ import 'package:sudanet_app/features/auth/login/presentation/screens/login_scree
 import 'package:sudanet_app/features/auth/sign_up/presentation/cubit/signup_cubit.dart';
 import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_screen.dart';
 import 'package:sudanet_app/features/contact_info/presentation/cubit/contact_info_cubit.dart';
+import 'package:sudanet_app/features/course_details/presentation/screens/course_details_screen.dart';
 import 'package:sudanet_app/features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
 
 import '../../app/injection_container.dart';
@@ -94,6 +95,9 @@ class Routes {
           create: (context) => sl<ContactInfoCubit>()..getContactInfo(),
           child: const ContactInfoScreen(),
         ));
+      case RoutesNames.courseDetails:
+        ServiceLocator.initGetContactInfoGetIt();
+        return MagicRouter.pageRoute(const CourseDetailsScreen());
 
       default:
         return undefinedRoute();

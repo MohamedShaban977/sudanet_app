@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/core/routes/magic_router.dart';
+import 'package:sudanet_app/core/routes/routes_name.dart';
 import 'package:sudanet_app/features/courses/domain/entities/courses_entity.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
@@ -20,23 +22,26 @@ class CardCoursesTabletWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      // margin: const EdgeInsets.all(AppPadding.p8),
-      elevation: AppSize.s8,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSize.s11)),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        children: [
-          ImageWidget(
-              width: context.width,
-              height: height,
-              imagePath: course.imagePath),
-          Padding(
-            padding: const EdgeInsets.all(AppPadding.p8),
-            child: ViewInfoDataCoursesWidget(course: course),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => MagicRouterName.navigateTo(RoutesNames.courseDetails),
+      child: Card(
+        // margin: const EdgeInsets.all(AppPadding.p8),
+        elevation: AppSize.s8,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSize.s11)),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: [
+            ImageWidget(
+                width: context.width,
+                height: height,
+                imagePath: course.imagePath),
+            Padding(
+              padding: const EdgeInsets.all(AppPadding.p8),
+              child: ViewInfoDataCoursesWidget(course: course),
+            ),
+          ],
+        ),
       ),
     );
 /*
