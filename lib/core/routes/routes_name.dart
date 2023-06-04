@@ -7,5 +7,5 @@ class RoutesNames {
   static const String coursesByCategoryScreen = '/CoursesByCategoryScreen';
 
   static const String contactInfo = '/ContactInfoScreen';
-  static const String products = '/ProductsScreen';
+  static const String courseDetails = '/courseDetails';
 }
