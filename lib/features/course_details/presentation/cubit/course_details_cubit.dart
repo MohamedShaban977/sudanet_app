@@ -10,16 +10,16 @@ import '../../domain/use_cases/course_details_use_case.dart';
 part 'course_details_state.dart';
 
 class CourseDetailsCubit extends Cubit<CourseDetailsState> {
-  CourseDetailsCubit({required this.coursesUseCases})
+  CourseDetailsCubit({required this.courseDetailsUseCases})
       : super(CourseDetailsInitial());
-  final CoursesUseCases coursesUseCases;
+  final GetCourseDetailsUseCases courseDetailsUseCases;
 
   static CourseDetailsCubit get(context) => BlocProvider.of(context);
 
   Future<void> getCourseDetails(String id) async {
     emit(GetCourseDetailsLoadingState());
     Either<Failure, BaseResponseEntity<CourseDetailsEntity>> response =
-        await coursesUseCases.call(id);
+        await courseDetailsUseCases.call(id);
     response.fold(
       (failure) => emit(GetCourseDetailsErrorState(
           error: HandleFailure.mapFailureToMsg(failure))),

@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudanet_app/features/categories/domain/useCases/Categories_use_case.dart';
 import 'package:sudanet_app/features/contact_info/domain/repositories/contact_info_repository.dart';
+import 'package:sudanet_app/features/course_details/domain/repositories/course_details_repository.dart';
+import 'package:sudanet_app/features/course_details/domain/use_cases/course_details_use_case.dart';
 import 'package:sudanet_app/features/courses/data/data_sources/courses_data_sources.dart';
 import 'package:sudanet_app/features/courses/presentation/cubit/courses_cubit.dart';
 import 'package:sudanet_app/features/home/data/data_sources/home_data_source.dart';
@@ -41,6 +43,9 @@ import '../features/contact_info/data/data_sources/contact_info_data_source.dart
 import '../features/contact_info/data/repositories/contact_info_repository_impl.dart';
 import '../features/contact_info/domain/use_cases/contact_info_use_case.dart';
 import '../features/contact_info/presentation/cubit/contact_info_cubit.dart';
+import '../features/course_details/data/data_sources/course_details_data_source.dart';
+import '../features/course_details/data/repositories/course_details_repository_impl.dart';
+import '../features/course_details/presentation/cubit/course_details_cubit.dart';
 import '../features/courses/data/repositories/course_repository_impl.dart';
 import '../features/courses/domain/repositories/courses_repository.dart';
 import '../features/courses/domain/use_cases/courses_use_case.dart';
@@ -297,6 +302,34 @@ class ServiceLocator {
               ));
     } else {
       sl.resetLazySingleton<CoursesByCategoryCubit>();
+    }
+  }
+
+  static initCoursesDetailsGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<CourseDetailsDataSource>()) {
+      sl.registerLazySingleton<CourseDetailsDataSource>(
+          () => CourseDetailsDataSourceImpl(apiConsumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<CourseDetailsRepository>()) {
+      sl.registerLazySingleton<CourseDetailsRepository>(() =>
+          CourseDetailsRepositoryImpl(
+              dataSource: sl<CourseDetailsDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<GetCourseDetailsUseCases>()) {
+      sl.registerLazySingleton<GetCourseDetailsUseCases>(() =>
+          GetCourseDetailsUseCases(repository: sl<CourseDetailsRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<CourseDetailsCubit>()) {
+      sl.registerLazySingleton<CourseDetailsCubit>(() => CourseDetailsCubit(
+            courseDetailsUseCases: sl<GetCourseDetailsUseCases>(),
+          ));
+    } else {
+      sl.resetLazySingleton<CourseDetailsCubit>();
     }
   }
 

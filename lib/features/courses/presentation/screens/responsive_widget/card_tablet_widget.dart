@@ -23,7 +23,10 @@ class CardCoursesTabletWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => MagicRouterName.navigateTo(RoutesNames.courseDetails),
+      onTap: () => MagicRouterName.navigateTo(
+        RoutesNames.courseDetails,
+        arguments: {'id': '${course.id}'},
+      ),
       child: Card(
         // margin: const EdgeInsets.all(AppPadding.p8),
         elevation: AppSize.s8,

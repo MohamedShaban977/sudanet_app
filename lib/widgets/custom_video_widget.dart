@@ -23,14 +23,16 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: widget.videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-      ),
-    )
-      ..addListener(_listener);
-    _videoMetaData = const YoutubeMetaData();
+    if (widget.videoId.isNotEmpty) {
+      var id = YoutubePlayer.convertUrlToId(widget.videoId) ?? '';
+      _controller = YoutubePlayerController(
+        initialVideoId: id,
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+        ),
+      )..addListener(_listener);
+      _videoMetaData = const YoutubeMetaData();
+    }
   }
 
   void _listener() {
@@ -245,7 +247,7 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
 
       // const SizedBox(width: 14.0),
       SizedBox(
-        width: 68.0,
+        // width: 100.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -282,11 +284,11 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
         padding: EdgeInsets.zero,
         onPressed: _isPlayerReady
             ? () {
-          _muted ? _controller.unMute() : _controller.mute();
-          setState(() {
-            _muted = !_muted;
-          });
-        }
+                _muted ? _controller.unMute() : _controller.mute();
+                setState(() {
+                  _muted = !_muted;
+                });
+              }
             : null,
       ),
       const PlaybackSpeedButton(),
@@ -304,25 +306,22 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
     final hoursString = hours >= 10
         ? '$hours'
         : hours == 0
-        ? '00'
-        : '0$hours';
+            ? '00'
+            : '0$hours';
     final minutesString = minutes >= 10
         ? '$minutes'
         : minutes == 0
-        ? '00'
-        : '0$minutes';
+            ? '00'
+            : '0$minutes';
     final secondsString = seconds >= 10
         ? '$seconds'
         : seconds == 0
-        ? '00'
-        : '0$seconds';
+            ? '00'
+            : '0$seconds';
     final formattedTime =
-        '${hoursString == '00'
-        ? ''
-        : '$hoursString:'}$minutesString:$secondsString';
+        '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
     return formattedTime;
   }
-
 
 /*  void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -344,5 +343,4 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
       ),
     );
   }*/
-
 }

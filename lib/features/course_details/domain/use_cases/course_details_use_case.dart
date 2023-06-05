@@ -6,11 +6,11 @@ import '../../../../core/useCases/use_case.dart';
 import '../entities/course_details_entity.dart';
 import '../repositories/course_details_repository.dart';
 
-class CoursesUseCases
+class GetCourseDetailsUseCases
     implements UseCase<BaseResponseEntity<CourseDetailsEntity>, String> {
   final CourseDetailsRepository repository;
 
-  CoursesUseCases({required this.repository});
+  GetCourseDetailsUseCases({required this.repository});
 
   @override
   Future<Either<Failure, BaseResponseEntity<CourseDetailsEntity>>> call(
