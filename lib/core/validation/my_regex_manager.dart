@@ -7,5 +7,5 @@ class MyRegex {
       RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
 
   static RegExp rxPhone = RegExp(r'^01[0125][0-9]{8}$');
+  static RegExp rxPhoneChar = RegExp(r'^[0-9]$');
 }
-

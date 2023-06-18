@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:sudanet_app/features/course_details/data/models/buy_course_request.dart';
 
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/exceptions.dart';
@@ -17,6 +18,17 @@ class CourseDetailsRepositoryImpl implements CourseDetailsRepository {
       getPublicCourseDetails(String id) async {
     try {
       final res = await dataSource.getPublicCourseDetail(id);
+      return res.success ? Right(res) : left(ServerFailure(res.message));
+    } on ServerException catch (error) {
+      return left(ServerFailure(error.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponseEntity>> buyCourse(
+      BuyCourseRequest request) async {
+    try {
+      final res = await dataSource.buyCourse(request);
       return res.success ? Right(res) : left(ServerFailure(res.message));
     } on ServerException catch (error) {
       return left(ServerFailure(error.message));

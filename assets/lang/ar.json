@@ -51,5 +51,13 @@
   "error": "حدث خطأ",
   "help": "المساعدة",
   "cancel": "إلغاء",
-  "course": "المواد"
+  "course": "المواد",
+  "content_course": "محتوى المنهج",
+  "videos": "فيديوهات",
+  "files": "ملفات",
+  "exam": "الامتحان",
+  "you_must_be_logged": "يجب عليك تسجيل الدخول لأتمام عملية الشراء",
+  "No_data_available": "لا يوجد بيانات متاحه",
+  "more": "المزيد",
+  "buying_succeeded": "تم الشراء"
 }

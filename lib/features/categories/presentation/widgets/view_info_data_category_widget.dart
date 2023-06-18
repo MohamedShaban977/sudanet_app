@@ -5,6 +5,8 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
+import '../../../../core/routes/magic_router.dart';
+import '../../../../core/routes/routes_name.dart';
 import '../../domain/entities/categories_entity.dart';
 
 class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
@@ -34,7 +36,10 @@ class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
         const Spacer(),
         ElevatedButton(
             onPressed: () {
-              ///TODO:
+              MagicRouterName.navigateTo(
+                RoutesNames.coursesByCategoryScreen,
+                arguments: {"id": '${category.id}'},
+              );
             },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(12.0),

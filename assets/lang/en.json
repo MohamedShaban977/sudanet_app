@@ -67,6 +67,14 @@
   "Moved_to_cart": "Moved to cart",
   "error": "an error occurred",
   "help": "Help",
-  "cancel": "cancel",
-  "course": "course"
+  "cancel": "Cancel",
+  "course": "Course",
+  "content_course": "Content Course",
+  "videos": "Videos",
+  "files": "Files",
+  "exam": "exam",
+  "you_must_be_logged": "You must be logged in to complete the purchase",
+  "No_data_available": "No data available",
+  "more": "More",
+  "buying_succeeded": "Buying succeeded"
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/packages/quickalert/widgets/quickalert_container.dart';
 
@@ -6,7 +7,6 @@ import '../models/quickalert_animtype.dart';
 import '../models/quickalert_options.dart';
 import '../models/quickalert_type.dart';
 import '../utils/animate.dart';
-
 
 /// QuickAlert
 class QuickAlert {
@@ -71,6 +71,7 @@ class QuickAlert {
 
     /// Dialog Border Radius
     double borderRadius = 15.0,
+    double borderRadiusOkayBtn = 15.0,
 
     /// Asset path of your Image file
     String? customAsset,
@@ -107,6 +108,7 @@ class QuickAlert {
       textColor: textColor,
       showCancelBtn: showCancelBtn,
       borderRadius: borderRadius,
+      borderRadiusOkayBtn: borderRadiusOkayBtn,
       customAsset: customAsset,
       customWidget: customWidget,
       width: width,

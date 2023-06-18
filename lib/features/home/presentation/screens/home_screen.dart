@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/core/app_manage/strings_manager.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
+import 'package:sudanet_app/core/routes/magic_router.dart';
+import 'package:sudanet_app/core/routes/routes_name.dart';
+import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 import 'package:sudanet_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:sudanet_app/widgets/custom_loading_widget.dart';
 
 import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/assets_manager.dart';
 import '../../../../core/app_manage/color_manager.dart';
+import '../../../../core/app_manage/values_manager.dart';
 import '../widgets/categories_widget.dart';
 import '../widgets/courses_widget.dart';
 import '../widgets/slider_widget.dart';
@@ -42,9 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: _onRefresh,
-            child: state is GetCategoriesLoadingState ||
-                    state is GetCoursesLoadingState ||
-                    state is GetSliderLoadingState
+            child: isLoadingState(state)
                 ? const CustomLoadingScreen()
                 : BodyHomeWidget(
                     cubit: sl<HomeCubit>().get(context),
@@ -53,6 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  bool isLoadingState(HomeState state) {
+    return state is GetCategoriesLoadingState ||
+        state is GetCoursesLoadingState ||
+        state is GetSliderLoadingState;
   }
 
   Future<void> _onRefresh() async => await Future.sync(() {
@@ -85,13 +95,15 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.center,
             height: kToolbarHeight - 5,
           ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'تسجيل الدخول',
-              style: context.displaySmall,
+          if (!UserSecureStorage.isAuth)
+            TextButton(
+              onPressed: () =>
+                  MagicRouterName.navigateReplacementTo(RoutesNames.loginRoute),
+              child: Text(
+                AppStrings.signIn.tr(),
+                style: context.displaySmall,
+              ),
             ),
-          ),
         ]),
       ),
     );
@@ -115,27 +127,16 @@ class BodyHomeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20.0),
+          const SizedBox(height: AppSize.s20),
           if (cubit.sliderItems.isNotEmpty)
             SliderWidget(slidersItems: cubit.sliderItems),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: AppSize.s20),
           CategoriesWidget(cubit: cubit),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: AppSize.s20),
           CoursesWidget(cubit: cubit),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: AppSize.s20),
         ],
       ),
     );
-  }
-
-  List<String> imageSlider() {
-    return [
-      ImageAssets.homeBanner1,
-      ImageAssets.homeBanner2,
-      ImageAssets.homeBanner3,
-      ImageAssets.homeBanner1,
-      ImageAssets.homeBanner2,
-      ImageAssets.homeBanner3,
-    ];
   }
 }

@@ -6,7 +6,6 @@ import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../app/injection_container.dart';
-import '../error/error_response.dart';
 import '../error/exceptions.dart';
 import 'api_consumer.dart';
 import 'app_interceptor.dart';
@@ -165,16 +164,9 @@ class DioConsumer implements ApiConsumer {
   void _handleResponseError(Response<dynamic> response) {
     switch (response.statusCode) {
       case StatusCode.badRequest:
-        final json = jsonDecode(response.data);
-        final ErrorBadRequestResponse res =
-            ErrorBadRequestResponse.fromJson(json);
-        throw BadRequestException(res.errors?.name?.first ?? '');
-
+        throw BadRequestException(response.data);
       case StatusCode.unauthorized:
-        final json = jsonDecode(response.data);
-        final ErrorUnauthorizedResponse res =
-            ErrorUnauthorizedResponse.fromJson(json);
-        throw UnauthorizedException(res.detail);
+        throw UnauthorizedException(response.data);
       case StatusCode.forbidden:
         throw const UnauthorizedException();
       case StatusCode.notFound:

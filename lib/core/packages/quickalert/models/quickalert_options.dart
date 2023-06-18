@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:sudanet_app/core/packages/quickalert/models/quickalert_animtype.dart';
 import 'package:sudanet_app/core/packages/quickalert/models/quickalert_type.dart';
 
-
 /// Alert Options
 class QuickAlertOptions {
   /// Title of the dialog
@@ -58,6 +57,8 @@ class QuickAlertOptions {
 
   /// Dialog Border Radius
   double? borderRadius;
+
+  double? borderRadiusOkayBtn;
 
   /// Asset path of your Image file
   String? customAsset;
@@ -125,7 +126,9 @@ class QuickAlertOptions {
 
     /// Asset path of your Image file
     this.customAsset,
-this.customWidget,
+    this.customWidget,
+    this.borderRadiusOkayBtn,
+
     /// Width of the dialog
     this.width,
   });

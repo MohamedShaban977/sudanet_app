@@ -1,5 +1,13 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
+
+import '../../app/injection_container.dart';
+import '../app_manage/contents_manager.dart';
+import '../cache/cache_data_shpref.dart';
 
 class AppInterceptors extends Interceptor {
   @override
@@ -29,6 +37,20 @@ class AppInterceptors extends Interceptor {
       debugPrint('REQUEST[${options.method}] => Request Data: ${options.data}');
     }
 
+    options.headers[HttpHeaders.acceptHeader] = ContentType.json;
+    options.headers[HttpHeaders.contentTypeHeader] =
+        options.data.runtimeType == FormData
+            ? Headers.multipartFormDataContentType
+            : Headers.jsonContentType;
+
+    options.headers[HttpHeaders.acceptLanguageHeader] =
+        sl<CacheHelper>().getData(key: Constants.locale);
+
+    if (UserSecureStorage.getToken() != null) {
+      options.headers[HttpHeaders.authorizationHeader] =
+          'Bearer ${UserSecureStorage.getToken()}';
+    }
+
     // if (sl<CacheHelper>().getToken() != null) {
     //   options.headers = {
     //     "Content-Type": options.data.runtimeType == FormData
@@ -38,29 +60,24 @@ class AppInterceptors extends Interceptor {
     //     'Authorization': 'Bearer ${sl<CacheHelper>().getToken()}',
     //   };
     // } else {
-    options.headers = {
-      "Content-Type": options.data.runtimeType == FormData
-          ? 'multipart/form-data'
-          : "application/json",
-    };
+    // options.headers = {
+    //   "Content-Type": options.data.runtimeType == FormData
+    //       ? 'multipart/form-data'
+    //       : "application/json",
+    // };
     // }
 
     /// => Headers
     debugPrint('REQUEST[${options.method}] => Headers: ${options.headers}');
 
     super.onRequest(options, handler);
-    // print(' handler.isCompleted ${handler.isCompleted}');
-    // if (options.data.runtimeType == FormData && handler.isCompleted) {
-    //   print(' handler.isCompleted ${options.data.runtimeType}');
-    //   options.data = FormData();
-    // }
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     debugPrint(
         'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
-    debugPrint('RESPONSE[${response.statusCode}] => data: ${response.data}');
+    log('RESPONSE[${response.statusCode}] => data: ${response.data}');
 
     return super.onResponse(response, handler);
   }

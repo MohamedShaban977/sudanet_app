@@ -9,12 +9,15 @@
         "categoryId": 1,
         "youtubeID": "GU7OhANE0sU",
         "desc": "اقوي تجميعة تجارب 6 ابتدائي",
+        "purchased": false,
         "courseLectures": [
             {
                 "name": "المقدمة",
                 "videoCount": 1,
                 "examCount": 1,
-                "fileCount": 1
+                "fileCount": 1,
+                "id": 0,
+                "isFree": false
             }
         ]
     }
@@ -33,6 +36,7 @@ class CourseDetailsEntity extends Equatable {
   final String categoryName;
   final int categoryId;
   final String youtubeID;
+  final bool purchased;
   final List<CourseLecturesEntity> courseLectures;
 
   const CourseDetailsEntity(
@@ -46,7 +50,8 @@ class CourseDetailsEntity extends Equatable {
       required this.categoryName,
       required this.categoryId,
       required this.youtubeID,
-      required this.courseLectures});
+      required this.courseLectures,
+      required this.purchased});
 
   @override
   List<Object?> get props => [
@@ -60,15 +65,18 @@ class CourseDetailsEntity extends Equatable {
         categoryName,
         categoryId,
         youtubeID,
+        purchased,
         courseLectures,
       ];
 }
 
-/*      {
+/*             {
                 "name": "المقدمة",
                 "videoCount": 1,
                 "examCount": 1,
-                "fileCount": 1
+                "fileCount": 1,
+                "id": 0,
+                "isFree": false
             }
             */
 
@@ -77,10 +85,13 @@ class CourseLecturesEntity extends Equatable {
   final int videoCount;
   final int examCount;
   final int fileCount;
+  final int id;
+
   final bool isFree;
 
   const CourseLecturesEntity(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.videoCount,
       required this.examCount,
       required this.fileCount,
@@ -88,6 +99,7 @@ class CourseLecturesEntity extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         name,
         videoCount,
         examCount,

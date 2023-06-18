@@ -4,17 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/failures.dart';
+import '../../data/models/buy_course_request.dart';
 import '../../domain/entities/course_details_entity.dart';
 import '../../domain/use_cases/course_details_use_case.dart';
 
 part 'course_details_state.dart';
 
 class CourseDetailsCubit extends Cubit<CourseDetailsState> {
-  CourseDetailsCubit({required this.courseDetailsUseCases})
-      : super(CourseDetailsInitial());
+  CourseDetailsCubit({
+    required this.courseDetailsUseCases,
+    required this.buyCourseUseCases,
+  }) : super(CourseDetailsInitial());
   final GetCourseDetailsUseCases courseDetailsUseCases;
+  final BuyCourseUseCases buyCourseUseCases;
 
-  static CourseDetailsCubit get(context) => BlocProvider.of(context);
+  CourseDetailsCubit get(context) => BlocProvider.of(context);
 
   Future<void> getCourseDetails(String id) async {
     emit(GetCourseDetailsLoadingState());
@@ -24,6 +28,24 @@ class CourseDetailsCubit extends Cubit<CourseDetailsState> {
       (failure) => emit(GetCourseDetailsErrorState(
           error: HandleFailure.mapFailureToMsg(failure))),
       (response) => emit(GetCourseDetailsSuccessState(response: response)),
+    );
+  }
+
+  Future<void> buyCourse(BuyCourseRequest request) async {
+    emit(BuyCourseLoadingState());
+    Either<Failure, BaseResponseEntity> response =
+        await buyCourseUseCases.call(request);
+    response.fold(
+      (failure) => emit(
+        BuyCourseErrorState(
+          error: HandleFailure.mapFailureToMsg(failure),
+        ),
+      ),
+      (response) => emit(
+        BuyCourseSuccessState(
+          response: response,
+        ),
+      ),
     );
   }
 }

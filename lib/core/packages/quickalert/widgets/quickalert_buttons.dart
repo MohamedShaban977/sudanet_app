@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../models/quickalert_options.dart';
 import '../models/quickalert_type.dart';
 
-
 class QuickAlertButtons extends StatelessWidget {
   final QuickAlertOptions? options;
 
@@ -16,13 +15,14 @@ class QuickAlertButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          cancelBtn(context),
-          okayBtn(context),
-        ],
-      ),
+      child: options!.widget ??
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              cancelBtn(context),
+              okayBtn(context),
+            ],
+          ),
     );
   }
 
@@ -35,6 +35,7 @@ class QuickAlertButtons extends StatelessWidget {
       context: context,
       isOkayBtn: true,
       text: options!.confirmBtnText!,
+      borderRadiusOkayBtn: options!.borderRadiusOkayBtn!,
       onTap: options!.onConfirmBtnTap ?? () => Navigator.pop(context),
     );
 
@@ -69,6 +70,7 @@ class QuickAlertButtons extends StatelessWidget {
     required bool isOkayBtn,
     required String text,
     VoidCallback? onTap,
+    double borderRadiusOkayBtn = 15.0,
   }) {
     final btnText = Text(
       text,
@@ -77,7 +79,7 @@ class QuickAlertButtons extends StatelessWidget {
 
     final okayBtn = MaterialButton(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(borderRadiusOkayBtn),
       ),
       color: options!.confirmBtnColor ?? Theme.of(context!).primaryColor,
       onPressed: onTap,

@@ -18,6 +18,9 @@ class EndPoint {
 
   static const String getPublicCourseDetail =
       '${baseUrl}Course/GetPublicCourseDetail?Id=';
+  static const String getAuthCourseDetail =
+      '${baseUrl}Course/GetAuthCourseDetail?Id=';
+  static const String buyCourse = '${baseUrl}Course/BuyCourse';
 
   static const String getAllCategory = '${baseUrl}Category/Get';
 

@@ -14,6 +14,7 @@ class CourseDetailsResponse extends CourseDetailsEntity {
     final int? categoryId,
     final String? youtubeId,
     final String? desc,
+    final bool? purchased,
     final List<CourseLectureResponse>? courseLectures,
   }) : super(
           id: id.orZero(),
@@ -26,6 +27,7 @@ class CourseDetailsResponse extends CourseDetailsEntity {
           categoryId: categoryId.orZero(),
           youtubeID: youtubeId.orEmpty(),
           description: desc.orEmpty(),
+          purchased: purchased.orEmptyB(),
           courseLectures: courseLectures.orEmptyList(),
         );
 
@@ -41,6 +43,7 @@ class CourseDetailsResponse extends CourseDetailsEntity {
         categoryId: json["categoryId"],
         youtubeId: json["youtubeID"],
         desc: json["desc"],
+        purchased: json["purchased"],
         courseLectures: json["courseLectures"] == null
             ? []
             : List<CourseLectureResponse>.from(json["courseLectures"]!
@@ -50,12 +53,14 @@ class CourseDetailsResponse extends CourseDetailsEntity {
 
 class CourseLectureResponse extends CourseLecturesEntity {
   CourseLectureResponse({
+    final int? id,
     final String? name,
     final int? videoCount,
     final int? examCount,
     final int? fileCount,
     final bool? isFree,
   }) : super(
+          id: id.orZero(),
           name: name.orEmpty(),
           videoCount: videoCount.orZero(),
           examCount: examCount.orZero(),
@@ -65,6 +70,7 @@ class CourseLectureResponse extends CourseLecturesEntity {
 
   factory CourseLectureResponse.fromJson(Map<String, dynamic> json) =>
       CourseLectureResponse(
+        id: json["id"],
         name: json["name"],
         videoCount: json["videoCount"],
         examCount: json["examCount"],

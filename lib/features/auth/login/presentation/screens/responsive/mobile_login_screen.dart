@@ -73,7 +73,7 @@ class MobileLoginScreen extends StatelessWidget {
                 hint: AppStrings.userName.tr(),
                 prefixIcon: Icons.person_2_rounded,
                 controller: email,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 validator: (value) => Validator.isValidUserName(email.text),
               ),

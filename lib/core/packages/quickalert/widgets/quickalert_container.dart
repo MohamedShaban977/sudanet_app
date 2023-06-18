@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/packages/quickalert/widgets/quickalert_buttons.dart';
 
-
 import '../models/quickalert_options.dart';
 import '../models/quickalert_type.dart';
 import '../utils/images.dart';
@@ -20,7 +19,7 @@ class QuickAlertContainer extends StatelessWidget {
     final title = buildTitle(context);
     final text = buildText(context);
     final buttons = buildButtons();
-    final widget = buildWidget(context);
+    // final widget = buildWidget(context);
 
     final content = Container(
       padding: const EdgeInsets.all(20.0),
@@ -31,7 +30,7 @@ class QuickAlertContainer extends StatelessWidget {
             height: 5.0,
           ),
           text,
-          widget!,
+          // widget!,
           const SizedBox(
             height: 10.0,
           ),
@@ -90,10 +89,11 @@ class QuickAlertContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.5),
       ),
-      child:options!.customWidget?? Image.asset(
-        anim ?? "",
-        fit: BoxFit.cover,
-      ),
+      child: options!.customWidget ??
+          Image.asset(
+            anim ?? "",
+            fit: BoxFit.cover,
+          ),
     );
   }
 

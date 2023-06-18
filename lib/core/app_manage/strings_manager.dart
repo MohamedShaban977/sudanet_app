@@ -70,4 +70,12 @@ class AppStrings {
   static const help = "help";
   static const cancel = "cancel";
   static const course = "course";
+  static const contentCourse = "content_course";
+  static const videos = "videos";
+  static const files = "files";
+  static const exam = "exam";
+  static const youMustBeLogged = "you_must_be_logged";
+  static const nosDataAvailable = "No_data_available";
+  static const more = "more";
+  static const buyingSucceeded = "buying_succeeded";
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/core/app_manage/strings_manager.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../main_layout_home/presentation/cubit/nav_bar_cubit.dart';
@@ -33,7 +35,7 @@ class CoursesWidget extends StatelessWidget {
                     side: const BorderSide(
                         color: ColorManager.secondary, width: 2)),
                 child: Text(
-                  'المزيد',
+                  AppStrings.more.tr(),
                   style:
                       context.titleMedium.copyWith(color: ColorManager.primary),
                 ),

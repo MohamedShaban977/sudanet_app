@@ -36,19 +36,18 @@ class UserSecureStorage {
   static removeUser() async => await _storage.delete(key: _userKeyToken);
 */
 
-
   static Future setUser({required UserEntity data}) async {
     await sl<CacheHelper>().saveData(
       key: _userData,
       value: jsonEncode(data.toJson()),
     );
+    await setMacId();
   }
 
   static UserData? getUser() {
     var res = sl<CacheHelper>().getData(key: _userData);
     if (res != null) {
       var user = UserData.fromJson(jsonDecode(res));
-      setMacId(macID: user.guid!);
       return user;
     }
     return null;
@@ -57,18 +56,22 @@ class UserSecureStorage {
   static removeUser() async =>
       await sl<CacheHelper>().removeData(key: _userData);
 
-  String? getToken() {
+  static String? getToken() {
     var res = sl<CacheHelper>().getData(key: _userData);
-    return res != null ? UserData
-        .fromJson(jsonDecode(res))
-        .token : null;
+    return res != null ? UserData.fromJson(jsonDecode(res)).token : null;
   }
 
-  static Future setMacId({required String macID}) async {
-    await _storage.write(key: _userMacId, value: macID);
+  static Future setMacId() async {
+    var res = sl<CacheHelper>().getData(key: _userData);
+    if (res != null) {
+      var user = UserData.fromJson(jsonDecode(res));
+      await _storage.write(key: _userMacId, value: user.guid);
+    }
   }
 
-  static Future<String?> getMacId() async {
-    return await _storage.read(key: _userMacId);
+  static Future<String?> getMacId() {
+    return _storage.read(key: _userMacId);
   }
+
+  static bool isAuth = getToken() != null;
 }

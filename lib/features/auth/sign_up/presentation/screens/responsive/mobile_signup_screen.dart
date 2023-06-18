@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
@@ -97,6 +98,7 @@ class MobileSignUpScreen extends StatelessWidget {
                 controller: phoneNumber,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
+                maxLength: 11,
                 validator: (value) => Validator.isValidPhone(phoneNumber.text),
               ),
 
@@ -109,6 +111,11 @@ class MobileSignUpScreen extends StatelessWidget {
                 controller: phoneNumberParent,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
+                maxLength: 11,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                ],
                 validator: (value) =>
                     Validator.isValidPhone(phoneNumberParent.text),
               ),

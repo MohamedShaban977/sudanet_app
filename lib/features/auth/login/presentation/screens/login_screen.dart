@@ -50,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   getMacID() async {
     String? res = await UserSecureStorage.getMacId();
+    print(res);
     if (res != null) {
       guidId = res;
     }

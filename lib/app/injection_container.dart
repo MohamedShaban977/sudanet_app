@@ -323,10 +323,17 @@ class ServiceLocator {
           GetCourseDetailsUseCases(repository: sl<CourseDetailsRepository>()));
     }
 
+    // //Home Use Cases
+    if (!sl.isRegistered<BuyCourseUseCases>()) {
+      sl.registerLazySingleton<BuyCourseUseCases>(
+          () => BuyCourseUseCases(repository: sl<CourseDetailsRepository>()));
+    }
+
     // // Home Cubit
     if (!sl.isRegistered<CourseDetailsCubit>()) {
       sl.registerLazySingleton<CourseDetailsCubit>(() => CourseDetailsCubit(
             courseDetailsUseCases: sl<GetCourseDetailsUseCases>(),
+            buyCourseUseCases: sl<BuyCourseUseCases>(),
           ));
     } else {
       sl.resetLazySingleton<CourseDetailsCubit>();

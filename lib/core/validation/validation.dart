@@ -1,4 +1,3 @@
-
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 
 import '../app_manage/strings_manager.dart';
@@ -21,7 +20,9 @@ class Validator {
     } else {
       return null;
     }
-  }  static String? isValidPhone(String phone) {
+  }
+
+  static String? isValidPhone(String phone) {
     if (phone.isEmpty) {
       return AppStrings.fieldIsRequired.tr();
     } else if (!MyRegex.rxPhone.hasMatch(phone)) {
@@ -42,8 +43,8 @@ class Validator {
     }
   }
 
-  static String? isValidConfirmPassword(
-      String password, String confirmPassword) {
+  static String? isValidConfirmPassword(String password,
+      String confirmPassword) {
     if (confirmPassword.isEmpty) {
       return AppStrings.fieldIsRequired.tr();
     } else if (confirmPassword.length < 6) {
@@ -51,6 +52,18 @@ class Validator {
     } else if (password != confirmPassword) {
       return AppStrings.passwordDoesNotMatch.tr();
     } else {
+      return null;
+    }
+  }
+
+
+  static String? isValidCode(String code) {
+    if (code.isEmpty) {
+      return AppStrings.fieldIsRequired.tr();
+    } else if (code.length < 6) {
+      return AppStrings.fieldIsRequired.tr();
+    }
+    else {
       return null;
     }
   }

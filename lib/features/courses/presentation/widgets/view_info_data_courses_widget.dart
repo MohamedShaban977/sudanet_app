@@ -5,6 +5,7 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
+import '../../../course_details/presentation/screens/purchase_course_widget.dart';
 import '../../domain/entities/courses_entity.dart';
 
 class ViewInfoDataCoursesWidget extends StatelessWidget {
@@ -39,15 +40,12 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
         const SizedBox(height: AppSize.s5),
         Text(
           '${course.price} ${course.currencyName}',
-          style:
-          context.displayLarge.copyWith(color: ColorManager.primary),
+          style: context.displayLarge.copyWith(color: ColorManager.primary),
           overflow: TextOverflow.fade,
         ),
         const SizedBox(height: AppSize.s5),
         ElevatedButton(
-            onPressed: () {
-              ///TODO: go to details  course
-            },
+            onPressed: () => _buildPurchaseCourses(context),
             style: ElevatedButton.styleFrom(
               backgroundColor: ColorManager.secondary,
               padding: const EdgeInsets.all(12.0),
@@ -56,8 +54,7 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
             child: Text(
               AppStrings.purchase.tr(),
               style: context.titleLarge.copyWith(
-                  color: ColorManager.primary,
-                  fontWeight: FontWeight.w600),
+                  color: ColorManager.primary, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
               // overflow: TextOverflow.fade,
             )),
@@ -80,6 +77,14 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
         //   ],
         // ),
       ],
+    );
+  }
+
+  PurchaseCourses _buildPurchaseCourses(BuildContext context) {
+    return PurchaseCourses.show(
+      context,
+      courseId: course.id,
+      isAlert: true,
     );
   }
 }

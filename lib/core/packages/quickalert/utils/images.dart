@@ -1,20 +1,20 @@
 /// Define Animation Type
 class AppAnim {
   /// Loading Animation
-  static const loading = 'packages/quickalert/assets/loading.gif';
+  static const loading = 'assets/images/gif/quick_alert/loading.gif';
 
   /// Success Animation
-  static const success = 'packages/quickalert/assets/success.gif';
+  static const success = 'assets/images/gif/quick_alert/success.gif';
 
   /// Error Animation
-  static const error = 'packages/quickalert/assets/error.gif';
+  static const error = 'assets/images/gif/quick_alert/error.gif';
 
   /// Warning Animation
-  static const warning = 'packages/quickalert/assets/warning.gif';
+  static const warning = 'assets/images/gif/quick_alert/warning.gif';
 
   /// Info Animation
-  static const info = 'packages/quickalert/assets/info.gif';
+  static const info = 'assets/images/gif/quick_alert/info.gif';
 
   /// Confirm Animation
-  static const confirm = 'packages/quickalert/assets/confirm.gif';
+  static const confirm = 'assets/images/gif/quick_alert/confirm.gif';
 }

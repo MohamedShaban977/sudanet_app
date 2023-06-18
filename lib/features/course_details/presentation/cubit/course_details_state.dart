@@ -28,3 +28,23 @@ class GetCourseDetailsErrorState extends CourseDetailsState {
   @override
   List<Object> get props => [error];
 }
+
+class BuyCourseLoadingState extends CourseDetailsState {}
+
+class BuyCourseSuccessState extends CourseDetailsState {
+  final BaseResponseEntity response;
+
+  const BuyCourseSuccessState({required this.response});
+
+  @override
+  List<Object> get props => [response];
+}
+
+class BuyCourseErrorState extends CourseDetailsState {
+  final String error;
+
+  const BuyCourseErrorState({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
