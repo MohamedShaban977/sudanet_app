@@ -11,6 +11,7 @@ import '../../../../../../core/app_manage/values_manager.dart';
 import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
+import '../../../../login/presentation/screens/responsive/mobile_login_screen.dart';
 import '../../../../login/presentation/widgets/custom_button_lang_widget.dart';
 import '../../cubit/signup_cubit.dart';
 import '../../widgets/login_button_row_text_widget.dart';
@@ -48,7 +49,7 @@ class MobileSignUpScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  CustomButtonChangeLanguageWidget(),
+                  HelperButtonWidget(),
                   CustomButtonBackWidget()
                 ],
               ),

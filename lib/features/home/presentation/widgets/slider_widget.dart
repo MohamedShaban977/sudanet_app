@@ -5,6 +5,7 @@ import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/features/home/domain/entities/slider_entity.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
+import '../../../../core/service/open_url_launcher.dart';
 
 class SliderWidget extends StatefulWidget {
   final List<SliderEntity> slidersItems;
@@ -92,13 +93,19 @@ class _SliderWidgetState extends State<SliderWidget> {
             CarouselSlider.builder(
               itemCount:
                   widget.slidersItems.isEmpty ? 1 : widget.slidersItems.length,
-              itemBuilder: (_, itemIndex, i) => Image.network(
-                widget.slidersItems[itemIndex].imagePath.isNotEmpty
-                    ? widget.slidersItems[itemIndex].imagePath
-                    : "https://suda-net.com/Upload/23595242023101537PMscreencapture-localhost-59241-Client-Index-2023-05-25-07_37_33.png",
-                width: context.width,
-                fit: BoxFit.fill,
-                gaplessPlayback: true,
+              itemBuilder: (_, itemIndex, i) => GestureDetector(
+                onTap: () {
+                  OpenUrlLauncher.launchLink(
+                      url: widget.slidersItems[itemIndex].link);
+                },
+                child: Image.network(
+                  widget.slidersItems[itemIndex].imagePath.isNotEmpty
+                      ? widget.slidersItems[itemIndex].imagePath
+                      : "https://suda-net.com/Upload/23595242023101537PMscreencapture-localhost-59241-Client-Index-2023-05-25-07_37_33.png",
+                  width: context.width,
+                  fit: BoxFit.fill,
+                  gaplessPlayback: true,
+                ),
               ),
               options: CarouselOptions(
                 aspectRatio: 16 / 8,

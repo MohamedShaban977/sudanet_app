@@ -62,13 +62,11 @@ extension NonNullString on String? {
   }
 }
 
-
 extension NonNullInteger on int? {
   int orZero() {
     if (this == null) {
       return 0;
-    }
-    else {
+    } else {
       return this!;
     }
   }
@@ -78,8 +76,7 @@ extension NonNullDouble on double? {
   double orZero() {
     if (this == null) {
       return 0.0;
-    }
-    else {
+    } else {
       return this!;
     }
   }
@@ -89,8 +86,7 @@ extension NonNullBool on bool? {
   bool orEmptyB() {
     if (this == null) {
       return false;
-    }
-    else {
+    } else {
       return this!;
     }
   }

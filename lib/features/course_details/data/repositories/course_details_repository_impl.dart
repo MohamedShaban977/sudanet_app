@@ -5,6 +5,7 @@ import '../../../../core/api/service_response.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/course_details_entity.dart';
+import '../../domain/entities/course_lecture_details_entity.dart';
 import '../../domain/repositories/course_details_repository.dart';
 import '../data_sources/course_details_data_source.dart';
 
@@ -15,9 +16,9 @@ class CourseDetailsRepositoryImpl implements CourseDetailsRepository {
 
   @override
   Future<Either<Failure, BaseResponseEntity<CourseDetailsEntity>>>
-      getPublicCourseDetails(String id) async {
+      getCourseDetails(String id) async {
     try {
-      final res = await dataSource.getPublicCourseDetail(id);
+      final res = await dataSource.getCourseDetails(id);
       return res.success ? Right(res) : left(ServerFailure(res.message));
     } on ServerException catch (error) {
       return left(ServerFailure(error.message));
@@ -29,6 +30,17 @@ class CourseDetailsRepositoryImpl implements CourseDetailsRepository {
       BuyCourseRequest request) async {
     try {
       final res = await dataSource.buyCourse(request);
+      return res.success ? Right(res) : left(ServerFailure(res.message));
+    } on ServerException catch (error) {
+      return left(ServerFailure(error.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponseEntity<CourseLectureDetailsEntity>>>
+      getCourseLecture(String lectureId) async {
+    try {
+      final res = await dataSource.getCourseLecture(lectureId);
       return res.success ? Right(res) : left(ServerFailure(res.message));
     } on ServerException catch (error) {
       return left(ServerFailure(error.message));

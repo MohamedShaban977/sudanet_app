@@ -36,10 +36,10 @@ class CourseDetailsEntity extends Equatable {
   final String categoryName;
   final int categoryId;
   final String youtubeID;
-  final bool purchased;
+  bool purchased;
   final List<CourseLecturesEntity> courseLectures;
 
-  const CourseDetailsEntity(
+  CourseDetailsEntity(
       {required this.id,
       required this.name,
       required this.description,

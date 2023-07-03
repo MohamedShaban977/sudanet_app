@@ -16,10 +16,14 @@ class EndPoint {
   static const String getCoursesByCategoriesId =
       '${baseUrl}Course/GetByCategoryId?CategoryId=';
 
-  static const String getPublicCourseDetail =
-      '${baseUrl}Course/GetPublicCourseDetail?Id=';
-  static const String getAuthCourseDetail =
-      '${baseUrl}Course/GetAuthCourseDetail?Id=';
+  static const String getPublicCourseDetail = '${baseUrl}Course/GetPublicCourseDetail?Id=';
+  static const String getAuthCourseDetail = '${baseUrl}Course/GetAuthCourseDetail?Id=';
+
+
+  static const String getFreeCourseLecture = '${baseUrl}Lecture/GetFreeCourseLecture?Id=';
+  static const String getAuthCourseLecture = '${baseUrl}Lecture/GetAuthCourseLecture?Id=';
+
+
   static const String buyCourse = '${baseUrl}Course/BuyCourse';
 
   static const String getAllCategory = '${baseUrl}Category/Get';

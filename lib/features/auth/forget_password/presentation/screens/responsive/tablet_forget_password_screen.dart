@@ -8,6 +8,7 @@ import '../../../../../../core/app_manage/values_manager.dart';
 import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
+import '../../../../login/presentation/screens/responsive/mobile_login_screen.dart';
 import '../../../../login/presentation/widgets/custom_button_lang_widget.dart';
 
 class TabletForgetPasswordScreen extends StatelessWidget {
@@ -30,10 +31,7 @@ class TabletForgetPasswordScreen extends StatelessWidget {
           const SizedBox(height: AppSize.s40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              CustomButtonChangeLanguageWidget(),
-              CustomButtonBackWidget()
-            ],
+            children: const [HelperButtonWidget(), CustomButtonBackWidget()],
           ),
           Expanded(
             child: Center(

@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:sudanet_app/core/api/service_response.dart';
 
-import '../../../../../core/app_manage/strings_manager.dart';
 import '../../../../../core/error/exceptions.dart';
 import '../../../../../core/error/failures.dart';
 import '../../../login/domain/entities/login_entity.dart';
@@ -20,9 +19,7 @@ class SignUpRepositoryImpl implements SignUpRepository {
     try {
       final res = await dataSource.signUpDataSource(request);
 
-      return res.success
-          ? Right(res)
-          : left(const ServerFailure(AppStrings.errorOccurred));
+      return res.success ? Right(res) : left(ServerFailure(res.message));
     } on ServerException catch (error) {
       return left(ServerFailure(error.message));
     }

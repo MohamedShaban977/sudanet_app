@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sudanet_app/core/routes/routes_request.dart';
-import 'package:sudanet_app/features/auth/forget_password/presentation/screens/forget_password_screen.dart';
-import 'package:sudanet_app/features/auth/login/presentation/cubit/login_cubit.dart';
-import 'package:sudanet_app/features/auth/login/presentation/screens/login_screen.dart';
-import 'package:sudanet_app/features/auth/sign_up/presentation/cubit/signup_cubit.dart';
-import 'package:sudanet_app/features/auth/sign_up/presentation/screens/signup_screen.dart';
-import 'package:sudanet_app/features/contact_info/presentation/cubit/contact_info_cubit.dart';
-import 'package:sudanet_app/features/course_details/presentation/cubit/course_details_cubit.dart';
-import 'package:sudanet_app/features/course_details/presentation/screens/course_details_screen.dart';
-import 'package:sudanet_app/features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
+import '../../features/auth/forget_password/presentation/screens/forget_password_screen.dart';
+import '../../features/auth/login/presentation/cubit/login_cubit.dart';
+import '../../features/auth/login/presentation/screens/login_screen.dart';
+import '../../features/auth/sign_up/presentation/cubit/signup_cubit.dart';
+import '../../features/auth/sign_up/presentation/screens/signup_screen.dart';
 import '../../features/categories/presentation/cubit/categories_cubit.dart';
+import '../../features/contact_info/presentation/cubit/contact_info_cubit.dart';
 import '../../features/contact_info/presentation/screens/contact_info_screen.dart';
+import '../../features/course_details/presentation/cubit/course_details_cubit.dart';
+import '../../features/course_details/presentation/screens/course_details_screen.dart';
+import '../../features/course_details/presentation/screens/course_lecture_details.dart';
 import '../../features/courses/presentation/cubit/courses_cubit.dart';
+import '../../features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
 import '../../features/courses_by_category/presentation/screens/corses_by_category_screen.dart';
 import '../../features/home/presentation/cubit/home_cubit.dart';
 import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
@@ -23,6 +23,7 @@ import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../app_manage/strings_manager.dart';
 import 'magic_router.dart';
 import 'routes_name.dart';
+import 'routes_request.dart';
 
 class Routes {
   static Route? onGenerateRoute(RouteSettings settings) {
@@ -106,6 +107,20 @@ class Routes {
           create: (context) =>
               sl<CourseDetailsCubit>()..getCourseDetails(res.id!),
           child: CourseDetailsScreen(id: res.id!),
+        ));
+
+      case RoutesNames.courseLectures:
+        ServiceLocator.initCoursesDetailsGetIt();
+
+        // final res = settings.arguments! as CourseLectureDetailsEntity;
+        final res = settings.arguments! as Map<String, dynamic>;
+
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) => sl<CourseDetailsCubit>(),
+          child: CourseLecturesScreen(
+            courseLectureDetails: res['courseLectures'],
+            initVideoID: res['initVideoID'],
+          ),
         ));
 
       default:

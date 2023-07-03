@@ -10,6 +10,7 @@ import '../../../../../../core/app_manage/values_manager.dart';
 import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
+import '../../../../login/presentation/screens/responsive/mobile_login_screen.dart';
 import '../../../../login/presentation/widgets/custom_button_lang_widget.dart';
 import '../../cubit/signup_cubit.dart';
 import '../../widgets/login_button_row_text_widget.dart';
@@ -39,15 +40,9 @@ class TabletSignupScreen extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: AppSize.s40),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-            children: const [
-              CustomButtonChangeLanguageWidget(),
-              CustomButtonBackWidget()
-
-            ],
+            children: const [HelperButtonWidget(), CustomButtonBackWidget()],
           ),
           Expanded(
             child: Center(
@@ -59,20 +54,22 @@ class TabletSignupScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: AppSize.s40),
 
-
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center, children: [
-                        const Spacer(),
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Spacer(),
                           Expanded(
                             flex: 5,
                             child: Column(
                               children: [
                                 /// image
-                                Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
+                                Image.asset(ImageAssets.logoImg,
+                                    alignment: Alignment.center),
                                 const SizedBox(height: AppSize.s38),
 
                                 ///
-                                Text(AppStrings.newAccount.tr(), style: context.displayLarge),
+                                Text(AppStrings.newAccount.tr(),
+                                    style: context.displayLarge),
 
                                 const SizedBox(height: AppSize.s13),
 
@@ -82,9 +79,8 @@ class TabletSignupScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                        const Spacer(),
-
-                        Expanded(
+                          const Spacer(),
+                          Expanded(
                             flex: 7,
                             child: Column(
                               children: [
@@ -96,7 +92,8 @@ class TabletSignupScreen extends StatelessWidget {
                                   controller: fullName,
                                   keyboardType: TextInputType.name,
                                   textInputAction: TextInputAction.next,
-                                  validator: (value) => Validator.isValidUserName(fullName.text),
+                                  validator: (value) =>
+                                      Validator.isValidUserName(fullName.text),
                                 ),
 
                                 const SizedBox(height: AppSize.s12),
@@ -108,7 +105,8 @@ class TabletSignupScreen extends StatelessWidget {
                                   controller: email,
                                   keyboardType: TextInputType.emailAddress,
                                   textInputAction: TextInputAction.next,
-                                  validator: (value) => Validator.isValidEmail(email.text),
+                                  validator: (value) =>
+                                      Validator.isValidEmail(email.text),
                                 ),
 
                                 const SizedBox(height: AppSize.s12),
@@ -133,8 +131,8 @@ class TabletSignupScreen extends StatelessWidget {
                                   controller: phoneNumberParent,
                                   keyboardType: TextInputType.name,
                                   textInputAction: TextInputAction.next,
-                                  validator: (value) =>
-                                      Validator.isValidPhone(phoneNumberParent.text),
+                                  validator: (value) => Validator.isValidPhone(
+                                      phoneNumberParent.text),
                                 ),
 
                                 const SizedBox(height: AppSize.s12),
@@ -142,22 +140,27 @@ class TabletSignupScreen extends StatelessWidget {
                                 /// password
                                 BlocBuilder<SignUpCubit, SignUpState>(
                                   builder: (context, state) {
-                                    final cubit = sl<SignUpCubit>().get(context);
+                                    final cubit =
+                                        sl<SignUpCubit>().get(context);
                                     return CustomTextFormField(
                                       hint: AppStrings.passwordFormat.tr(),
                                       prefixWidget: const SizedBox(),
                                       controller: password,
-                                      keyboardType: TextInputType.visiblePassword,
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
                                       textInputAction: TextInputAction.next,
                                       obscureText: cubit.isPassword,
                                       iconData: cubit.suffix,
-                                      onTapIcon: () => cubit.changePassVisibility(),
+                                      onTapIcon: () =>
+                                          cubit.changePassVisibility(),
                                       validator: (value) =>
-                                          Validator.isValidPassword(password.text),
+                                          Validator.isValidPassword(
+                                              password.text),
                                     );
                                   },
                                 ),
                                 const SizedBox(height: AppSize.s12),
+
                                 /// login button
                                 CustomButtonWithLoading(
                                   text: AppStrings.signUp.tr(),
@@ -171,9 +174,8 @@ class TabletSignupScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                        const Spacer(),
-
-                      ],
+                          const Spacer(),
+                        ],
                       ),
                       // const Spacer(),
                     ],

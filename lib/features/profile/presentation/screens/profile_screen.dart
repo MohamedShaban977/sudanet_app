@@ -3,13 +3,11 @@ import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 
-import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
-import '../../../../core/service/locale_service/manager/locale_cubit.dart';
 import '../../../../widgets/custom_image_network_view.dart';
 
 const String url =
@@ -40,10 +38,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: context.height * 0.02),
                   _buildCardViewInfo(context),
                   SizedBox(height: context.height * 0.02),
+                  // CustomButtonProfile(
+                  //   iconData: Icons.language,
+                  //   text: AppStrings.language.tr(),
+                  //   onTap: () => sl<LocaleCubit>().changeLang(context),
+                  // ),
                   CustomButtonProfile(
-                    iconData: Icons.language,
-                    text: AppStrings.language.tr(),
-                    onTap: () => sl<LocaleCubit>().changeLang(context),
+                    iconData: Icons.help_outline,
+                    text: 'مساعدة'.tr(),
+                    onTap: () =>
+                        MagicRouterName.navigateTo(RoutesNames.contactInfo),
                   ),
                   SizedBox(height: context.height * 0.02),
                   CustomButtonProfile(
@@ -86,10 +90,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           elevation: 10,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          child: CustomViewImageNetwork(
+          child: const CustomViewImageNetwork(
             image: url,
-            height: 250.0,
-            width: context.width,
+            height: 100.0,
+            width: 100,
           ),
         ),
       ],

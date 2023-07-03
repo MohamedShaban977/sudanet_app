@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:sudanet_app/features/course_details/domain/entities/course_lecture_details_entity.dart';
 
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/failures.dart';
@@ -16,7 +17,7 @@ class GetCourseDetailsUseCases
   @override
   Future<Either<Failure, BaseResponseEntity<CourseDetailsEntity>>> call(
           String id) =>
-      repository.getPublicCourseDetails(id);
+      repository.getCourseDetails(id);
 }
 
 class BuyCourseUseCases
@@ -28,4 +29,16 @@ class BuyCourseUseCases
   @override
   Future<Either<Failure, BaseResponseEntity>> call(BuyCourseRequest request) =>
       repository.buyCourse(request);
+}
+
+class GetCourseLectureDetailsUseCases
+    implements UseCase<BaseResponseEntity<CourseLectureDetailsEntity>, String> {
+  final CourseDetailsRepository repository;
+
+  GetCourseLectureDetailsUseCases({required this.repository});
+
+  @override
+  Future<Either<Failure, BaseResponseEntity<CourseLectureDetailsEntity>>> call(
+          String id) =>
+      repository.getCourseLecture(id);
 }

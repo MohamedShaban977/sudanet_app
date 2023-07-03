@@ -29,6 +29,7 @@ class CustomButtonWithLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     return ArgonButton(
       height: height!,
+      width: width,
       roundLoadingShape: true,
       onTap: (startLoading, stopLoading, ButtonState btnState) async {
         if (btnState == ButtonState.Idle) {
@@ -39,14 +40,16 @@ class CustomButtonWithLoading extends StatelessWidget {
           stopLoading();
         }
       },
-      loader: const Padding(
-        padding: EdgeInsets.all(2.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(
-              color: ColorManager.primary,
+      loader: const Center(
+        child: Padding(
+          padding: EdgeInsets.all(2.0),
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(
+                color: ColorManager.primary,
+              ),
             ),
           ),
         ),

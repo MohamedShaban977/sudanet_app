@@ -14,8 +14,8 @@ import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
 import '../../cubit/login_cubit.dart';
-import '../../widgets/custom_button_lang_widget.dart';
 import '../../widgets/register_button_row_text_widget.dart';
+import 'mobile_login_screen.dart';
 
 class TabletLoginScreen extends StatelessWidget {
   const TabletLoginScreen(
@@ -41,7 +41,7 @@ class TabletLoginScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomButtonChangeLanguageWidget(),
+              const HelperButtonWidget(),
               GestureDetector(
                 onTap: () =>
                     MagicRouterName.navigateTo(RoutesNames.mainLayoutApp),

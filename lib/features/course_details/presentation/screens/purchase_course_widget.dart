@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/course_details/presentation/cubit/course_details_cubit.dart';
+import 'package:sudanet_app/widgets/custom_button_with_loading.dart';
 
 import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
@@ -19,7 +20,8 @@ import '../../data/models/buy_course_request.dart';
 class PurchaseCourses {
   PurchaseCourses.show(BuildContext context,
       {required int courseId, bool isAlert = false}) {
-    if (UserSecureStorage.isAuth) {
+    print(UserSecureStorage.getToken() != null);
+    if (UserSecureStorage.getToken() != null) {
       _showPurchaseCourses(context, courseId: courseId, isAlert: isAlert);
     } else {
       _alertMustBeLogged(context);
@@ -64,7 +66,7 @@ class PurchaseCourses {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      // isDismissible: true,
+      isDismissible: false,
       // enableDrag: true,
       builder: (context) => SingleChildScrollView(
         padding:
@@ -215,17 +217,18 @@ class _ContentPurchaseCoursesWidgetState
                   child: Text(AppStrings.cancel.tr()),
                 ),
                 const SizedBox(width: 40.0),
-                ElevatedButton(
-                  onPressed: () {
+                CustomButtonWithLoading(
+                  width: context.width * 0.35,
+                  onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       FocusScope.of(context).unfocus();
-                      sl<CourseDetailsCubit>().buyCourse(BuyCourseRequest(
+                      await sl<CourseDetailsCubit>().buyCourse(BuyCourseRequest(
                         courseCode: _conCode.text,
                         courseId: '${widget.courseId}',
                       ));
                     }
                   },
-                  child: Text(AppStrings.purchase.tr()),
+                  text: AppStrings.purchase.tr(),
                 ),
               ],
             ),

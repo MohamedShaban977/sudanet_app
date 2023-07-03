@@ -5,9 +5,13 @@ import '../../../../core/api/end_point.dart';
 import '../../../../core/api/service_response.dart';
 import '../models/buy_course_request.dart';
 import '../models/course_details_response.dart';
+import '../models/course_lecture_details_response.dart';
 
 abstract class CourseDetailsDataSource {
-  Future<BaseResponse<CourseDetailsResponse>> getPublicCourseDetail(String id);
+  Future<BaseResponse<CourseDetailsResponse>> getCourseDetails(String id);
+
+  Future<BaseResponse<CourseLectureDetailsResponse>> getCourseLecture(
+      String lectureId);
 
   Future<BaseResponse> buyCourse(BuyCourseRequest request);
 }
@@ -18,15 +22,15 @@ class CourseDetailsDataSourceImpl implements CourseDetailsDataSource {
   CourseDetailsDataSourceImpl({required this.apiConsumer});
 
   @override
-  Future<BaseResponse<CourseDetailsResponse>> getPublicCourseDetail(
+  Future<BaseResponse<CourseDetailsResponse>> getCourseDetails(
       String id) async {
     final response = await apiConsumer.get((UserSecureStorage.getToken() != null
-        ? EndPoint.getAuthCourseDetail
-        : EndPoint.getPublicCourseDetail)
-        + id);
+            ? EndPoint.getAuthCourseDetail
+            : EndPoint.getPublicCourseDetail) +
+        id);
     final res = BaseResponse<CourseDetailsResponse>.fromJson(
       response,
-          (data) => CourseDetailsResponse.fromJson(data),
+      (data) => CourseDetailsResponse.fromJson(data),
     );
 
     return res;
@@ -41,6 +45,21 @@ class CourseDetailsDataSourceImpl implements CourseDetailsDataSource {
     );
 
     final res = BaseResponse.fromJson(response);
+    return res;
+  }
+
+  @override
+  Future<BaseResponse<CourseLectureDetailsResponse>> getCourseLecture(
+      String lectureId) async {
+    final response = await apiConsumer.get((UserSecureStorage.getToken() != null
+            ? EndPoint.getAuthCourseLecture
+            : EndPoint.getFreeCourseLecture) +
+        lectureId);
+    final res = BaseResponse<CourseLectureDetailsResponse>.fromJson(
+      response,
+      (data) => CourseLectureDetailsResponse.fromJson(data),
+    );
+
     return res;
   }
 }

@@ -2,11 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
+import 'package:sudanet_app/core/routes/magic_router.dart';
+import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 
+import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
+import '../../../../core/routes/routes_name.dart';
 import '../../../../widgets/custom_app_bar_widget.dart';
 import '../../../../widgets/custom_error_widget.dart';
 import '../../../../widgets/custom_loading_widget.dart';
@@ -69,6 +74,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   Widget build(BuildContext context) {
     return BlocConsumer<CourseDetailsCubit, CourseDetailsState>(
       listener: _listener,
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      buildWhen: (previous, current) {
+        return previous != current;
+      },
       builder: (context, state) {
         if (state is GetCourseDetailsLoadingState) {
           return const Scaffold(body: CustomLoadingScreen());
@@ -79,14 +90,17 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           //
           // }
         }
-        return CustomVideoWidget(
-          videoId: courseDetails.youtubeID,
-          builder: (BuildContext context, Widget player) {
-            return BodyScreen(
-              player: player,
-              courseDetails: courseDetails,
-            );
-          },
+        return ModalProgressHUD(
+          inAsyncCall: state is GetCourseLectureDetailsLoadingState,
+          child: CustomVideoWidget(
+            videoId: courseDetails.youtubeID,
+            builder: (BuildContext context, Widget player) {
+              return BodyScreen(
+                player: player,
+                courseDetails: courseDetails,
+              );
+            },
+          ),
         );
       },
     );
@@ -95,6 +109,27 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   void _listener(context, state) {
     if (state is GetCourseDetailsSuccessState) {
       courseDetails = state.response.data!;
+    }
+    if (state is GetCourseLectureDetailsSuccessState) {
+      ToastAndSnackBar.toastSuccess(message: state.response.message);
+
+      MagicRouterName.navigateTo(RoutesNames.courseLectures, arguments: {
+        'courseLectures': state.response.data!,
+        'initVideoID': courseDetails.youtubeID,
+      });
+    }
+
+    if (state is GetCourseLectureDetailsErrorState) {
+      ToastAndSnackBar.toastError(message: state.error);
+    }
+
+    if (state is BuyCourseErrorState) {
+      ToastAndSnackBar.toastError(message: state.error);
+      MagicRouter.pop();
+    }
+    if (state is BuyCourseSuccessState) {
+      courseDetails.purchased = true;
+      ToastAndSnackBar.toastSuccess(message: state.response.message);
     }
   }
 }
@@ -250,16 +285,20 @@ class CardContentCourseWidget extends StatelessWidget {
                 ),
                 child: CustomExpandedTitle(
                   iconLeading: Icon(
-                    courseDetails.courseLectures[index].isFree
+                    _checkCoursePurchasedOrIsFree(index)
                         ? FontAwesomeIcons.lockOpen
                         : FontAwesomeIcons.lock,
                     size: 20.0,
                   ),
                   textTitle: courseDetails.courseLectures[index].name,
                   isExpanded: index == 0 ? true : false,
+                  onTap: () => sl<CourseDetailsCubit>()
+                      .get(context)
+                      .getLectureCourseDetails(
+                          '${courseDetails.courseLectures[index].id}'),
                   children: [
                     ContentSession(
-                      iconLeading: courseDetails.courseLectures[index].isFree
+                      iconLeading: _checkCoursePurchasedOrIsFree(index)
                           ? FontAwesomeIcons.lockOpen
                           : FontAwesomeIcons.lock,
                       title: AppStrings.videos.tr(),
@@ -268,7 +307,7 @@ class CardContentCourseWidget extends StatelessWidget {
                       iconTrailing: FontAwesomeIcons.play,
                     ),
                     ContentSession(
-                      iconLeading: courseDetails.courseLectures[index].isFree
+                      iconLeading: _checkCoursePurchasedOrIsFree(index)
                           ? FontAwesomeIcons.lockOpen
                           : FontAwesomeIcons.lock,
                       title: AppStrings.files.tr(),
@@ -276,7 +315,7 @@ class CardContentCourseWidget extends StatelessWidget {
                       iconTrailing: FontAwesomeIcons.fileArrowDown,
                     ),
                     ContentSession(
-                      iconLeading: courseDetails.courseLectures[index].isFree
+                      iconLeading: _checkCoursePurchasedOrIsFree(index)
                           ? FontAwesomeIcons.lockOpen
                           : FontAwesomeIcons.lock,
                       title: AppStrings.exam.tr(),
@@ -301,6 +340,11 @@ class CardContentCourseWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool _checkCoursePurchasedOrIsFree(int index) {
+    return courseDetails.courseLectures[index].isFree ||
+        courseDetails.purchased;
   }
 }
 
@@ -510,6 +554,7 @@ class CustomExpandedTitle extends StatefulWidget {
 
   final Icon iconLeading;
   final List<Widget> children;
+  final void Function()? onTap;
 
   final bool isExpanded;
 
@@ -518,7 +563,8 @@ class CustomExpandedTitle extends StatefulWidget {
       required this.textTitle,
       required this.iconLeading,
       required this.children,
-      this.isExpanded = false})
+      this.isExpanded = false,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -543,43 +589,47 @@ class _CustomExpandedTitleState extends State<CustomExpandedTitle>
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: Text(widget.textTitle,
-          style: context.displayMedium.copyWith(
-              fontWeight: _isExpanded ? FontWeight.w700 : FontWeight.normal,
-              color: _isExpanded
-                  ? ColorManager.primary
-                  : context.displayMedium.color)),
-      // collapsedTextColor: ColorManager.primary,
-      // textColor: ColorManager.primary,
-      backgroundColor: ColorManager.secondary,
-      initiallyExpanded: _isExpanded,
-      collapsedIconColor: ColorManager.textGray,
-      iconColor: ColorManager.primary,
-      leading: widget.iconLeading,
-      // const Icon(
-      //   FontAwesomeIcons.lockOpen,
-      //   size: 20.0,
-      // ),
-      onExpansionChanged: (value) => _setExpanded(value),
-      // trailing: AnimatedIcon(
-      //   icon: AnimatedIcons.add_event,
-      //   progress: _controller,
-      //   semanticLabel: 'Show menu',
-      // ),
-      trailing: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 400),
-        transitionBuilder: (child, anim) => RotationTransition(
-          turns: child.key == const ValueKey('icon1')
-              ? Tween<double>(begin: 1, end: 0).animate(anim)
-              : Tween<double>(begin: 0, end: 1).animate(anim),
-          child: ScaleTransition(scale: anim, child: child),
+    return InkWell(
+      onTap: widget.onTap,
+      child: ExpansionTile(
+        title: Text(widget.textTitle,
+            style: context.displayMedium.copyWith(
+                fontWeight: _isExpanded ? FontWeight.w700 : FontWeight.normal,
+                color: _isExpanded
+                    ? ColorManager.primary
+                    : context.displayMedium.color)),
+        // collapsedTextColor: ColorManager.primary,
+        // textColor: ColorManager.primary,
+        backgroundColor: ColorManager.secondary,
+        initiallyExpanded: _isExpanded,
+        collapsedIconColor: ColorManager.textGray,
+        iconColor: ColorManager.primary,
+        leading: widget.iconLeading,
+
+        // const Icon(
+        //   FontAwesomeIcons.lockOpen,
+        //   size: 20.0,
+        // ),
+        onExpansionChanged: (value) => _setExpanded(value),
+        // trailing: AnimatedIcon(
+        //   icon: AnimatedIcons.add_event,
+        //   progress: _controller,
+        //   semanticLabel: 'Show menu',
+        // ),
+        trailing: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 400),
+          transitionBuilder: (child, anim) => RotationTransition(
+            turns: child.key == const ValueKey('icon1')
+                ? Tween<double>(begin: 1, end: 0).animate(anim)
+                : Tween<double>(begin: 0, end: 1).animate(anim),
+            child: ScaleTransition(scale: anim, child: child),
+          ),
+          child: _isExpanded
+              ? const Icon(Icons.remove, key: ValueKey('icon1'))
+              : const Icon(Icons.add, key: ValueKey('icon2')),
         ),
-        child: _isExpanded
-            ? const Icon(Icons.remove, key: ValueKey('icon1'))
-            : const Icon(Icons.add, key: ValueKey('icon2')),
+        children: widget.children,
       ),
-      children: widget.children,
     );
   }
 }

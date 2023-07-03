@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 
 import '../../../../core/app_manage/assets_manager.dart';
 import '../../../../core/app_manage/contents_manager.dart';
@@ -24,7 +25,11 @@ class _SplashScreenState extends State<SplashScreen> {
         Timer(const Duration(seconds: Constants.splashDelay), () => _goNext());
   }
 
-  _goNext() => MagicRouterName.navigateReplacementTo(RoutesNames.loginRoute);
+  _goNext() => MagicRouterName.navigateReplacementTo(_handelRoute());
+
+  _handelRoute() => UserSecureStorage.getToken() != null
+      ? RoutesNames.mainLayoutApp
+      : RoutesNames.loginRoute;
 
   @override
   void initState() {
@@ -47,8 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  _buildImage() =>
-      Image.asset(
+  _buildImage() => Image.asset(
         ImageAssets.splashImg,
         fit: BoxFit.fill,
         width: context.width,

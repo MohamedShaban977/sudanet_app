@@ -9,6 +9,7 @@ abstract class CourseDetailsState extends Equatable {
 
 class CourseDetailsInitial extends CourseDetailsState {}
 
+///
 class GetCourseDetailsLoadingState extends CourseDetailsState {}
 
 class GetCourseDetailsSuccessState extends CourseDetailsState {
@@ -29,6 +30,7 @@ class GetCourseDetailsErrorState extends CourseDetailsState {
   List<Object> get props => [error];
 }
 
+///
 class BuyCourseLoadingState extends CourseDetailsState {}
 
 class BuyCourseSuccessState extends CourseDetailsState {
@@ -44,6 +46,27 @@ class BuyCourseErrorState extends CourseDetailsState {
   final String error;
 
   const BuyCourseErrorState({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+///
+class GetCourseLectureDetailsLoadingState extends CourseDetailsState {}
+
+class GetCourseLectureDetailsSuccessState extends CourseDetailsState {
+  final BaseResponseEntity<CourseLectureDetailsEntity> response;
+
+  const GetCourseLectureDetailsSuccessState({required this.response});
+
+  @override
+  List<Object> get props => [response];
+}
+
+class GetCourseLectureDetailsErrorState extends CourseDetailsState {
+  final String error;
+
+  const GetCourseLectureDetailsErrorState({required this.error});
 
   @override
   List<Object> get props => [error];
