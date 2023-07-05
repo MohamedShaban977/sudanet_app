@@ -125,11 +125,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
 
     if (state is BuyCourseErrorState) {
       ToastAndSnackBar.toastError(message: state.error);
-      MagicRouter.pop();
     }
     if (state is BuyCourseSuccessState) {
-      courseDetails.purchased = true;
       ToastAndSnackBar.toastSuccess(message: state.response.message);
+      sl<CourseDetailsCubit>()
+          .get(context)
+          .getCourseDetails('${courseDetails.id}');
+      MagicRouter.pop();
     }
   }
 }
