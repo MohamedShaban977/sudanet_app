@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'app/bloc_observer.dart';
 import 'app/injection_container.dart';
@@ -27,7 +28,11 @@ Future<void> _initMain() async {
   // ]);
   // final directory = await getLibraryDirectory();
   // print('getLibraryDirectory =>${directory.path}');
-
+  await FlutterDownloader.initialize(
+    debug:
+        true, // optional: set to false to disable printing logs to console (default: true)
+    // ignoreSsl: true // option: set to false to disable working with http links (default: false)
+  );
   statusBarColor();
   await ServiceLocator.initApp();
   HiveHelper.init();

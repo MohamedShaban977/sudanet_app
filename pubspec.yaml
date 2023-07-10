@@ -76,6 +76,8 @@ dependencies:
   youtube_player_flutter: ^8.1.2
 
   device_preview: ^1.1.0
+  flutter_downloader: ^1.10.4
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -111,6 +113,8 @@ flutter:
     - assets/images/home_banner.jpg
     - assets/images/home_banner1.jpg
     - assets/images/homebanner.jpg
+    - assets/images/svg/snakbar_content/
+    - assets/images/svg/snakbar_content/types/
 
 
   fonts:
