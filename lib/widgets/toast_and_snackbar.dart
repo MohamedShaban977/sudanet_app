@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
+
+import '../core/app_manage/color_manager.dart';
+import '../core/app_manage/strings_manager.dart';
+import '../core/app_manage/values_manager.dart';
+import '../core/packages/quickalert/models/quickalert_type.dart';
+import '../core/packages/quickalert/widgets/quickalert_dialog.dart';
+import '../core/packages/snackbar_content/awesome_snackbar_content.dart';
+import '../core/routes/magic_router.dart';
+import '../core/routes/routes_name.dart';
 
 class ToastAndSnackBar {
   static toastError({required String message}) {
@@ -43,6 +53,101 @@ class ToastAndSnackBar {
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 5),
       ),
+    );
+  }
+
+  static showSnackBarFailure({required String title, required String message}) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      // dismissDirection: ,
+      // showCloseIcon: true,
+      duration: const Duration(days: 1),
+
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: ContentType.failure,
+      ),
+    );
+    ScaffoldMessenger.of(MagicRouter.currentContext!)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+  }
+
+  static showSnackBarHelp({required String title, required String message}) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      duration: const Duration(days: 1),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: ContentType.help,
+      ),
+    );
+    ScaffoldMessenger.of(MagicRouter.currentContext!)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+  }
+
+  static showSnackBarWarning({required String title, required String message}) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      duration: const Duration(days: 1),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: ContentType.warning,
+      ),
+    );
+    ScaffoldMessenger.of(MagicRouter.currentContext!)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+  }
+
+  static showSnackBarSuccess({required String title, required String message}) {
+    final snackBar = SnackBar(
+      elevation: 0,
+      duration: const Duration(days: 1),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: ContentType.success,
+      ),
+    );
+    ScaffoldMessenger.of(MagicRouter.currentContext!)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(snackBar);
+  }
+
+  static alertMustBeLogged() {
+    QuickAlert.show(
+      context: MagicRouter.currentContext!,
+      type: QuickAlertType.warning,
+      title: 'Oops...',
+      text: AppStrings.youMustBeLogged.tr(),
+      borderRadius: AppSize.s8,
+      widget: Column(children: [
+        ElevatedButton(
+            onPressed: () =>
+                MagicRouterName.navigateReplacementTo(RoutesNames.loginRoute),
+            child: Text(AppStrings.signIn.tr())),
+        ElevatedButton(
+            onPressed: () => MagicRouter.pop(),
+            style: ElevatedButton.styleFrom(
+              elevation: 0.0,
+              backgroundColor: ColorManager.white,
+              foregroundColor: ColorManager.secondary,
+            ),
+            child: Text(AppStrings.cancel.tr()))
+      ]),
     );
   }
 }

@@ -23,15 +23,10 @@ class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Spacer(),
+        const SizedBox(height: AppSize.s8),
         Text(
           category.name,
           style: context.displayLarge.copyWith(color: ColorManager.primary),
-        ),
-        const SizedBox(height: AppSize.s5),
-        Text(
-          '6 مواد',
-          style: context.displaySmall.copyWith(color: ColorManager.textGray),
         ),
         const Spacer(),
         ElevatedButton(

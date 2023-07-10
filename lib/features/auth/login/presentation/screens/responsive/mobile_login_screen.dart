@@ -70,7 +70,7 @@ class MobileLoginScreen extends StatelessWidget {
 
               ///
               CustomTextFormField(
-                hint: AppStrings.userName.tr(),
+                hint: AppStrings.email.tr(),
                 prefixIcon: Icons.person_2_rounded,
                 controller: email,
                 keyboardType: TextInputType.emailAddress,

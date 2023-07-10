@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/categories/presentation/cubit/categories_cubit.dart';
-import 'package:sudanet_app/features/categories/presentation/screens/responsive_widget/card_mobile_widget.dart';
-import 'package:sudanet_app/features/categories/presentation/screens/responsive_widget/card_tablet_widget.dart';
 
 import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
@@ -14,6 +12,8 @@ import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/responsive/responsive.dart';
 import '../../../../core/responsive/responsive_grid.dart';
 import '../../../../widgets/custom_loading_widget.dart';
+import 'responsive_widget/card_mobile_widget.dart';
+import 'responsive_widget/card_tablet_widget.dart';
 
 const double _heightItem = 160;
 const double _desiredItemWidth = 250;

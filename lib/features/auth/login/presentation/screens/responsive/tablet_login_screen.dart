@@ -89,7 +89,7 @@ class TabletLoginScreen extends StatelessWidget {
                               children: [
                                 ///
                                 CustomTextFormField(
-                                  hint: AppStrings.userName.tr(),
+                                  hint: AppStrings.email.tr(),
                                   prefixIcon: Icons.person_2_rounded,
                                   controller: email,
                                   keyboardType: TextInputType.name,

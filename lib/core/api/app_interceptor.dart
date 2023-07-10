@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:sudanet_app/core/api/status_code.dart';
 import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
+import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 
 import '../../app/injection_container.dart';
 import '../app_manage/contents_manager.dart';
@@ -79,6 +82,14 @@ class AppInterceptors extends Interceptor {
         'RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}');
     log('RESPONSE[${response.statusCode}] => data: ${response.data}');
 
+    if (response.statusCode == StatusCode.badRequest) {
+      var error = jsonDecode(response.data);
+
+      // ToastAndSnackBar.toastError(message: error['title']);
+      ToastAndSnackBar.showSnackBarFailure(
+          title: response.statusMessage!, message: error['title']!);
+    }
+
     return super.onResponse(response, handler);
   }
 
@@ -87,6 +98,12 @@ class AppInterceptors extends Interceptor {
     debugPrint(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     debugPrint('ERROR[${err.type}] => Error: ${err.error}');
+
+    if (err.type == DioErrorType.unknown) {
+      // MagicRouterName.navigateTo(RoutesNames.loginRoute);
+      ToastAndSnackBar.showSnackBarFailure(
+          title: 'ERROR ${err.type.name}', message: err.message!);
+    }
 
     return super.onError(err, handler);
   }

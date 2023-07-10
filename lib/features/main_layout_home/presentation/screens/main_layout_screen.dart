@@ -1,16 +1,12 @@
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sudanet_app/core/app_manage/color_manager.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/app_manage/strings_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/main_layout_home/presentation/cubit/nav_bar_cubit.dart';
 
-import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/service/locale_service/manager/locale_cubit.dart';
 import '../../../../widgets/bottom_navy_bar.dart';
 import '../widgets/custom_nav_bar_widget.dart';
@@ -164,6 +160,3 @@ class Settings extends StatelessWidget {
     );
   }
 }
-
-
-

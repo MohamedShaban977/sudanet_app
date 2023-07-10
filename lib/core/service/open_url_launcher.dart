@@ -7,7 +7,10 @@ import '../../widgets/toast_and_snackbar.dart';
 class OpenUrlLauncher {
   static Future _launchUrl(String url) async {
     try {
-      await launchUrl(Uri.parse(url));
+      await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
     } on Exception catch (ex) {
       ToastAndSnackBar.toastError(message: ex.toString());
     }
