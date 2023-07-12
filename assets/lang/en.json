@@ -76,5 +76,9 @@
   "you_must_be_logged": "You must be logged in to complete the purchase",
   "No_data_available": "No data available",
   "more": "More",
-  "buying_succeeded": "Buying succeeded"
+  "buying_succeeded": "Buying succeeded",
+  "welcome": "Welcome",
+  "logout": "Logout",
+  "account_info": "Account Information",
+  "change_password": "Change Password"
 }

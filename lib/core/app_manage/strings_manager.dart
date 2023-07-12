@@ -78,4 +78,8 @@ class AppStrings {
   static const nosDataAvailable = "No_data_available";
   static const more = "more";
   static const buyingSucceeded = "buying_succeeded";
+  static const welcome = "welcome";
+  static const logout = "logout";
+  static const accountInfo = "account_info";
+  static const changePassword = "change_password";
 }

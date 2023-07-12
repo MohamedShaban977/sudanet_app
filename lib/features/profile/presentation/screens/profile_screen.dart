@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
 
+import '../../../../core/app_manage/assets_manager.dart';
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
 import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
-import '../../../../widgets/custom_image_network_view.dart';
 
 const String url =
     'https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
@@ -38,27 +39,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: context.height * 0.02),
                   _buildCardViewInfo(context),
                   SizedBox(height: context.height * 0.02),
+                  Text(
+                    "${AppStrings.welcome.tr()}   ${UserSecureStorage.getUser()?.name.orEmpty()}",
+                    style: context.displayLarge
+                        .copyWith(color: ColorManager.textGray),
+                  ),
+
+                  SizedBox(height: context.height * 0.04),
                   // CustomButtonProfile(
                   //   iconData: Icons.language,
                   //   text: AppStrings.language.tr(),
                   //   onTap: () => sl<LocaleCubit>().changeLang(context),
                   // ),
                   CustomButtonProfile(
-                    iconData: Icons.help_outline,
-                    text: 'مساعدة'.tr(),
+                    iconData: FontAwesomeIcons.solidUser,
+                    text: AppStrings.accountInfo.tr(),
+                    onTap: () => null,
+                  ),
+                  SizedBox(height: context.height * 0.02),
+                  CustomButtonProfile(
+                    iconData: FontAwesomeIcons.unlock,
+                    text: AppStrings.changePassword.tr(),
+                    onTap: () => null,
+                  ),
+                  SizedBox(height: context.height * 0.02),
+                  CustomButtonProfile(
+                    iconData: FontAwesomeIcons.circleInfo,
+                    text: AppStrings.help.tr(),
                     onTap: () =>
                         MagicRouterName.navigateTo(RoutesNames.contactInfo),
                   ),
                   SizedBox(height: context.height * 0.02),
                   CustomButtonProfile(
-                    iconData: Icons.logout,
-                    text: 'Logout'.tr(),
+                    iconData: FontAwesomeIcons.rightFromBracket,
+                    text: AppStrings.logout.tr(),
                     onTap: () async {
                       await UserSecureStorage.removeUser().then((value) {
                         MagicRouterName.navigateAndPopAll(
                             RoutesNames.loginRoute);
-
-                        print(UserSecureStorage.getMacId());
                       });
                     },
                   ),
@@ -84,17 +102,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
       clipBehavior: Clip.none,
       children: [
         Card(
-          margin: const EdgeInsets.all(AppPadding.p8),
+          margin: EdgeInsets.all(AppPadding.p8),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           color: ColorManager.background,
           elevation: 10,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          child: const CustomViewImageNetwork(
-            image: url,
-            height: 100.0,
-            width: 100,
+          shape: OvalBorder(),
+          // child: CustomViewImageNetwork(
+          //   image: url,
+          //   height: 130.0,
+          //   width: 130.0,
+          // ),
+          child: Image.asset(
+            ImageAssets.avatarStudent,
+            gaplessPlayback: true,
+            filterQuality: FilterQuality.high,
+            fit: BoxFit.cover,
+            height: 120.0,
+            width: 120.0,
           ),
+
+          ///
+          // child: SizedBox(
+          //   width: 120.0,
+          //   height: 120.0,
+          //   child: Icon(
+          //     FontAwesomeIcons.userGraduate,
+          //     size: 60.0,
+          //     color: Colors.blueGrey,
+          //   ),
+          // ),
         ),
       ],
     );
@@ -134,10 +170,10 @@ class CustomButtonProfile extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(width: context.width * 0.02),
-                  Icon(
-                    iconData, // Icons.lock_outline,
-                    color: ColorManager.textGray,
-                  ),
+                  Icon(iconData, // Icons.lock_outline,
+                      color: ColorManager.textGray,
+                      size: 25.0,
+                      opticalSize: 25.0),
                   SizedBox(width: context.width * 0.05),
                   Text(text, //'Change Password',
                       style: context.displayMedium),

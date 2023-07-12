@@ -65,39 +65,50 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                 return Localizations.override(
                   context: context,
                   locale: state.locale,
-                  child: CustomNavBarWidget(
-                    currentIndex: cubit.currentIndex,
-                    onItemSelected: (int index) => cubit.changeIndex(index),
-                    items: <BottomNavyBarItem>[
-                      BottomNavyBarItem(
-                        icon: const Icon(FontAwesomeIcons.houseChimney),
-                        title: Text(AppStrings.home.tr()),
-                        activeColor: ColorManager.primary,
-                        inactiveColor: Colors.grey,
-                        backgroundColorItem: ColorManager.secondary,
-                      ),
-                      BottomNavyBarItem(
-                        icon: const Icon(Icons.grid_view_sharp),
-                        title: Text(AppStrings.educationalLevels.tr()),
-                        activeColor: ColorManager.primary,
-                        inactiveColor: Colors.grey,
-                        backgroundColorItem: ColorManager.secondary,
-                      ),
-                      BottomNavyBarItem(
-                        icon: const Icon(FontAwesomeIcons.book),
-                        title: Text(AppStrings.subjects.tr()),
-                        activeColor: ColorManager.primary,
-                        inactiveColor: Colors.grey,
-                        backgroundColorItem: ColorManager.secondary,
-                      ),
-                      BottomNavyBarItem(
-                        icon: const Icon(Icons.person_2),
-                        title: Text(AppStrings.profile.tr()),
-                        activeColor: ColorManager.primary,
-                        inactiveColor: Colors.grey,
-                        backgroundColorItem: ColorManager.secondary,
-                      ),
-                    ],
+                  child: WillPopScope(
+                    onWillPop: () async {
+                      if (cubit.currentIndex != 0) {
+                        cubit.changeIndex(0);
+                        return false;
+                      } else {
+                        return true;
+                      }
+                    },
+
+                    child: CustomNavBarWidget(
+                      currentIndex: cubit.currentIndex,
+                      onItemSelected: (int index) => cubit.changeIndex(index),
+                      items: <BottomNavyBarItem>[
+                        BottomNavyBarItem(
+                          icon: const Icon(FontAwesomeIcons.houseChimney),
+                          title: Text(AppStrings.home.tr()),
+                          activeColor: ColorManager.primary,
+                          inactiveColor: Colors.grey,
+                          backgroundColorItem: ColorManager.secondary,
+                        ),
+                        BottomNavyBarItem(
+                          icon: const Icon(Icons.grid_view_sharp),
+                          title: Text(AppStrings.educationalLevels.tr()),
+                          activeColor: ColorManager.primary,
+                          inactiveColor: Colors.grey,
+                          backgroundColorItem: ColorManager.secondary,
+                        ),
+                        BottomNavyBarItem(
+                          icon: const Icon(FontAwesomeIcons.book),
+                          title: Text(AppStrings.subjects.tr()),
+                          activeColor: ColorManager.primary,
+                          inactiveColor: Colors.grey,
+                          backgroundColorItem: ColorManager.secondary,
+                        ),
+                        BottomNavyBarItem(
+                          icon: const Icon(Icons.person_2),
+                          title: Text(AppStrings.profile.tr()),
+                          activeColor: ColorManager.primary,
+                          inactiveColor: Colors.grey,
+                          backgroundColorItem: ColorManager.secondary,
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
