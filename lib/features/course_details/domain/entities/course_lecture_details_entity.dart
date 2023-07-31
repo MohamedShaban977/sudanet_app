@@ -28,7 +28,7 @@ class CourseLectureDetailsEntity extends Equatable {
   final List<VideosEntity> videos;
 
   /// TODO: add model Exams and Files
-  final List<String> exams;
+  final List<ExamEntity> exams;
   final List<FilesEntity> files;
 
   const CourseLectureDetailsEntity(
@@ -101,5 +101,31 @@ class FilesEntity extends Equatable {
         sort,
         fileName,
         filePath,
+      ];
+}
+
+/*
+{
+"id":3,
+"sort":0,
+"examName":"أمتحان الحصة الثانية"
+}
+* */
+class ExamEntity extends Equatable {
+  final int id;
+  final int sort;
+  final String examName;
+
+  const ExamEntity({
+    required this.id,
+    required this.sort,
+    required this.examName,
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+        sort,
+        examName,
       ];
 }

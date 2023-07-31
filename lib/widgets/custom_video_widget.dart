@@ -47,13 +47,15 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
   void deactivate() {
     // Pauses video while navigating to next page.
     _controller.pause();
-    // print("Deactivated");
+    print("Deactivated");
     super.deactivate();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    print("dispose");
+
     super.dispose();
   }
 

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sudanet_app/features/profile/domain/use_cases/profile_use_cases.dart';
+
 import '../core/api/api_consumer.dart';
 import '../core/api/app_interceptor.dart';
 import '../core/api/dio_consumer.dart';
@@ -50,11 +52,20 @@ import '../features/courses_by_category/data/repositories/courses_by_category_re
 import '../features/courses_by_category/domain/repositories/courses_by_category_repo.dart';
 import '../features/courses_by_category/domain/use_cases/courses_by_category_use_case.dart';
 import '../features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
+import '../features/exam/data/data_sources/exam_data_source.dart';
+import '../features/exam/data/repositories/exam_repository_impl.dart';
+import '../features/exam/domain/repositories/exam_repository.dart';
+import '../features/exam/domain/use_cases/exam_use_case.dart';
+import '../features/exam/presentation/cubit/exam_cubit.dart';
 import '../features/home/data/data_sources/home_data_source.dart';
 import '../features/home/data/repositories/home_repository_impl.dart';
 import '../features/home/domain/repositories/home_repository.dart';
 import '../features/home/domain/use_cases/home_useCase.dart';
 import '../features/home/presentation/cubit/home_cubit.dart';
+import '../features/profile/data/data_sources/profile_info_data_source.dart';
+import '../features/profile/data/repositories/profile_repository_impl.dart';
+import '../features/profile/domain/repositories/profile_repository.dart';
+import '../features/profile/presentation/cubit/profile_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -369,6 +380,96 @@ class ServiceLocator {
           ));
     } else {
       sl.resetLazySingleton<ContactInfoCubit>();
+    }
+  }
+
+  static initProfileGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<ProfileDataSource>()) {
+      sl.registerLazySingleton<ProfileDataSource>(
+          () => ProfileDataSourceImpl(consumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<ProfileRepository>()) {
+      sl.registerLazySingleton<ProfileRepository>(
+          () => ProfileRepositoryImpl(dataSource: sl<ProfileDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<GetPersonalInfoUseCase>()) {
+      sl.registerLazySingleton<GetPersonalInfoUseCase>(
+          () => GetPersonalInfoUseCase(repository: sl<ProfileRepository>()));
+    }
+    if (!sl.isRegistered<SavePersonalInfoUseCase>()) {
+      sl.registerLazySingleton<SavePersonalInfoUseCase>(
+          () => SavePersonalInfoUseCase(repository: sl<ProfileRepository>()));
+    }
+
+    if (!sl.isRegistered<ChangePasswordUseCase>()) {
+      sl.registerLazySingleton<ChangePasswordUseCase>(
+          () => ChangePasswordUseCase(repository: sl<ProfileRepository>()));
+    }
+
+    if (!sl.isRegistered<GetUserMyCoursesUseCase>()) {
+      sl.registerLazySingleton<GetUserMyCoursesUseCase>(
+          () => GetUserMyCoursesUseCase(repository: sl<ProfileRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<ProfileCubit>()) {
+      sl.registerLazySingleton<ProfileCubit>(() => ProfileCubit(
+            getPersonalInfoUseCase: sl<GetPersonalInfoUseCase>(),
+            savePersonalInfoUseCase: sl<SavePersonalInfoUseCase>(),
+            changePasswordUseCase: sl<ChangePasswordUseCase>(),
+            getUserMyCoursesUseCase: sl<GetUserMyCoursesUseCase>(),
+          ));
+    } else {
+      sl.resetLazySingleton<ProfileCubit>();
+    }
+  }
+
+  static initExamGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<ExamDataSource>()) {
+      sl.registerLazySingleton<ExamDataSource>(
+          () => ExamDataSourceImpl(sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<ExamRepository>()) {
+      sl.registerLazySingleton<ExamRepository>(
+          () => ExamRepositoryImpl(sl<ExamDataSource>()));
+    }
+    // //Home Use Cases
+    if (!sl.isRegistered<GetExamReadyUseCases>()) {
+      sl.registerLazySingleton<GetExamReadyUseCases>(
+          () => GetExamReadyUseCases(repository: sl<ExamRepository>()));
+    }
+    if (!sl.isRegistered<GetExamQuestionOrPercentageUseCases>()) {
+      sl.registerLazySingleton<GetExamQuestionOrPercentageUseCases>(() =>
+          GetExamQuestionOrPercentageUseCases(
+              repository: sl<ExamRepository>()));
+    }
+
+    if (!sl.isRegistered<SaveAnswerUseCases>()) {
+      sl.registerLazySingleton<SaveAnswerUseCases>(
+          () => SaveAnswerUseCases(repository: sl<ExamRepository>()));
+    }
+
+    if (!sl.isRegistered<EndExamUseCases>()) {
+      sl.registerLazySingleton<EndExamUseCases>(
+          () => EndExamUseCases(repository: sl<ExamRepository>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<ExamCubit>()) {
+      sl.registerLazySingleton<ExamCubit>(() => ExamCubit(
+            getExamReadyUseCases: sl<GetExamReadyUseCases>(),
+            endExamUseCases: sl<EndExamUseCases>(),
+            getExamQuestionOrPercentageUseCases:
+                sl<GetExamQuestionOrPercentageUseCases>(),
+            saveAnswerUseCases: sl<SaveAnswerUseCases>(),
+          ));
+    } else {
+      sl.resetLazySingleton<ExamCubit>();
     }
   }
 }

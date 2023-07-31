@@ -41,7 +41,7 @@ class CoursesByCategoryScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
                   child: Text(
-                    AppStrings.viewAllFirstStageSubjects.tr(),
+                    '${AppStrings.viewAllFirstStageSubjects.tr()} ${cubit.coursesByCategoryIdItems.first.categoryName}',
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           color: ColorManager.primary,
                         ),

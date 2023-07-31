@@ -30,7 +30,7 @@ class CourseLectureDetailsResponse extends CourseLectureDetailsEntity {
     final int? courseId,
     final String? courseName,
     final List<Videos>? videos,
-    final List<String>? exams,
+    final List<Exam>? exams,
     final List<Files>? files,
   }) : super(
           lectureNumber: lectureNumber.orZero(),
@@ -55,7 +55,7 @@ class CourseLectureDetailsResponse extends CourseLectureDetailsEntity {
             : List<Videos>.from(json["videos"]!.map((x) => Videos.fromJson(x))),
         exams: json["exams"] == null
             ? []
-            : List<String>.from(json["exams"]!.map((x) => x)),
+            : List<Exam>.from(json["exams"]!.map((x) => Exam.fromJson(x))),
         files: json["files"] == null
             ? []
             : List<Files>.from(json["files"]!.map((x) => Files.fromJson(x))),
@@ -95,5 +95,23 @@ class Files extends FilesEntity {
         sort: json["sort"],
         fileName: json["fileName"],
         filePath: json["filePath"],
+      );
+}
+
+class Exam extends ExamEntity {
+  Exam({
+    final int? id,
+    final int? sort,
+    final String? examName,
+  }) : super(
+          id: id.orZero(),
+          sort: sort.orZero(),
+          examName: examName.orEmpty(),
+        );
+
+  factory Exam.fromJson(Map<String, dynamic> json) => Exam(
+        id: json["id"],
+        sort: json["sort"],
+        examName: json["examName"],
       );
 }

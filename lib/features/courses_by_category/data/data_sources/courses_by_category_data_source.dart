@@ -17,8 +17,8 @@ class CoursesByCategoryDataSourceImpl implements CoursesByCategoryDataSource {
   @override
   Future<CollectionResponse<CoursesResponse>> getCoursesByCategoryDataSource(
       String categoryId) async {
-    final response =
-        await consumer.get(EndPoint.getCoursesByCategoriesId + categoryId);
+    final response = await consumer.get(EndPoint.getCoursesByCategoriesId,
+        queryParameters: {"CategoryId": categoryId});
 
     final res = CollectionResponse<CoursesResponse>.fromJson(response,
         (list) => list.map((e) => CoursesResponse.fromJson(e)).toList());

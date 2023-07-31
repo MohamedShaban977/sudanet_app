@@ -20,6 +20,7 @@ const String imageSvgPath = "${imagePath}svg/";
 class SvgAssets {
   static const String noData = "${imageSvgPath}no_data.svg";
   static const String startSearch = "${imageSvgPath}start_search.svg";
+  static const String exam = "${imageSvgPath}exam.svg";
 }
 
 const String imageGifPath = "${imagePath}gif/";

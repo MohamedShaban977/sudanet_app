@@ -57,10 +57,11 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.detached:
-        // TODO: Handle this case.
+      // TODO: Handle this case.
         break;
     }
   }
+
 
   @override
   void dispose() {
@@ -224,7 +225,8 @@ class CardDetailsCourseWidget extends StatelessWidget {
                     child: Visibility(
                       visible: courseDetails.purchased,
                       replacement: ElevatedButton(
-                          onPressed: () => PurchaseCourses.show(
+                          onPressed: () =>
+                              PurchaseCourses.show(
                                 context,
                                 courseId: courseDetails.id,
                                 isAlert: false,
@@ -273,60 +275,64 @@ class CardContentCourseWidget extends StatelessWidget {
           children: [
             Text(AppStrings.contentCourse.tr(),
                 style:
-                    context.bodyLarge.copyWith(color: ColorManager.textGray)),
+                context.bodyLarge.copyWith(color: ColorManager.textGray)),
             const SizedBox(height: 20.0),
             // Text('(7) حصص * (10) فيديوهات * 10س . 54د',
             //     style: context.bodyMedium),
             const SizedBox(height: 20.0),
             ...List.generate(
               courseDetails.courseLectures.length,
-              (index) => Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: ColorManager.lightGrey),
-                ),
-                child: CustomExpandedTitle(
-                  iconLeading: Icon(
-                    _checkCoursePurchasedOrIsFree(index)
-                        ? FontAwesomeIcons.lockOpen
-                        : FontAwesomeIcons.lock,
-                    size: 20.0,
-                  ),
-                  textTitle: courseDetails.courseLectures[index].name,
-                  isExpanded: index == 0 ? true : false,
-                  onTap: () => sl<CourseDetailsCubit>()
-                      .get(context)
-                      .getLectureCourseDetails(
-                          '${courseDetails.courseLectures[index].id}'),
-                  children: [
-                    ContentSession(
-                      iconLeading: _checkCoursePurchasedOrIsFree(index)
-                          ? FontAwesomeIcons.lockOpen
-                          : FontAwesomeIcons.lock,
-                      title: AppStrings.videos.tr(),
-                      count:
+                  (index) =>
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: ColorManager.lightGrey),
+                    ),
+                    child: CustomExpandedTitle(
+                      iconLeading: Icon(
+                        _checkCoursePurchasedOrIsFree(index)
+                            ? FontAwesomeIcons.lockOpen
+                            : FontAwesomeIcons.lock,
+                        size: 20.0,
+                      ),
+                      textTitle: courseDetails.courseLectures[index].name,
+                      isExpanded: index == 0 ? true : false,
+                      onTap: () =>
+                          sl<CourseDetailsCubit>()
+                              .get(context)
+                              .getLectureCourseDetails(
+                              '${courseDetails.courseLectures[index].id}'),
+                      children: [
+                        ContentSession(
+                          iconLeading: _checkCoursePurchasedOrIsFree(index)
+                              ? FontAwesomeIcons.lockOpen
+                              : FontAwesomeIcons.lock,
+                          title: AppStrings.videos.tr(),
+                          count:
                           '${courseDetails.courseLectures[index].videoCount}',
-                      iconTrailing: FontAwesomeIcons.play,
+                          iconTrailing: FontAwesomeIcons.play,
+                        ),
+                        ContentSession(
+                          iconLeading: _checkCoursePurchasedOrIsFree(index)
+                              ? FontAwesomeIcons.lockOpen
+                              : FontAwesomeIcons.lock,
+                          title: AppStrings.files.tr(),
+                          count: '${courseDetails.courseLectures[index]
+                              .fileCount}',
+                          iconTrailing: FontAwesomeIcons.fileArrowDown,
+                        ),
+                        ContentSession(
+                          iconLeading: _checkCoursePurchasedOrIsFree(index)
+                              ? FontAwesomeIcons.lockOpen
+                              : FontAwesomeIcons.lock,
+                          title: AppStrings.exam.tr(),
+                          count: '${courseDetails.courseLectures[index]
+                              .examCount}',
+                          iconTrailing: FontAwesomeIcons.solidCircleQuestion,
+                        ),
+                      ],
                     ),
-                    ContentSession(
-                      iconLeading: _checkCoursePurchasedOrIsFree(index)
-                          ? FontAwesomeIcons.lockOpen
-                          : FontAwesomeIcons.lock,
-                      title: AppStrings.files.tr(),
-                      count: '${courseDetails.courseLectures[index].fileCount}',
-                      iconTrailing: FontAwesomeIcons.fileArrowDown,
-                    ),
-                    ContentSession(
-                      iconLeading: _checkCoursePurchasedOrIsFree(index)
-                          ? FontAwesomeIcons.lockOpen
-                          : FontAwesomeIcons.lock,
-                      title: AppStrings.exam.tr(),
-                      count: '${courseDetails.courseLectures[index].examCount}',
-                      iconTrailing: FontAwesomeIcons.solidCircleQuestion,
-                    ),
-                  ],
-                ),
-              ),
+                  ),
             ),
 
             if (courseDetails.courseLectures.isEmpty)
@@ -560,13 +566,12 @@ class CustomExpandedTitle extends StatefulWidget {
 
   final bool isExpanded;
 
-  const CustomExpandedTitle(
-      {Key? key,
-      required this.textTitle,
-      required this.iconLeading,
-      required this.children,
-      this.isExpanded = false,
-      this.onTap})
+  const CustomExpandedTitle({Key? key,
+    required this.textTitle,
+    required this.iconLeading,
+    required this.children,
+    this.isExpanded = false,
+    this.onTap})
       : super(key: key);
 
   @override
@@ -620,12 +625,13 @@ class _CustomExpandedTitleState extends State<CustomExpandedTitle>
         // ),
         trailing: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
-          transitionBuilder: (child, anim) => RotationTransition(
-            turns: child.key == const ValueKey('icon1')
-                ? Tween<double>(begin: 1, end: 0).animate(anim)
-                : Tween<double>(begin: 0, end: 1).animate(anim),
-            child: ScaleTransition(scale: anim, child: child),
-          ),
+          transitionBuilder: (child, anim) =>
+              RotationTransition(
+                turns: child.key == const ValueKey('icon1')
+                    ? Tween<double>(begin: 1, end: 0).animate(anim)
+                    : Tween<double>(begin: 0, end: 1).animate(anim),
+                child: ScaleTransition(scale: anim, child: child),
+              ),
           child: _isExpanded
               ? const Icon(Icons.remove, key: ValueKey('icon1'))
               : const Icon(Icons.add, key: ValueKey('icon2')),

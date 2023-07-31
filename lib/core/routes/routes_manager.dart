@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sudanet_app/features/exam/presentation/cubit/exam_cubit.dart';
+import 'package:sudanet_app/features/profile/presentation/screens/user_my_courses_screen.dart';
 
 import '../../app/injection_container.dart';
 import '../../features/auth/forget_password/presentation/cubit/forget_password_cubit.dart';
@@ -17,8 +19,13 @@ import '../../features/course_details/presentation/screens/course_lecture_detail
 import '../../features/courses/presentation/cubit/courses_cubit.dart';
 import '../../features/courses_by_category/presentation/cubit/courses_by_category_cubit.dart';
 import '../../features/courses_by_category/presentation/screens/corses_by_category_screen.dart';
+import '../../features/exam/presentation/screens/exam_layout_screen.dart';
+import '../../features/exam/presentation/screens/exam_screen.dart';
 import '../../features/home/presentation/cubit/home_cubit.dart';
 import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
+import '../../features/profile/presentation/cubit/profile_cubit.dart';
+import '../../features/profile/presentation/screens/change_password_screen.dart';
+import '../../features/profile/presentation/screens/profile_info_edit_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import '../app_manage/strings_manager.dart';
 import 'magic_router.dart';
@@ -120,6 +127,51 @@ class Routes {
           child: CourseLecturesScreen(
             courseLectureDetails: res['courseLectures'],
             initVideoID: res['initVideoID'],
+          ),
+        ));
+
+      case RoutesNames.profileInfoEditRoute:
+        ServiceLocator.initProfileGetIt();
+
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) => sl<ProfileCubit>()..getPersonalInfo(),
+          child: const ProfileInfoEditScreen(),
+        ));
+
+      case RoutesNames.changePasswordRoute:
+        ServiceLocator.initProfileGetIt();
+
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) => sl<ProfileCubit>(),
+          child: const ChangePasswordScreen(),
+        ));
+      case RoutesNames.userMyCoursesRoute:
+        ServiceLocator.initProfileGetIt();
+
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) => sl<ProfileCubit>()..getUserMyCourses(),
+          child: const UserMyCoursesScreen(),
+        ));
+
+      case RoutesNames.examLayoutRoute:
+        ServiceLocator.initExamGetIt();
+        final RouteRequest res =
+            RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
+
+        return MagicRouter.pageRoute(BlocProvider(
+          create: (context) => sl<ExamCubit>()..getExamReady(res.id!),
+          child: ExamLayoutScreen(id: res.id!),
+        ));
+
+      case RoutesNames.examRoute:
+        ServiceLocator.initExamGetIt();
+        final res = settings.arguments! as Map<String, dynamic>;
+
+        return MagicRouter.pageRoute(BlocProvider.value(
+          value: sl<ExamCubit>(),
+          child: ExamScreen(
+            examEntity: res['ExamEntity'],
+            id: res['id'],
           ),
         ));
 

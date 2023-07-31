@@ -63,6 +63,7 @@ class CustomTextFormField extends StatelessWidget {
           maxLength: maxLength,
           autofocus: autofocus,
           inputFormatters: inputFormatters,
+          onTapOutside: (_) => FocusScope.of(context).unfocus(),
           decoration: _buildInputDecoration(context),
         ),
       ],

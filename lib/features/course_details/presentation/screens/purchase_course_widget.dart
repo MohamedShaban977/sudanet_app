@@ -194,7 +194,7 @@ class _ContentPurchaseCoursesWidgetState
                     Text('ادخل كود الشراء', style: context.titleLarge),
                     const SizedBox(height: AppSize.s12),
                     CustomTextFormField(
-                      hint: 'مثال :123456',
+                      hint: 'مثال :xxxx-0000000000',
                       controller: _conCode,
                       validator: (value) => Validator.isValidCode(value!),
                     ),
@@ -212,9 +212,13 @@ class _ContentPurchaseCoursesWidgetState
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey.shade200,
                       elevation: 0.0,
+                      fixedSize: const Size.fromHeight(50.0),
                       foregroundColor: ColorManager.primary),
                   onPressed: () => MagicRouter.pop(),
-                  child: Text(AppStrings.cancel.tr()),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(AppStrings.cancel.tr()),
+                  ),
                 ),
                 const SizedBox(width: 40.0),
                 CustomButtonWithLoading(

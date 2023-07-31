@@ -82,4 +82,10 @@ class AppStrings {
   static const logout = "logout";
   static const accountInfo = "account_info";
   static const changePassword = "change_password";
+  static const myCourses = "my_courses";
+  static const examDuration = "exam_duration";
+  static const remainingTime = "remaining_time";
+  static const minutes = "minutes";
+  static const questionsCount = "questions_count";
+  static const examStart = "exam_start";
 }

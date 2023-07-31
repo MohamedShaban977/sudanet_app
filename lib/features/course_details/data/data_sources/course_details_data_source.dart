@@ -24,10 +24,11 @@ class CourseDetailsDataSourceImpl implements CourseDetailsDataSource {
   @override
   Future<BaseResponse<CourseDetailsResponse>> getCourseDetails(
       String id) async {
-    final response = await apiConsumer.get((UserSecureStorage.getToken() != null
+    final response = await apiConsumer.get(
+        (UserSecureStorage.getToken() != null
             ? EndPoint.getAuthCourseDetail
-            : EndPoint.getPublicCourseDetail) +
-        id);
+            : EndPoint.getPublicCourseDetail),
+        queryParameters: {"Id": id});
     final res = BaseResponse<CourseDetailsResponse>.fromJson(
       response,
       (data) => CourseDetailsResponse.fromJson(data),
@@ -51,10 +52,12 @@ class CourseDetailsDataSourceImpl implements CourseDetailsDataSource {
   @override
   Future<BaseResponse<CourseLectureDetailsResponse>> getCourseLecture(
       String lectureId) async {
-    final response = await apiConsumer.get((UserSecureStorage.getToken() != null
-            ? EndPoint.getAuthCourseLecture
-            : EndPoint.getFreeCourseLecture) +
-        lectureId);
+    final response = await apiConsumer.get(
+      (UserSecureStorage.getToken() != null
+          ? EndPoint.getAuthCourseLecture
+          : EndPoint.getFreeCourseLecture),
+      queryParameters: {"Id": lectureId},
+    );
     final res = BaseResponse<CourseLectureDetailsResponse>.fromJson(
       response,
       (data) => CourseLectureDetailsResponse.fromJson(data),

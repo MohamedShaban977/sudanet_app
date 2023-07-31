@@ -80,5 +80,11 @@
   "welcome": "Welcome",
   "logout": "Logout",
   "account_info": "Account Information",
-  "change_password": "Change Password"
+  "change_password": "Change Password",
+  "my_courses": "My Courses",
+  "exam_duration": "Exam duration",
+  "remaining_time": "Remaining time",
+  "minutes": "minutes",
+  "questions_count": "Questions count",
+  "exam_start": "Exam Start"
 }

@@ -11,9 +11,6 @@ import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
 
-const String url =
-    'https://images.pexels.com/photos/2325446/pexels-photo-2325446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -54,13 +51,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CustomButtonProfile(
                     iconData: FontAwesomeIcons.solidUser,
                     text: AppStrings.accountInfo.tr(),
-                    onTap: () => null,
+                    onTap: () => MagicRouterName.navigateTo(
+                        RoutesNames.profileInfoEditRoute),
                   ),
                   SizedBox(height: context.height * 0.02),
                   CustomButtonProfile(
                     iconData: FontAwesomeIcons.unlock,
                     text: AppStrings.changePassword.tr(),
-                    onTap: () => null,
+                    onTap: () => MagicRouterName.navigateTo(
+                        RoutesNames.changePasswordRoute),
+                  ),
+                  SizedBox(height: context.height * 0.02),
+                  CustomButtonProfile(
+                    iconData: FontAwesomeIcons.book,
+                    text: AppStrings.myCourses.tr(),
+                    onTap: () => MagicRouterName.navigateTo(
+                        RoutesNames.userMyCoursesRoute),
                   ),
                   SizedBox(height: context.height * 0.02),
                   CustomButtonProfile(

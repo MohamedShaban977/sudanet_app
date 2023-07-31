@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String assetsImagesAvatarStudent =
+      'assets/images/avatar_student.jpg';
   static const String assetsImagesHomeBanner = 'assets/images/home_banner.jpg';
   static const String assetsImagesHomeBanner1 =
       'assets/images/home_banner1.jpg';
@@ -21,7 +23,7 @@ class Assets {
   static const String fontsTajawalMedium = 'assets/fonts/Tajawal-Medium.ttf';
   static const String fontsTajawalRegular = 'assets/fonts/Tajawal-Regular.ttf';
   static const String gifGlassHour = 'assets/images/gif/glass-hour.gif';
-  static const String images11224949 = 'assets/images/avatar_student.jpg';
+  static const String imagesAvatarStudent = 'assets/images/avatar_student.jpg';
   static const String imagesGifGlassHour = 'assets/images/gif/glass-hour.gif';
   static const String imagesHomeBanner = 'assets/images/home_banner.jpg';
   static const String imagesHomeBanner1 = 'assets/images/home_banner1.jpg';
@@ -47,6 +49,7 @@ class Assets {
       'assets/images/svg/snakbar_content/back.svg';
   static const String snakbarContentBubbles =
       'assets/images/svg/snakbar_content/bubbles.svg';
+  static const String svgExam = 'assets/images/svg/exam.svg';
   static const String svgNoData = 'assets/images/svg/no_data.svg';
   static const String svgStartSearch = 'assets/images/svg/start_search.svg';
   static const String typesFailure =
