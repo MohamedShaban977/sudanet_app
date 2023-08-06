@@ -17,7 +17,7 @@ class ExamResponse extends ExamEntity {
           remainingExamTimeBySeconds: remainingExamTimeBySeconds.orZero(),
           questionsCount: questionsCount.orZero(),
           examName: examName.orEmpty(),
-          percentage: percentage.orEmpty(),
+          percentage: percentage,
           examQuestions: examQuestions.orEmptyList(),
         );
 
@@ -43,7 +43,7 @@ class ExamQuestion extends ExamQuestionsEntity {
     final bool? binHere,
   }) : super(
           examQuestionId: examQuestionId.orZero(),
-          examQuestionAnswer: examQuestionAnswer.orZero(),
+          examQuestionAnswer: examQuestionAnswer,
           examQuestionImage: examQuestionImage.orEmpty(),
           binHere: binHere.orEmptyB(),
         );
@@ -51,7 +51,9 @@ class ExamQuestion extends ExamQuestionsEntity {
   factory ExamQuestion.fromJson(Map<String, dynamic> json) => ExamQuestion(
         examQuestionId: json["examQuestionId"],
         examQuestionImage: json["examQuestionImage"],
-        examQuestionAnswer: json["examQuestionAnswer"],
+        examQuestionAnswer: json["examQuestionAnswer"] == null
+            ? json["examQuestionAnswer"]
+            : int.tryParse(json["examQuestionAnswer"]),
         binHere: json["binHere"],
       );
 }

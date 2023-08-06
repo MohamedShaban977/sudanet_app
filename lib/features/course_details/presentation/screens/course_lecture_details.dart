@@ -57,26 +57,24 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
       flags: const YoutubePlayerFlags(
         autoPlay: true,
       ),
-    )
-      ..addListener(_listener);
+    )..addListener(_listener);
     _videoMetaData = const YoutubeMetaData();
 
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
 
     _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = DownloadTaskStatus(data[1]);
+      // String id = data[0];
+      // DownloadTaskStatus status = DownloadTaskStatus(data[1]);
       _progressLoading = data[2];
       setState(() {});
-      print(_progressLoading);
     });
     FlutterDownloader.registerCallback(downloadCallback);
   }
 
   static void downloadCallback(String id, int status, int progress) {
     final SendPort send =
-    IsolateNameServer.lookupPortByName('downloader_send_port')!;
+        IsolateNameServer.lookupPortByName('downloader_send_port')!;
     send.send([id, status, progress]);
   }
 
@@ -92,7 +90,6 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
   void deactivate() {
     // Pauses video while navigating to next page.
     _controller.pause();
-    print("Deactivated");
     super.deactivate();
   }
 
@@ -134,7 +131,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
       builder: (context, player) {
         return Scaffold(
           appBar:
-          CustomAppBarWidget(title: widget.courseLectureDetails.courseName),
+              CustomAppBarWidget(title: widget.courseLectureDetails.courseName),
           body: ListView(children: [
             player,
             CardViewMainDataCourseLectureWidget(
@@ -146,7 +143,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
             )
           ]),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniEndFloat,
+              FloatingActionButtonLocation.miniEndFloat,
           floatingActionButton: FloatingActionButton.extended(
             backgroundColor: ColorManager.primary,
             shape: RoundedRectangleBorder(
@@ -163,222 +160,205 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
   }
 
   _buildShowBottomSheetContentAndExamsCourses(BuildContext context) {
+    _controller.pause();
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       // enableDrag: true,
 
-      builder: (context) =>
-          SingleChildScrollView(
-            child: SizedBox(
-              height: context.height * 0.6,
-              child: Padding(
-                padding:
+      builder: (context) => SingleChildScrollView(
+        child: SizedBox(
+          height: context.height * 0.6,
+          child: Padding(
+            padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 6.0,
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width / 4,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text('تحميل المحتوى العلمى',
-                          style: context.bodyMedium.copyWith(
-                            color: ColorManager.primary,
-                          )),
-                    ),
-                    const SizedBox(height: 10.0),
-                    ...List.generate(
-                      widget.courseLectureDetails.files.length,
-                          (index) =>
-                          Card(
-                            // elevation: 0.0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0, vertical: 5.0),
-                              child: TextButton(
-                                onPressed: () async {
-                                  late String appStorage;
-                                  final status = await Permission.storage
-                                      .request();
-                                  if (status.isGranted) {
-                                    // final externalDirectory = await getExternalStorageDirectory();
+            child: Column(
+              children: [
+                Container(
+                  height: 6.0,
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  width: MediaQuery.of(context).size.width / 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('تحميل المحتوى العلمى',
+                      style: context.bodyMedium.copyWith(
+                        color: ColorManager.primary,
+                      )),
+                ),
+                const SizedBox(height: 10.0),
+                ...List.generate(
+                  widget.courseLectureDetails.files.length,
+                  (index) => Card(
+                    // elevation: 0.0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 5.0),
+                      child: TextButton(
+                        onPressed: () async {
+                          late String appStorage;
+                          final status = await Permission.storage.request();
+                          if (status.isGranted) {
+                            // final externalDirectory = await getExternalStorageDirectory();
 
-                                    if (Platform.isAndroid) {
-                                      appStorage = (await ExternalPath
-                                          .getExternalStoragePublicDirectory(
-                                          ExternalPath.DIRECTORY_DOWNLOADS));
-                                    } else if (Platform.isIOS) {
-                                      Directory appDocDir =
-                                      (await getApplicationDocumentsDirectory());
-                                      appStorage = appDocDir.path;
-                                    }
-                                    await FlutterDownloader.enqueue(
-                                      url: widget
-                                          .courseLectureDetails.files[index]
-                                          .filePath,
-                                      savedDir: appStorage,
-                                      fileName: _fileNameAndCurrantData(index),
-                                      showNotification: true,
-                                      openFileFromNotification: true,
-                                    );
-                                    _fileName = widget
-                                        .courseLectureDetails.files[index]
-                                        .fileName;
-                                    _fileNamesDownloaded.add(widget
-                                        .courseLectureDetails.files[index]
-                                        .fileName);
-                                  } else {}
+                            if (Platform.isAndroid) {
+                              appStorage = (await ExternalPath
+                                  .getExternalStoragePublicDirectory(
+                                      ExternalPath.DIRECTORY_DOWNLOADS));
+                            } else if (Platform.isIOS) {
+                              Directory appDocDir =
+                                  (await getApplicationDocumentsDirectory());
+                              appStorage = appDocDir.path;
+                            }
+                            await FlutterDownloader.enqueue(
+                              url: widget
+                                  .courseLectureDetails.files[index].filePath,
+                              savedDir: appStorage,
+                              fileName: _fileNameAndCurrantData(index),
+                              showNotification: true,
+                              openFileFromNotification: true,
+                            );
+                            _fileName = widget
+                                .courseLectureDetails.files[index].fileName;
+                            _fileNamesDownloaded.add(widget
+                                .courseLectureDetails.files[index].fileName);
+                          } else {}
 
-                                  ///
-                                  // _downloadFile(
-                                  //   path:
-                                  //       widget.lectureDetailsEntity.files[index].filePath,
-                                  //   name:
-                                  //       widget.lectureDetailsEntity.files[index].fileName,
-                                  // );
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor:
-                                  ColorManager.secondary.withOpacity(0.9),
-                                  // elevation: 0.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                          widget.courseLectureDetails
-                                              .files[index]
-                                              .fileName,
-                                          style: context.bodyMedium),
-                                    ),
-                                    (_progressLoading != null &&
-                                        _progressLoading != 100 &&
-                                        _fileName ==
-                                            widget.courseLectureDetails
-                                                .files[index]
-                                                .fileName)
-                                        ?
-                                    Text(
-                                      '$_progressLoading',
-                                      style: context.bodyMedium,
-                                    )
-                                        : (_fileNamesDownloaded.contains(widget
+                          ///
+                          // _downloadFile(
+                          //   path:
+                          //       widget.lectureDetailsEntity.files[index].filePath,
+                          //   name:
+                          //       widget.lectureDetailsEntity.files[index].fileName,
+                          // );
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor:
+                              ColorManager.secondary.withOpacity(0.9),
+                          // elevation: 0.0,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                  widget.courseLectureDetails.files[index]
+                                      .fileName,
+                                  style: context.bodyMedium),
+                            ),
+                            (_progressLoading != null &&
+                                    _progressLoading != 100 &&
+                                    _fileName ==
+                                        widget.courseLectureDetails.files[index]
+                                            .fileName)
+                                ? Text(
+                                    '$_progressLoading',
+                                    style: context.bodyMedium,
+                                  )
+                                : (_fileNamesDownloaded.contains(widget
                                         .courseLectureDetails
                                         .files[index]
                                         .fileName))
-                                        ? const Icon(
-                                      Icons.check,
-                                      size: 25,
-                                      color: Colors.green,
-                                    )
-                                        : const Icon(
-                                      Icons.download,
-                                      size: 25,
-                                      color: ColorManager.primary,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                    ),
-                    if (widget.courseLectureDetails.files.isEmpty)
-                      Align(
-                        alignment: AlignmentDirectional.center,
-                        child: Text(AppStrings.nosDataAvailable.tr(),
-                            textAlign: TextAlign.center,
-                            style: context.bodyMedium
-                                .copyWith(color: ColorManager.textGray)),
+                                    ? const Icon(
+                                        Icons.check,
+                                        size: 25,
+                                        color: Colors.green,
+                                      )
+                                    : const Icon(
+                                        Icons.download,
+                                        size: 25,
+                                        color: ColorManager.primary,
+                                      ),
+                          ],
+                        ),
                       ),
-                    const SizedBox(height: 20.0),
-                    const Divider(
-                      height: 10.0,
-                      thickness: 2,
                     ),
-                    const SizedBox(height: 20.0),
-                    Align(
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text('الامتحانات',
-                          style: context.bodyMedium.copyWith(
-                            color: ColorManager.primary,
-                          )),
-                    ),
-                    const SizedBox(height: 10.0),
-                    ...List.generate(
-                      widget.courseLectureDetails.exams.length,
-                          (index) =>
-                          Card(
-                            // elevation: 0.0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15.0, vertical: 5.0),
-                              child: TextButton(
-                                onPressed: () {
-                                  _controller.pause();
-                                  MagicRouterName.navigateTo(
-                                      RoutesNames.examLayoutRoute,
-                                      arguments: {
-                                        'id':
-                                        '${widget.courseLectureDetails
-                                            .exams[index].id}'
-                                      });
-                                },
-                                style: TextButton.styleFrom(
-                                  foregroundColor:
-                                  ColorManager.secondary.withOpacity(0.9),
-                                  // elevation: 0.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                          widget.courseLectureDetails
-                                              .exams[index]
-                                              .examName,
-                                          style: context.bodyMedium),
-                                    ),
-                                    const Icon(
-                                      Icons.question_mark,
-                                      size: 25,
-                                      color: ColorManager.primary,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                    ),
-                    if (widget.courseLectureDetails.exams.isEmpty)
-                      Align(
-                        alignment: AlignmentDirectional.center,
-                        child: Text(AppStrings.nosDataAvailable.tr(),
-                            textAlign: TextAlign.center,
-                            style: context.bodyMedium
-                                .copyWith(color: ColorManager.textGray)),
-                      ),
-                  ],
+                  ),
                 ),
-              ),
+                if (widget.courseLectureDetails.files.isEmpty)
+                  Align(
+                    alignment: AlignmentDirectional.center,
+                    child: Text(AppStrings.nosDataAvailable.tr(),
+                        textAlign: TextAlign.center,
+                        style: context.bodyMedium
+                            .copyWith(color: ColorManager.textGray)),
+                  ),
+                const SizedBox(height: 20.0),
+                const Divider(
+                  height: 10.0,
+                  thickness: 2,
+                ),
+                const SizedBox(height: 20.0),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('الامتحانات',
+                      style: context.bodyMedium.copyWith(
+                        color: ColorManager.primary,
+                      )),
+                ),
+                const SizedBox(height: 10.0),
+                ...List.generate(
+                  widget.courseLectureDetails.exams.length,
+                  (index) => Card(
+                    // elevation: 0.0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 5.0),
+                      child: TextButton(
+                        onPressed: () {
+                          _controller.pause();
+                          MagicRouterName.navigateTo(
+                              RoutesNames.examLayoutRoute,
+                              arguments: {
+                                'id':
+                                    '${widget.courseLectureDetails.exams[index].id}'
+                              });
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor:
+                              ColorManager.secondary.withOpacity(0.9),
+                          // elevation: 0.0,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                  widget.courseLectureDetails.exams[index]
+                                      .examName,
+                                  style: context.bodyMedium),
+                            ),
+                            const Icon(
+                              Icons.question_mark,
+                              size: 25,
+                              color: ColorManager.primary,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                if (widget.courseLectureDetails.exams.isEmpty)
+                  Align(
+                    alignment: AlignmentDirectional.center,
+                    child: Text(AppStrings.nosDataAvailable.tr(),
+                        textAlign: TextAlign.center,
+                        style: context.bodyMedium
+                            .copyWith(color: ColorManager.textGray)),
+                  ),
+              ],
             ),
           ),
+        ),
+      ),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
       ),
-      backgroundColor: Theme
-          .of(context)
-          .bottomSheetTheme
-          .backgroundColor,
+      backgroundColor: Theme.of(context).bottomSheetTheme.backgroundColor,
     );
   }
 
@@ -387,11 +367,8 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
 
     String fileName = widget.courseLectureDetails.files[index].fileName;
     String extensionFile =
-        widget.courseLectureDetails.files[index].filePath
-            .split('.')
-            .last;
+        widget.courseLectureDetails.files[index].filePath.split('.').last;
     var dateTimeFormat = DateFormat('dd-MM-yyyy-hhmmss').format(dateTime);
-    print('$fileName-$dateTimeFormat.$extensionFile');
     return '$fileName-$dateTimeFormat.$extensionFile';
   }
 
@@ -496,11 +473,11 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
         padding: EdgeInsets.zero,
         onPressed: _isPlayerReady
             ? () {
-          _muted ? _controller.unMute() : _controller.mute();
-          setState(() {
-            _muted = !_muted;
-          });
-        }
+                _muted ? _controller.unMute() : _controller.mute();
+                setState(() {
+                  _muted = !_muted;
+                });
+              }
             : null,
       ),
       const PlaybackSpeedButton(),
@@ -518,22 +495,20 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
     final hoursString = hours >= 10
         ? '$hours'
         : hours == 0
-        ? '00'
-        : '0$hours';
+            ? '00'
+            : '0$hours';
     final minutesString = minutes >= 10
         ? '$minutes'
         : minutes == 0
-        ? '00'
-        : '0$minutes';
+            ? '00'
+            : '0$minutes';
     final secondsString = seconds >= 10
         ? '$seconds'
         : seconds == 0
-        ? '00'
-        : '0$seconds';
+            ? '00'
+            : '0$seconds';
     final formattedTime =
-        '${hoursString == '00'
-        ? ''
-        : '$hoursString:'}$minutesString:$secondsString';
+        '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
     return formattedTime;
   }
 }
@@ -622,7 +597,6 @@ class _ContentAndExamsCoursesState extends State<ContentAndExamsCourses> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
@@ -963,12 +937,11 @@ class CardViewVideosCourseLectureWidget extends StatelessWidget {
             const SizedBox(height: 20.0),
             ...List.generate(
                 lectureDetailsEntity.videos.length,
-                    (index) =>
-                    Column(
+                (index) => Column(
                       children: [
                         Card(
                           color: lectureDetailsEntity.videos[index].youtubeID ==
-                              playerController.value.metaData.videoId
+                                  playerController.value.metaData.videoId
                               ? ColorManager.secondary_2
                               : null,
                           // elevation: 0.0,
@@ -977,16 +950,16 @@ class CardViewVideosCourseLectureWidget extends StatelessWidget {
                                 horizontal: 15.0, vertical: 5.0),
                             child: TextButton(
                               onPressed: lectureDetailsEntity
-                                  .videos[index].youtubeID !=
-                                  playerController.value.metaData.videoId
+                                          .videos[index].youtubeID !=
+                                      playerController.value.metaData.videoId
                                   ? () {
-                                playerController.load(lectureDetailsEntity
-                                    .videos[index].youtubeID);
-                              }
+                                      playerController.load(lectureDetailsEntity
+                                          .videos[index].youtubeID);
+                                    }
                                   : null,
                               style: TextButton.styleFrom(
                                 foregroundColor:
-                                ColorManager.secondary.withOpacity(0.9),
+                                    ColorManager.secondary.withOpacity(0.9),
                                 // elevation: 0.0,
                               ),
                               child: Row(

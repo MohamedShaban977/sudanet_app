@@ -10,7 +10,6 @@ import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/exam/presentation/cubit/exam_cubit.dart';
 import 'package:sudanet_app/widgets/custom_button_with_loading.dart';
 
-import '../../../../app/injection_container.dart';
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
 import '../../domain/entities/exam_ready_entity.dart';
@@ -39,16 +38,6 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
       listener: (context, state) {
         if (state is GetExamReadySuccessState) {
           examReadyEntity = state.response.data!;
-        }
-
-        if (state is GetExamQuestionOrPercentageSuccessState) {
-          MagicRouterName.navigateTo(
-            RoutesNames.examRoute,
-            arguments: {
-              'ExamEntity': state.response.data!,
-              'id': '${examReadyEntity.id}'
-            },
-          );
         }
       },
       builder: (context, state) {
@@ -96,19 +85,18 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
                       child: CustomButtonWithLoading(
-                        text: AppStrings.examStart.tr(),
-                        borderRadius: 5.0,
-                        height: 50.0,
-                        width: context.width,
-                        color: ColorManager.secondary,
-                        textColors: ColorManager.primary,
-                        onTap: () async {
-                          await sl<ExamCubit>()
-                              .get(context)
-                              .getExamQuestionOrPercentage(
-                                  '${examReadyEntity.id}');
-                        },
-                      ),
+                          text: AppStrings.examStart.tr(),
+                          borderRadius: 5.0,
+                          height: 50.0,
+                          width: context.width,
+                          color: ColorManager.secondary,
+                          textColors: ColorManager.primary,
+                          onTap: () async {
+                            MagicRouterName.navigateTo(
+                              RoutesNames.examRoute,
+                              arguments: {'id': '${examReadyEntity.id}'},
+                            );
+                          }),
                     ),
                   ),
                   const Spacer(),

@@ -56,7 +56,8 @@ class ToastAndSnackBar {
     );
   }
 
-  static showSnackBarFailure({required String title, required String message}) {
+  static showSnackBarFailure(BuildContext context,
+      {required String title, required String message}) {
     final snackBar = SnackBar(
       elevation: 0,
       // dismissDirection: ,
@@ -71,12 +72,13 @@ class ToastAndSnackBar {
         contentType: ContentType.failure,
       ),
     );
-    ScaffoldMessenger.of(MagicRouter.currentContext!)
+    ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
 
-  static showSnackBarHelp({required String title, required String message}) {
+  static showSnackBarHelp(BuildContext context,
+      {required String title, required String message}) {
     final snackBar = SnackBar(
       elevation: 0,
       duration: const Duration(days: 1),
@@ -88,15 +90,20 @@ class ToastAndSnackBar {
         contentType: ContentType.help,
       ),
     );
-    ScaffoldMessenger.of(MagicRouter.currentContext!)
+    ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);
   }
 
-  static showSnackBarWarning({required String title, required String message}) {
+  static showSnackBarWarning(BuildContext context,
+      {required String title,
+      required String message,
+      int? durationMilliseconds}) {
     final snackBar = SnackBar(
       elevation: 0,
-      duration: const Duration(days: 1),
+      duration: durationMilliseconds != null
+          ? Duration(milliseconds: durationMilliseconds)
+          : const Duration(days: 1),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
@@ -105,16 +112,21 @@ class ToastAndSnackBar {
         contentType: ContentType.warning,
       ),
     );
-    ScaffoldMessenger.of(MagicRouter.currentContext!)
-      ..hideCurrentSnackBar()
+    ScaffoldMessenger.of(context)
+      ..hideCurrentMaterialBanner()
       ..showSnackBar(snackBar);
   }
 
-  static showSnackBarSuccess({required String title, required String message}) {
+  static showSnackBarSuccess(BuildContext context,
+      {required String title,
+      required String message,
+      int? durationMilliseconds}) {
     final snackBar = SnackBar(
       elevation: 0,
-      duration: const Duration(days: 1),
-      behavior: SnackBarBehavior.floating,
+      duration: durationMilliseconds != null
+          ? Duration(milliseconds: durationMilliseconds)
+          : const Duration(days: 1),
+      behavior: SnackBarBehavior.fixed,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
         title: title,
@@ -122,9 +134,7 @@ class ToastAndSnackBar {
         contentType: ContentType.success,
       ),
     );
-    ScaffoldMessenger.of(MagicRouter.currentContext!)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static alertMustBeLogged() {

@@ -79,9 +79,7 @@ class AwesomeSnackbarContent extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-      ),
+      margin: EdgeInsets.symmetric(horizontal: horizontalPadding),
       height: size.height * 0.125,
       child: Stack(
         clipBehavior: Clip.none,
@@ -172,27 +170,59 @@ class AwesomeSnackbarContent extends StatelessWidget {
                         style: TextStyle(
                           fontSize: titleFontSize ??
                               (!isMobile
-                                  ? size.height * 0.03
+                                  ? size.height * 0.02
                                   : size.height * 0.025),
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
 
-                    InkWell(
-                      onTap: () {
-                        if (inMaterialBanner) {
-                          ScaffoldMessenger.of(context)
-                              .hideCurrentMaterialBanner();
-                          return;
-                        }
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      },
-                      child: SvgPicture.asset(
-                        AssetsPath.failure,
-                        height: size.height * 0.022,
-                        // package: 'awesome_snackbar_content',
+                    // Card(
+                    //   elevation: 5.0,
+                    //   shadowColor: Colors.white54,
+                    //   shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(5.0)),
+                    //   color: hslDark.toColor(),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: hslDark.toColor(),
+                        borderRadius: BorderRadius.circular(5.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(3, 5),
+                            blurRadius: 5.0,
+                            spreadRadius: 2.0,
+                          ),
+                          BoxShadow(
+                            color: Colors.white24,
+                            offset: Offset(-2, -2),
+                            blurRadius: 5.0,
+                            spreadRadius: 2.0,
+                          ),
+                        ],
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          if (inMaterialBanner) {
+                            ScaffoldMessenger.of(context)
+                                .hideCurrentMaterialBanner();
+                            return;
+                          }
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        },
+                        borderRadius: BorderRadius.circular(5.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: SvgPicture.asset(
+                            AssetsPath.failure,
+                            height: size.height * 0.022,
+                            // package: 'awesome_snackbar_content',
+                          ),
+                        ),
                       ),
                     ),
                   ],

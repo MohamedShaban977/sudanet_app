@@ -4,6 +4,7 @@ import '../../../../core/api/service_response.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/useCases/use_case.dart';
 import '../../data/models/save_answer_request.dart';
+import '../entities/end_exam_entity.dart';
 import '../entities/exam_entity.dart';
 import '../entities/exam_ready_entity.dart';
 import '../repositories/exam_repository.dart';
@@ -43,13 +44,14 @@ class SaveAnswerUseCases
       repository.saveAnswer(request);
 }
 
-class EndExamUseCases implements UseCase<BaseResponseEntity<dynamic>, String> {
+class EndExamUseCases
+    implements UseCase<BaseResponseEntity<EndExamEntity>, String> {
   final ExamRepository repository;
 
   EndExamUseCases({required this.repository});
 
   @override
-  Future<Either<Failure, BaseResponseEntity<dynamic>>> call(
+  Future<Either<Failure, BaseResponseEntity<EndExamEntity>>> call(
           String studentExamId) =>
       repository.endExam(studentExamId);
 }

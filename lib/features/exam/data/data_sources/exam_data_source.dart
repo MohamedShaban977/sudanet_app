@@ -1,6 +1,7 @@
 import '../../../../core/api/api_consumer.dart';
 import '../../../../core/api/end_point.dart';
 import '../../../../core/api/service_response.dart';
+import '../models/end_exam_response.dart';
 import '../models/exam_ready_response.dart';
 import '../models/exam_response.dart';
 import '../models/save_answer_request.dart';
@@ -12,7 +13,7 @@ abstract class ExamDataSource {
 
   Future<BaseResponse<bool>> saveAnswer(SaveAnswerRequest request);
 
-  Future<BaseResponse<dynamic>> endExam(String studentExamId);
+  Future<BaseResponse<EndExamResponse>> endExam(String studentExamId);
 }
 
 class ExamDataSourceImpl implements ExamDataSource {
@@ -54,7 +55,7 @@ class ExamDataSourceImpl implements ExamDataSource {
   @override
   Future<BaseResponse<bool>> saveAnswer(SaveAnswerRequest request) async {
     final response = await consumer.post(
-      EndPoint.getExam,
+      EndPoint.saveAnswer,
       data: request.toJson(),
       isFormData: true,
     );
@@ -65,13 +66,13 @@ class ExamDataSourceImpl implements ExamDataSource {
   }
 
   @override
-  Future<BaseResponse> endExam(String studentExamId) async {
+  Future<BaseResponse<EndExamResponse>> endExam(String studentExamId) async {
     final response = await consumer.post(EndPoint.endExam,
         data: {"StudentExamId": studentExamId}, isFormData: true);
 
-    final res = BaseResponse<ExamReadyResponse>.fromJson(
+    final res = BaseResponse<EndExamResponse>.fromJson(
       response,
-      (data) => ExamReadyResponse.fromJson(data),
+      (data) => EndExamResponse.fromJson(data),
     );
 
     return res;

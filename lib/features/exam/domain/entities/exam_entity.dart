@@ -16,7 +16,10 @@
 "percentage": null
 }*/
 
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 class ExamEntity extends Equatable {
   final int studentExamId;
@@ -28,7 +31,7 @@ class ExamEntity extends Equatable {
 
   final String examName;
 
-  final String percentage;
+  final String? percentage;
   final List<ExamQuestionsEntity> examQuestions;
 
   const ExamEntity({
@@ -59,23 +62,45 @@ class ExamEntity extends Equatable {
 "examQuestionAnswer": 0,
 "binHere": true
 }*/
-class ExamQuestionsEntity extends Equatable {
+class ExamQuestionsEntity {
   final int examQuestionId;
-  final int examQuestionAnswer;
+  int? examQuestionAnswer;
   final String examQuestionImage;
   final bool binHere;
 
-  const ExamQuestionsEntity(
+  ExamQuestionsEntity(
       {required this.examQuestionId,
       required this.examQuestionAnswer,
       required this.examQuestionImage,
       required this.binHere});
 
+  // @override
+  // List<Object?> get props => [
+  //       examQuestionId,
+  //       examQuestionImage,
+  //       binHere,
+  //       examQuestionAnswer,
+  //     ];
+
   @override
-  List<Object?> get props => [
-        examQuestionId,
-        examQuestionAnswer,
-        examQuestionImage,
-        binHere,
-      ];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (kDebugMode) {
+      log(other.toString());
+    }
+    return other is ExamQuestionsEntity &&
+        other.examQuestionId == examQuestionId &&
+        other.examQuestionImage == examQuestionImage &&
+        other.binHere == binHere;
+  }
+
+  @override
+  int get hashCode =>
+      examQuestionId.hashCode ^ examQuestionImage.hashCode ^ binHere.hashCode;
+
+  @override
+  String toString() {
+    return 'ExamQuestionsEntity: ( examQuestionId: $examQuestionId, examQuestionImage: $examQuestionImage, binHere:$binHere, examQuestionAnswer: $examQuestionAnswer )';
+  }
 }

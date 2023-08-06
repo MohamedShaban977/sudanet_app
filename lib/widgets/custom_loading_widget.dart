@@ -48,8 +48,10 @@ class CustomLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _buildLoader(),
+    return Scaffold(
+      body: Center(
+        child: _buildLoader(),
+      ),
     );
   }
 

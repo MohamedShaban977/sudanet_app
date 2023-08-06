@@ -167,13 +167,21 @@ class Routes {
         ServiceLocator.initExamGetIt();
         final res = settings.arguments! as Map<String, dynamic>;
 
-        return MagicRouter.pageRoute(BlocProvider.value(
+        return MagicRouter.pageRoute(
+          BlocProvider(
+            create: (context) =>
+                sl<ExamCubit>()..getExamQuestionOrPercentage(res['id']),
+            child: ExamScreen(id: res['id']),
+          ),
+          /*       BlocProvider.value(
+
           value: sl<ExamCubit>(),
           child: ExamScreen(
             examEntity: res['ExamEntity'],
             id: res['id'],
           ),
-        ));
+        ),*/
+        );
 
       default:
         return undefinedRoute();

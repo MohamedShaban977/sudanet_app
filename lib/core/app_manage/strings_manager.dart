@@ -88,4 +88,26 @@ class AppStrings {
   static const minutes = "minutes";
   static const questionsCount = "questions_count";
   static const examStart = "exam_start";
+
+  static const firstAnswer = "first_answer";
+  static const secondAnswer = "second_answer";
+  static const thirdAnswer = "third_answer";
+  static const fourthAnswer = "fourth_answer";
+
+  static const previous = "previous";
+  static const next = "next";
+  static const finishExam = "finish_exam";
+  static const examCompleted = "exam_completed";
+  static const reviewYourAnswersBeforeFinishing =
+      "review_your_answers_before_finishing";
+  static const ending = "ending";
+  static const reviewAnswers = "review_answers";
+  static const endedExamTitle = "ended_exam_title";
+  static const endedExamMassage = "ended_exam_massage";
+  static const examTimeIsUp = "exam_time_is_up";
+  static const examResult = "exam_result";
+  static const appreciation = "appreciation";
+  static const fail = "fail";
+  static const successful = "successful";
+  static const successRate = "success_rate";
 }

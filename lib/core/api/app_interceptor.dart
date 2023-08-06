@@ -11,6 +11,7 @@ import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 import '../../app/injection_container.dart';
 import '../app_manage/contents_manager.dart';
 import '../cache/cache_data_shpref.dart';
+import '../routes/magic_router.dart';
 
 class AppInterceptors extends Interceptor {
   @override
@@ -86,7 +87,7 @@ class AppInterceptors extends Interceptor {
       var error = jsonDecode(response.data);
 
       // ToastAndSnackBar.toastError(message: error['title']);
-      ToastAndSnackBar.showSnackBarFailure(
+      ToastAndSnackBar.showSnackBarFailure(MagicRouter.currentContext!,
           title: response.statusMessage!, message: error['title']!);
     }
 
@@ -94,14 +95,14 @@ class AppInterceptors extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     debugPrint(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
     debugPrint('ERROR[${err.type}] => Error: ${err.error}');
 
-    if (err.type == DioErrorType.unknown) {
+    if (err.type == DioExceptionType.unknown) {
       // MagicRouterName.navigateTo(RoutesNames.loginRoute);
-      ToastAndSnackBar.showSnackBarFailure(
+      ToastAndSnackBar.showSnackBarFailure(MagicRouter.currentContext!,
           title: 'ERROR ${err.type.name}', message: err.message!);
     }
 

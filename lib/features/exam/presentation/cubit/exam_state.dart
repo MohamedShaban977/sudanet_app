@@ -76,7 +76,7 @@ class SaveAnswerErrorState extends ExamState {
 class EndExamLoadingState extends ExamState {}
 
 class EndExamSuccessState extends ExamState {
-  final BaseResponseEntity response;
+  final BaseResponseEntity<EndExamEntity> response;
 
   const EndExamSuccessState(this.response);
 

@@ -1,10 +1,10 @@
 class SaveAnswerRequest {
-  final int? answer;
-  final int? examQuestionId;
+  final int answer;
+  final int examQuestionId;
 
   SaveAnswerRequest({
-    this.answer,
-    this.examQuestionId,
+    required this.answer,
+    required this.examQuestionId,
   });
 
   Map<String, dynamic> toJson() => {

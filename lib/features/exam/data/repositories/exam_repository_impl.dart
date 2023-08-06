@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/api/service_response.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../domain/entities/end_exam_entity.dart';
 import '../../domain/entities/exam_entity.dart';
 import '../../domain/entities/exam_ready_entity.dart';
 import '../../domain/repositories/exam_repository.dart';
@@ -48,7 +49,7 @@ class ExamRepositoryImpl implements ExamRepository {
   }
 
   @override
-  Future<Either<Failure, BaseResponseEntity>> endExam(
+  Future<Either<Failure, BaseResponseEntity<EndExamEntity>>> endExam(
       String studentExamId) async {
     try {
       final res = await dataSource.endExam(studentExamId);

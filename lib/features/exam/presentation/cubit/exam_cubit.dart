@@ -9,6 +9,7 @@ import 'package:sudanet_app/features/exam/domain/entities/exam_ready_entity.dart
 import 'package:sudanet_app/features/exam/domain/use_cases/exam_use_case.dart';
 
 import '../../../../core/error/failures.dart';
+import '../../domain/entities/end_exam_entity.dart';
 
 part 'exam_state.dart';
 
@@ -67,7 +68,7 @@ class ExamCubit extends Cubit<ExamState> {
 
   Future<void> endExam(String studentExamId) async {
     emit(EndExamLoadingState());
-    Either<Failure, BaseResponseEntity<dynamic>> response =
+    Either<Failure, BaseResponseEntity<EndExamEntity>> response =
         await endExamUseCases.call(studentExamId);
     response.fold(
         (failure) => emit(
