@@ -85,10 +85,16 @@ class AppInterceptors extends Interceptor {
 
     if (response.statusCode == StatusCode.badRequest) {
       var error = jsonDecode(response.data);
-
-      // ToastAndSnackBar.toastError(message: error['title']);
       ToastAndSnackBar.showSnackBarFailure(MagicRouter.currentContext!,
           title: response.statusMessage!, message: error['title']!);
+    }
+
+    if (response.statusCode == StatusCode.unauthorized) {
+      // var error = jsonDecode(response.data);
+      // ToastAndSnackBar.showSnackBarFailure(MagicRouter.currentContext!,
+      //     title: response.statusMessage!, message: error['title']!);
+      ToastAndSnackBar.alertMustBeLogged();
+      // MagicRouterName.navigateAndPopAll(RoutesNames.loginRoute);
     }
 
     return super.onResponse(response, handler);

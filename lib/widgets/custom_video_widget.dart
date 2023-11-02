@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CustomVideoWidget extends StatefulWidget {
@@ -62,6 +63,17 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
   @override
   Widget build(BuildContext context) {
     return YoutubePlayerBuilder(
+      onEnterFullScreen: () {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+          // SystemUiOverlay.top,
+        ]);
+      },
+      onExitFullScreen: () {
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+          SystemUiOverlay.top,
+          SystemUiOverlay.bottom,
+        ]);
+      },
       player: YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,

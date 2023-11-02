@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/home/presentation/cubit/home_cubit.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
+import '../../../../core/app_manage/strings_manager.dart';
 import '../../../main_layout_home/presentation/cubit/nav_bar_cubit.dart';
 import 'card_category_widget.dart';
 
@@ -23,8 +25,8 @@ class CategoriesWidget extends StatelessWidget {
             children: [
               Text(
                 'المراحل التعليميه الاكثر مشاهده',
-                style:
-                    context.displayLarge.copyWith(color: ColorManager.textGray),
+                style: context.displayMedium
+                    .copyWith(color: ColorManager.textGray),
               ),
               TextButton(
                 onPressed: () => NavBarCubit.get(context).changeIndex(1),
@@ -33,9 +35,9 @@ class CategoriesWidget extends StatelessWidget {
                     side: const BorderSide(
                         color: ColorManager.secondary, width: 2)),
                 child: Text(
-                  'المزيد',
+                  AppStrings.more.tr(),
                   style:
-                      context.titleMedium.copyWith(color: ColorManager.primary),
+                      context.bodySmall.copyWith(color: ColorManager.primary),
                 ),
               )
             ],

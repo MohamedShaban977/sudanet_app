@@ -42,7 +42,7 @@ class MobileForgetPasswordScreen extends StatelessWidget {
               ),
 
               /// image
-              Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
+              Image.asset(ImageAssets.newLogo, alignment: Alignment.center),
               const SizedBox(height: AppSize.s38),
 
               ///

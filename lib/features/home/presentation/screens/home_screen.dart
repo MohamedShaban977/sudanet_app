@@ -91,9 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Image.asset(
-            ImageAssets.logoImg,
+            ImageAssets.newLogo,
             alignment: Alignment.center,
-            height: kToolbarHeight - 5,
+            // fit: BoxFit.fitWidth,
+            height: kToolbarHeight,
           ),
           if (!UserSecureStorage.isAuth)
             TextButton(

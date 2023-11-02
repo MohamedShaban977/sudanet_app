@@ -25,8 +25,8 @@ class CoursesWidget extends StatelessWidget {
             children: [
               Text(
                 'أقوى الدورات في المرحلة الاولى',
-                style:
-                    context.displayLarge.copyWith(color: ColorManager.textGray),
+                style: context.displayMedium
+                    .copyWith(color: ColorManager.textGray),
               ),
               TextButton(
                 onPressed: () => NavBarCubit.get(context).changeIndex(2),
@@ -37,7 +37,7 @@ class CoursesWidget extends StatelessWidget {
                 child: Text(
                   AppStrings.more.tr(),
                   style:
-                      context.titleMedium.copyWith(color: ColorManager.primary),
+                      context.bodySmall.copyWith(color: ColorManager.primary),
                 ),
               )
             ],

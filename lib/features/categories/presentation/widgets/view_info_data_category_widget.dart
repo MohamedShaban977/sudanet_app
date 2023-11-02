@@ -26,7 +26,7 @@ class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
         const SizedBox(height: AppSize.s8),
         Text(
           category.name,
-          style: context.displayLarge.copyWith(color: ColorManager.primary),
+          style: context.displayMedium.copyWith(color: ColorManager.primary),
         ),
         const Spacer(),
         ElevatedButton(
