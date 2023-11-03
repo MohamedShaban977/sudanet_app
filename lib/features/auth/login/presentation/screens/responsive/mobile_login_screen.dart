@@ -60,7 +60,7 @@ class MobileLoginScreen extends StatelessWidget {
               const SizedBox(height: AppSize.s40),
 
               /// image
-              Image.asset(ImageAssets.logoImg, alignment: Alignment.center),
+              Image.asset(ImageAssets.newLogo, alignment: Alignment.center),
               const SizedBox(height: AppSize.s38),
 
               ///

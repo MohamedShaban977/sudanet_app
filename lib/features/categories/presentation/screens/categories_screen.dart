@@ -15,7 +15,7 @@ import '../../../../widgets/custom_loading_widget.dart';
 import 'responsive_widget/card_mobile_widget.dart';
 import 'responsive_widget/card_tablet_widget.dart';
 
-const double _heightItem = 160;
+const double _heightItem = 140;
 const double _desiredItemWidth = 250;
 
 class CategoriesScreen extends StatelessWidget {
@@ -31,51 +31,61 @@ class CategoriesScreen extends StatelessWidget {
           if (state is GetAllCategoriesLoadingState) {
             return const CustomLoadingScreen();
           }
-          return SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: AppSize.s20),
-                Padding(
-                  padding: const EdgeInsets.all(AppPadding.p12),
-                  child: Text(
-                    AppStrings.viewAllEducationalLevels.tr(),
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          color: ColorManager.primary,
-                        ),
-                  ),
-                ),
-
-                ///
-                ResponsiveGridList(
-                  rowMainAxisAlignment: MainAxisAlignment.start,
-                  desiredItemWidth: Responsive.isMobileS(context) ||
-                          Responsive.isMobile(context)
-                      ? context.width
-                      : _desiredItemWidth,
-                  minSpacing: AppSize.s1,
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  children: List.generate(
-                    cubit.categoriesItems.length,
-                    (index) => Responsive(
-                      mobile: CardCategoriesMobileWidget(
-                        category: cubit.categoriesItems[index],
-                        height: _heightItem,
-                      ),
-                      tablet: CardCategoriesTabletWidget(
-                        category: cubit.categoriesItems[index],
-                        width: context.width,
-                      ),
-                      desktop: CardCategoriesTabletWidget(
-                        category: cubit.categoriesItems[index],
-                        width: context.width,
+          return RefreshIndicator(
+            onRefresh: () async {
+              await sl<CategoriesCubit>().getCategories();
+            },
+            child: SizedBox(
+              height: context.height - kToolbarHeight,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: ClampingScrollPhysics()),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: AppSize.s20),
+                    Padding(
+                      padding: const EdgeInsets.all(AppPadding.p12),
+                      child: Text(
+                        AppStrings.viewAllEducationalLevels.tr(),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  color: ColorManager.primary,
+                                ),
                       ),
                     ),
-                  ),
+
+                    ///
+                    ResponsiveGridList(
+                      rowMainAxisAlignment: MainAxisAlignment.start,
+                      desiredItemWidth: Responsive.isMobileS(context) ||
+                              Responsive.isMobile(context)
+                          ? context.width
+                          : _desiredItemWidth,
+                      minSpacing: AppSize.s1,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      children: List.generate(
+                        cubit.categoriesItems.length,
+                        (index) => Responsive(
+                          mobile: CardCategoriesMobileWidget(
+                            category: cubit.categoriesItems[index],
+                            height: _heightItem,
+                          ),
+                          tablet: CardCategoriesTabletWidget(
+                            category: cubit.categoriesItems[index],
+                            width: context.width,
+                          ),
+                          desktop: CardCategoriesTabletWidget(
+                            category: cubit.categoriesItems[index],
+                            width: context.width,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

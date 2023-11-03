@@ -93,7 +93,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       listener: _initListener,
       builder: (context, state) {
         if (state is GetExamQuestionOrPercentageErrorState) {
-          return const CustomErrorWidget();
+          return const Scaffold(body: CustomErrorWidget());
         }
         if (state is GetExamQuestionOrPercentageLoadingState) {
           return const CustomLoadingScreen();

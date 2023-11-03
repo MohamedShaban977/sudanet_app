@@ -32,40 +32,66 @@ class CoursesByCategoryScreen extends StatelessWidget {
             return const CustomLoadingScreen();
           }
 
-          return SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: AppSize.s20),
-                Padding(
-                  padding: const EdgeInsets.all(AppPadding.p12),
-                  child: Text(
-                    '${AppStrings.viewAllFirstStageSubjects.tr()} ${cubit.coursesByCategoryIdItems.first.categoryName}',
-                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                          color: ColorManager.primary,
-                        ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: ResponsiveGridList(
-                    desiredItemWidth: Responsive.isMobileS(context) ||
-                            Responsive.isMobile(context)
-                        ? context.width * 0.4
-                        : _desiredItemWidth,
-                    minSpacing: 2.0,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    children: List.generate(
-                      cubit.coursesByCategoryIdItems.length,
-                      (index) => CardCoursesTabletWidget(
-                        course: cubit.coursesByCategoryIdItems[index],
+          return RefreshIndicator(
+            onRefresh: () async {
+              await sl<CoursesByCategoryCubit>()
+                  .getCoursesByCategoryId(categoryId);
+            },
+            child: SizedBox(
+              height: context.height - kToolbarHeight,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(
+                    parent: ClampingScrollPhysics()),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: AppSize.s20),
+                    Padding(
+                      padding: const EdgeInsets.all(AppPadding.p12),
+                      child: Text(
+                        '${AppStrings.viewAllFirstStageSubjects.tr()} ',
+                        style:
+                            Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                  color: ColorManager.primary,
+                                ),
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ResponsiveGridList(
+                        desiredItemWidth: Responsive.isMobileS(context) ||
+                                Responsive.isMobile(context)
+                            ? context.width * 0.4
+                            : _desiredItemWidth,
+                        minSpacing: 2.0,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        rowMainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (cubit.coursesByCategoryIdItems.isNotEmpty)
+                            ...List.generate(
+                              cubit.coursesByCategoryIdItems.length,
+                              (index) => CardCoursesTabletWidget(
+                                course: cubit.coursesByCategoryIdItems[index],
+                              ),
+                            )
+                          else
+                            Text(
+                              'لا يوجد بيانات لعرضها',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                    color: ColorManager.primary,
+                                    fontSize: 20,
+                                  ),
+                            )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

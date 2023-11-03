@@ -30,7 +30,9 @@ class Assets {
   static const String imagesHomebanner = 'assets/images/homebanner.jpg';
   static const String imagesJsonLoader = 'assets/images/json/loader.json';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesNewLogo = 'assets/images/new_logo.png';
   static const String imagesSplashScreen = 'assets/images/splash-screen.png';
+  static const String imagesSvgExam = 'assets/images/svg/exam.svg';
   static const String jsonLoader = 'assets/images/json/loader.json';
   static const String langAr = 'assets/lang/ar.json';
   static const String langEn = 'assets/lang/en.json';

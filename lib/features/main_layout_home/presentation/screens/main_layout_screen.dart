@@ -74,7 +74,6 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                         return true;
                       }
                     },
-
                     child: CustomNavBarWidget(
                       currentIndex: cubit.currentIndex,
                       onItemSelected: (int index) => cubit.changeIndex(index),
@@ -125,7 +124,6 @@ class MenuItem {
   const MenuItem(this.index, {required this.icon, required this.text});
 
   final int index;
-
   final IconData icon;
   final String text;
 }

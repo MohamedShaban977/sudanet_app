@@ -18,7 +18,7 @@ class CardCourseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 220.0,
-      height: 310.0,
+      height: 280.0,
       child: GestureDetector(
         onTap: () => MagicRouterName.navigateTo(
           RoutesNames.courseDetails,
@@ -33,7 +33,7 @@ class CardCourseWidget extends StatelessWidget {
             child: Column(
               children: [
                 Expanded(
-                  flex: 4,
+                  flex: 3,
                   child: ImageWidget(imagePath: course.imagePath),
                 ),
                 Expanded(

@@ -25,12 +25,15 @@ class ViewInfoDataCoursesWidget extends StatelessWidget {
         const SizedBox(height: AppSize.s5),
         Text(
           course.name,
-          style: context.displayLarge.copyWith(color: ColorManager.primary),
+          style: context.titleMedium.copyWith(color: ColorManager.primary),
         ),
         const SizedBox(height: AppSize.s5),
         Text(
           course.categoryName,
-          style: context.titleMedium.copyWith(color: ColorManager.textGray),
+          style: context.titleLarge.copyWith(
+            color: ColorManager.textGray,
+          ),
+          maxLines: 1,
         ),
         const SizedBox(height: AppSize.s5),
         Text(

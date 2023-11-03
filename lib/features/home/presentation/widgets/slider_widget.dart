@@ -108,7 +108,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                 ),
               ),
               options: CarouselOptions(
-                aspectRatio: 16 / 8,
+                aspectRatio: 16 / 6.5,
                 viewportFraction: 1.0,
                 initialPage: 0,
                 autoPlay: true,

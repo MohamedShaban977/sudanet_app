@@ -21,7 +21,7 @@ class CardCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Constants.desiredItemWidth,
-      height: context.height * 0.4,
+      height: context.height * 0.35,
       child: Card(
         margin: const EdgeInsets.all(AppPadding.p12),
         shape: RoundedRectangleBorder(
@@ -32,7 +32,10 @@ class CardCategoryWidget extends StatelessWidget {
             children: [
               Expanded(
                 flex: 5,
-                child: ImageWidget(imagePath: category.imagePath),
+                child: ImageWidget(
+                  imagePath: category.imagePath,
+                  width: context.width,
+                ),
               ),
               Expanded(
                   flex: 4,
@@ -45,7 +48,7 @@ class CardCategoryWidget extends StatelessWidget {
                         const SizedBox(height: AppSize.s5),
                         Text(
                           category.name,
-                          style: context.displaySmall
+                          style: context.bodyMedium
                               .copyWith(color: ColorManager.primary),
                         ),
                         const SizedBox(height: AppSize.s5),

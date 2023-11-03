@@ -147,7 +147,7 @@ class ToastAndSnackBar {
       widget: Column(children: [
         ElevatedButton(
             onPressed: () =>
-                MagicRouterName.navigateReplacementTo(RoutesNames.loginRoute),
+                MagicRouterName.navigateAndPopAll(RoutesNames.loginRoute),
             child: Text(AppStrings.signIn.tr())),
         ElevatedButton(
             onPressed: () => MagicRouter.pop(),

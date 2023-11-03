@@ -7,6 +7,7 @@ class ImageAssets {
   static const String homeBanner2 = "${imagePath}home_banner1.jpg";
   static const String homeBanner3 = "${imagePath}homebanner.jpg";
   static const String avatarStudent = "${imagePath}avatar_student.jpg";
+  static const String newLogo = "${imagePath}new_logo.png";
 }
 
 const String imageJsonPath = "${imagePath}json/";
