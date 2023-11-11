@@ -21,7 +21,6 @@ import '../../features/courses_by_category/presentation/cubit/courses_by_categor
 import '../../features/courses_by_category/presentation/screens/corses_by_category_screen.dart';
 import '../../features/exam/presentation/screens/exam_layout_screen.dart';
 import '../../features/exam/presentation/screens/exam_screen.dart';
-import '../../features/home/presentation/cubit/home_cubit.dart';
 import '../../features/main_layout_home/presentation/screens/main_layout_screen.dart';
 import '../../features/profile/presentation/cubit/profile_cubit.dart';
 import '../../features/profile/presentation/screens/change_password_screen.dart';
@@ -63,22 +62,27 @@ class Routes {
         ));
       // loginRoute
       case RoutesNames.mainLayoutApp:
-        ServiceLocator.initHomeGetIt();
+        // ServiceLocator.initHomeGetIt();
         ServiceLocator.initCoursesGetIt();
         ServiceLocator.initCategoriesGetIt();
+        ServiceLocator.initProfileGetIt();
+
         return MagicRouter.pageRoute(MultiBlocProvider(
           providers: [
-            BlocProvider(
-              create: (context) => sl<HomeCubit>()
-                ..getCategories()
-                ..getCourses()
-                ..getSlider(),
-            ),
+            // BlocProvider(
+            //   create: (context) => sl<HomeCubit>()
+            //     ..getCategories()
+            //     ..getCourses()
+            //     ..getSlider(),
+            // ),
             BlocProvider(
               create: (context) => sl<CoursesCubit>()..getAllCourses(),
             ),
             BlocProvider(
               create: (context) => sl<CategoriesCubit>()..getCategories(),
+            ),
+            BlocProvider(
+              create: (context) => sl<ProfileCubit>()..getUserMyCourses(),
             ),
           ],
           child: const MainLayoutScreen(),

@@ -45,16 +45,16 @@ class MobileLoginScreen extends StatelessWidget {
                 children: [
                   // const CustomButtonChangeLanguageWidget(),
                   const HelperButtonWidget(),
-                  GestureDetector(
-                    onTap: () => MagicRouterName.navigateReplacementTo(
-                        RoutesNames.mainLayoutApp),
-                    child: Text(
-                      AppStrings.registerLater.tr(),
-                      style: context.displayMedium.copyWith(
-                          color: ColorManager.primary,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  // GestureDetector(
+                  //   onTap: () => MagicRouterName.navigateReplacementTo(
+                  //       RoutesNames.mainLayoutApp),
+                  //   child: Text(
+                  //     AppStrings.registerLater.tr(),
+                  //     style: context.displayMedium.copyWith(
+                  //         color: ColorManager.primary,
+                  //         fontWeight: FontWeight.bold),
+                  //   ),
+                  // )
                 ],
               ),
               const SizedBox(height: AppSize.s40),

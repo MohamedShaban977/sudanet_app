@@ -42,15 +42,15 @@ class TabletLoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const HelperButtonWidget(),
-              GestureDetector(
-                onTap: () =>
-                    MagicRouterName.navigateTo(RoutesNames.mainLayoutApp),
-                child: Text(
-                  AppStrings.registerLater.tr(),
-                  style: context.displayMedium.copyWith(
-                      color: ColorManager.primary, fontWeight: FontWeight.bold),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () =>
+              //       MagicRouterName.navigateTo(RoutesNames.mainLayoutApp),
+              //   child: Text(
+              //     AppStrings.registerLater.tr(),
+              //     style: context.displayMedium.copyWith(
+              //         color: ColorManager.primary, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
             ],
           ),
           Expanded(

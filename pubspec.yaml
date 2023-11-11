@@ -118,6 +118,7 @@ flutter:
     - assets/images/svg/snakbar_content/types/
     - assets/images/avatar_student.jpg
     - assets/images/svg/exam.svg
+    - assets/images/new_logo.png
 
 
   fonts:

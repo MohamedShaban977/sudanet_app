@@ -87,7 +87,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                         ),
                         BottomNavyBarItem(
                           icon: const Icon(Icons.grid_view_sharp),
-                          title: Text(AppStrings.educationalLevels.tr()),
+                          title: Text(AppStrings.myCourses.tr()),
                           activeColor: ColorManager.primary,
                           inactiveColor: Colors.grey,
                           backgroundColorItem: ColorManager.secondary,

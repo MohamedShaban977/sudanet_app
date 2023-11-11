@@ -61,13 +61,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () => MagicRouterName.navigateTo(
                         RoutesNames.changePasswordRoute),
                   ),
-                  SizedBox(height: context.height * 0.02),
-                  CustomButtonProfile(
-                    iconData: FontAwesomeIcons.book,
-                    text: AppStrings.myCourses.tr(),
-                    onTap: () => MagicRouterName.navigateTo(
-                        RoutesNames.userMyCoursesRoute),
-                  ),
+                  // SizedBox(height: context.height * 0.02),
+                  // CustomButtonProfile(
+                  //   iconData: FontAwesomeIcons.book,
+                  //   text: AppStrings.myCourses.tr(),
+                  //   onTap: () => MagicRouterName.navigateTo(
+                  //       RoutesNames.userMyCoursesRoute),
+                  // ),
                   SizedBox(height: context.height * 0.02),
                   CustomButtonProfile(
                     iconData: FontAwesomeIcons.circleInfo,
