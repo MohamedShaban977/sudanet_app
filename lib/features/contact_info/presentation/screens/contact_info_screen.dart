@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sudanet_app/core/app_manage/assets_manager.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
+import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/core/service/open_url_launcher.dart';
-import 'package:sudanet_app/features/contact_info/domain/entities/contact_info_entity.dart';
 import 'package:sudanet_app/features/contact_info/presentation/cubit/contact_info_cubit.dart';
 import 'package:sudanet_app/widgets/custom_loading_widget.dart';
 
+import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
+import '../../../../core/app_manage/strings_manager.dart';
+import '../../../../core/app_manage/values_manager.dart';
 
 class ContactInfoScreen extends StatefulWidget {
   const ContactInfoScreen({Key? key}) : super(key: key);
@@ -18,24 +22,44 @@ class ContactInfoScreen extends StatefulWidget {
 }
 
 class _ContactInfoScreenState extends State<ContactInfoScreen> {
-  late ContactInfoEntity contactInfo;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: AppSize.s5,
+      centerTitle: false,
+      backgroundColor: ColorManager.background,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: ColorManager.background,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
+      ),
+      title: Text(AppStrings.help.tr(),
+          style: context.displayLarge.copyWith(
+              color: ColorManager.textGray, fontWeight: FontWeight.w700)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: _buildAppBar(context),
       body: BlocConsumer<ContactInfoCubit, ContactInfoState>(
         listener: (context, state) {
-          if (state is GetContactInfoSuccessState) {
-            contactInfo = state.response.data!;
-          }
+          // if (state is GetContactInfoSuccessState) {
+          //   contactInfo = state.response.data!;
+          // }
         },
         builder: (context, state) {
-          // final cubit = sl<ContactInfoCubit>().get(context);
+          final cubit = sl<ContactInfoCubit>().get(context);
 
           if (state is GetContactInfoLoadingState) {
             return const CustomLoadingScreen();
           }
+
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -48,7 +72,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                 ),
                 const SizedBox(height: 20.0),
                 Text(
-                  contactInfo.about,
+                  cubit.contactInfo.about,
                   style: context.titleLarge,
                 ),
                 const SizedBox(height: 40.0),
@@ -59,7 +83,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                 ),
                 const SizedBox(height: 20.0),
                 Text(
-                  contactInfo.terms,
+                  cubit.contactInfo.terms,
                   style: context.titleLarge,
                 ),
                 SizedBox(
@@ -91,7 +115,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                                         ),
                                         const SizedBox(height: 8.0),
                                         Text(
-                                          contactInfo.phone1,
+                                          cubit.contactInfo.phone1,
                                           style: context.titleLarge,
                                           overflow: TextOverflow.fade,
                                         ),
@@ -126,7 +150,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                                         ),
                                         const SizedBox(height: 8.0),
                                         Text(
-                                          contactInfo.phone1,
+                                          cubit.contactInfo.phone1,
                                           style: context.titleLarge,
                                           overflow: TextOverflow.fade,
                                         ),
@@ -161,7 +185,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                                         ),
                                         const SizedBox(height: 8.0),
                                         Text(
-                                          contactInfo.mail1,
+                                          cubit.contactInfo.mail1,
                                           style: context.titleLarge,
                                           overflow: TextOverflow.fade,
                                         ),
@@ -196,7 +220,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                                         ),
                                         const SizedBox(height: 8.0),
                                         Text(
-                                          contactInfo.mail2,
+                                          cubit.contactInfo.mail2,
                                           style: context.titleLarge,
                                           overflow: TextOverflow.fade,
                                         ),
@@ -227,7 +251,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                           children: [
                             InkWell(
                               onTap: () => OpenUrlLauncher.launchLink(
-                                  url: contactInfo.facebookLink),
+                                  url: cubit.contactInfo.facebookLink),
                               child: const Icon(
                                 FontAwesomeIcons.squareFacebook,
                                 color: Colors.blueAccent,
@@ -236,7 +260,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                             ),
                             InkWell(
                               onTap: () => OpenUrlLauncher.launchLink(
-                                  url: contactInfo.twitterLink),
+                                  url: cubit.contactInfo.twitterLink),
                               child: const Icon(
                                 FontAwesomeIcons.squareTwitter,
                                 color: Colors.blueAccent,
@@ -245,7 +269,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                             ),
                             InkWell(
                               onTap: () => OpenUrlLauncher.launchLink(
-                                  url: contactInfo.instegramLink),
+                                  url: cubit.contactInfo.instegramLink),
                               child: const Icon(
                                 FontAwesomeIcons.squareInstagram,
                                 color: Colors.purple,
@@ -254,7 +278,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                             ),
                             InkWell(
                               onTap: () => OpenUrlLauncher.launchLink(
-                                  url: contactInfo.youtubeLink),
+                                  url: cubit.contactInfo.youtubeLink),
                               child: const Icon(
                                 FontAwesomeIcons.squareYoutube,
                                 color: Colors.red,
@@ -263,7 +287,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                             ),
                             InkWell(
                               onTap: () => OpenUrlLauncher.launchWhatsApp(
-                                  phone: contactInfo.whatsapp1),
+                                  phone: cubit.contactInfo.whatsapp1),
                               child: const Icon(
                                 FontAwesomeIcons.squareWhatsapp,
                                 color: Colors.green,

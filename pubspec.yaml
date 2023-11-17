@@ -119,6 +119,7 @@ flutter:
     - assets/images/avatar_student.jpg
     - assets/images/svg/exam.svg
     - assets/images/new_logo.png
+    - assets/images/svg/no_data.svg
 
 
   fonts:

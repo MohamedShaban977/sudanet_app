@@ -17,15 +17,37 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
 
   ContactInfoCubit get(context) => BlocProvider.of(context);
 
+  late ContactInfoEntity contactInfo = const ContactInfoEntity(
+    about: '-',
+    facebookLink: '-',
+    instegramLink: '-',
+    mail1: '-',
+    mail2: '-',
+    mail3: '-',
+    phone1: '-',
+    phone2: '-',
+    phone3: '-',
+    whatsapp1: '-',
+    whatsapp2: '-',
+    whatsapp3: '',
+    twitterLink: '-',
+    youtubeLink: '-',
+    terms: '-',
+  );
+
   Future<void> getContactInfo() async {
     emit(GetContactInfoLoadingState());
     Either<Failure, BaseResponseEntity<ContactInfoEntity>> response =
         await contactInfoUseCase.call(NoParams());
 
     response.fold(
-      (failure) => emit(GetContactInfoErrorState(
-          error: HandleFailure.mapFailureToMsg(failure))),
-      (response) => emit(GetContactInfoSuccessState(response: response)),
-    );
+        (failure) => emit(
+              GetContactInfoErrorState(
+                error: HandleFailure.mapFailureToMsg(failure),
+              ),
+            ), (response) {
+      contactInfo = response.data!;
+      emit(GetContactInfoSuccessState(response: response));
+    });
   }
 }
