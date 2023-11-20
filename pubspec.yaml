@@ -77,7 +77,7 @@ dependencies:
 
   device_preview: ^1.1.0
   flutter_downloader: ^1.10.4
-  intl: ^0.18.0
+  intl: ^0.18.1
   photo_view: ^0.14.0
 
 dev_dependencies:
@@ -119,6 +119,7 @@ flutter:
     - assets/images/avatar_student.jpg
     - assets/images/svg/exam.svg
     - assets/images/new_logo.png
+    - assets/images/svg/no_data.svg
 
 
   fonts:
