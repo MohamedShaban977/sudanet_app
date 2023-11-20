@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
@@ -61,20 +62,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () => MagicRouterName.navigateTo(
                         RoutesNames.changePasswordRoute),
                   ),
-                  SizedBox(height: context.height * 0.02),
-                  CustomButtonProfile(
-                    iconData: FontAwesomeIcons.book,
-                    text: AppStrings.myCourses.tr(),
-                    onTap: () => MagicRouterName.navigateTo(
-                        RoutesNames.userMyCoursesRoute),
-                  ),
-                  SizedBox(height: context.height * 0.02),
-                  CustomButtonProfile(
-                    iconData: FontAwesomeIcons.circleInfo,
-                    text: AppStrings.help.tr(),
-                    onTap: () =>
-                        MagicRouterName.navigateTo(RoutesNames.contactInfo),
-                  ),
+                  // SizedBox(height: context.height * 0.02),
+                  // CustomButtonProfile(
+                  //   iconData: FontAwesomeIcons.book,
+                  //   text: AppStrings.myCourses.tr(),
+                  //   onTap: () => MagicRouterName.navigateTo(
+                  //       RoutesNames.userMyCoursesRoute),
+                  // ),
+                  // SizedBox(height: context.height * 0.02),
+                  // CustomButtonProfile(
+                  //   iconData: FontAwesomeIcons.circleInfo,
+                  //   text: AppStrings.help.tr(),
+                  //   onTap: () =>
+                  //       MagicRouterName.navigateTo(RoutesNames.contactInfo),
+                  // ),
                   SizedBox(height: context.height * 0.02),
                   CustomButtonProfile(
                     iconData: FontAwesomeIcons.rightFromBracket,
@@ -98,7 +99,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      title: Text(AppStrings.profile.tr()),
+      elevation: AppSize.s5,
+      centerTitle: false,
+      backgroundColor: ColorManager.background,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: ColorManager.background,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
+      ),
+      title: Text(AppStrings.profile.tr(),
+          style: context.displayLarge.copyWith(
+              color: ColorManager.textGray, fontWeight: FontWeight.w700)),
     );
   }
 

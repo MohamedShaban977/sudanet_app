@@ -5,8 +5,8 @@ import 'package:sudanet_app/features/profile/presentation/screens/profile_screen
 import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 
 import '../../../categories/presentation/screens/categories_screen.dart';
-import '../../../courses/presentation/screens/courses_screen.dart';
-import '../../../home/presentation/screens/home_screen.dart';
+import '../../../contact_info/presentation/screens/contact_info_screen.dart';
+import '../../../profile/presentation/screens/user_my_courses_screen.dart';
 
 part 'nav_bar_state.dart';
 
@@ -16,9 +16,11 @@ class NavBarCubit extends Cubit<NavBarState> {
   static NavBarCubit get(context) => BlocProvider.of(context);
 
   List<Widget> screens() => [
-        const HomeScreen(),
+        // const HomeScreen(),
         const CategoriesScreen(),
-        const CoursesScreen(),
+        const UserMyCoursesScreen(),
+        // const CoursesScreen(),
+        const ContactInfoScreen(),
         const ProfileScreen(),
       ];
 

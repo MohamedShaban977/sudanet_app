@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:sudanet_app/widgets/custom_empty_widget.dart';
 
 import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
@@ -66,75 +67,91 @@ class UserMyCoursesScreen extends StatelessWidget {
                     const SizedBox(height: AppSize.s20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: ResponsiveGridList(
-                        desiredItemWidth: Responsive.isMobileS(context) ||
-                                Responsive.isMobile(context)
-                            ? context.width * 0.4
-                            : _desiredItemWidth,
-                        minSpacing: 2.0,
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        children: List.generate(
-                          cubit.myCourses.length,
-                          (index) => GestureDetector(
-                            onTap: () => MagicRouterName.navigateTo(
-                              RoutesNames.courseDetails,
-                              arguments: {
-                                'id': '${cubit.myCourses[index].courseId}'
-                              },
-                            ),
-                            child: Card(
-                              // margin: const EdgeInsets.all(AppPadding.p8),
-                              elevation: AppSize.s8,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(AppSize.s11)),
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ImageWidget(
-                                      width: context.width,
-                                      height: _heightItem,
-                                      imagePath:
-                                          cubit.myCourses[index].courseImage),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.all(AppPadding.p8),
+                      child: cubit.myCourses.isEmpty
+                          ? const CustomEmptyWidget()
+                          : ResponsiveGridList(
+                              desiredItemWidth: Responsive.isMobileS(context) ||
+                                      Responsive.isMobile(context)
+                                  ? context.width * 0.4
+                                  : _desiredItemWidth,
+                              minSpacing: 2.0,
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              children: List.generate(
+                                cubit.myCourses.length,
+                                (index) => GestureDetector(
+                                  onTap: () => MagicRouterName.navigateTo(
+                                    RoutesNames.courseDetails,
+                                    arguments: {
+                                      'id': '${cubit.myCourses[index].courseId}'
+                                    },
+                                  ),
+                                  child: Card(
+                                    // margin: const EdgeInsets.all(AppPadding.p8),
+                                    elevation: AppSize.s8,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(AppSize.s11)),
+                                    clipBehavior: Clip.antiAlias,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       children: [
-                                        const SizedBox(height: AppSize.s5),
-                                        Text(
-                                          cubit.myCourses[index].courseName,
-                                          style: context.displayLarge.copyWith(
-                                              color: ColorManager.primary),
+                                        ImageWidget(
+                                            width: context.width,
+                                            height: _heightItem,
+                                            imagePath: cubit
+                                                .myCourses[index].courseImage),
+                                        Padding(
+                                          padding: const EdgeInsets.all(
+                                              AppPadding.p8),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                  height: AppSize.s5),
+                                              Text(
+                                                cubit.myCourses[index]
+                                                    .courseName,
+                                                style: context.displayLarge
+                                                    .copyWith(
+                                                        color: ColorManager
+                                                            .primary),
+                                              ),
+                                              const SizedBox(
+                                                  height: AppSize.s5),
+                                              Text(
+                                                cubit.myCourses[index]
+                                                    .teacherName,
+                                                style: context.bodyMedium
+                                                    .copyWith(
+                                                        color: ColorManager
+                                                            .textGray),
+                                              ),
+                                              const SizedBox(
+                                                  height: AppSize.s5),
+                                              Text(
+                                                cubit.myCourses[index]
+                                                    .buyingDate,
+                                                style: context.bodyMedium
+                                                    .copyWith(
+                                                        color: ColorManager
+                                                            .textGray),
+                                              ),
+                                              const SizedBox(
+                                                  height: AppSize.s5),
+                                            ],
+                                          ),
                                         ),
-                                        const SizedBox(height: AppSize.s5),
-                                        Text(
-                                          cubit.myCourses[index].teacherName,
-                                          style: context.bodyMedium.copyWith(
-                                              color: ColorManager.textGray),
-                                        ),
-                                        const SizedBox(height: AppSize.s5),
-                                        Text(
-                                          cubit.myCourses[index].buyingDate,
-                                          style: context.bodyMedium.copyWith(
-                                              color: ColorManager.textGray),
-                                        ),
-                                        const SizedBox(height: AppSize.s5),
                                       ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
                     ),
                   ],
                 ),

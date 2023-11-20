@@ -91,7 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
     if (state is SignUpSuccessState) {
       await UserSecureStorage.setUser(data: state.response.data!);
       ToastAndSnackBar.toastSuccess(message: state.response.message);
-      MagicRouterName.navigateAndPopUntilFirstPage(RoutesNames.loginRoute);
+      MagicRouterName.navigateAndPopUntilFirstPage(RoutesNames.mainLayoutApp);
     }
     if (state is SignUpErrorState) {
       ToastAndSnackBar.toastError(message: state.error);

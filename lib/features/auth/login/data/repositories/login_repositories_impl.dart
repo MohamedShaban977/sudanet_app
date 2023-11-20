@@ -34,12 +34,7 @@ class LoginRepositoryImpl implements LoginRepository {
 
     try {
       var res = await dataSource.loginDataSource(request);
-      var token =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik1vYW1lbiBNb3N0YWZhIiwibmFtZWlkIjoiMyIsImNlcnRzZXJpYWxudW1iZXIiOiJiYmNjMzcxMC1jMTFjLTQxNmItYjYyMi02NmNlMGZmZWVjNDIiLCJwcmltYXJ5Z3JvdXBzaWQiOiJTdHVkZW50IiwibmJmIjoxNjg4OTU4MjQyLCJleHAiOjE3NjgwMTc4NDIsImlhdCI6MTY4ODk1ODI0Mn0.4iGGciZg7covbxYNJ1t-gvJz5QZ_F3fbXzT1F7HaImM';
-
-      res.success
-          ? await UserSecureStorage.setUser(data: res.data!..token = token)
-          : null;
+      res.success ? await UserSecureStorage.setUser(data: res.data!) : null;
 
       return res.success ? Right(res) : left(ServerFailure(res.message));
     } on ServerException catch (error) {
