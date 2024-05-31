@@ -81,9 +81,9 @@ class Routes {
             BlocProvider(
               create: (context) => sl<CategoriesCubit>()..getCategories(),
             ),
-            BlocProvider(
-              create: (context) => sl<ProfileCubit>()..getUserMyCourses(),
-            ),
+            // BlocProvider(
+            // create: (context) => sl<ProfileCubit>()..getUserMyCourses(),
+            // ),
             BlocProvider(
               create: (context) => sl<ContactInfoCubit>()..getContactInfo(),
             ),

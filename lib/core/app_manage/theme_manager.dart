@@ -155,7 +155,7 @@ ThemeData getApplicationTheme() {
 
 void statusBarColor({Color? color}) {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: color ?? Colors.deepPurpleAccent[200],
+      statusBarColor: color ?? ColorManager.primary,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark));
 }

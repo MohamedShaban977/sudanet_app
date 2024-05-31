@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CustomVideoWidget extends StatefulWidget {
@@ -79,6 +80,8 @@ class _CustomVideoWidgetState extends State<CustomVideoWidget> {
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blueAccent,
         topActions: _topActions(),
+        // aspectRatio: 0.1,
+        width: context.width * 0.5,
         onReady: () {
           _isPlayerReady = true;
         },

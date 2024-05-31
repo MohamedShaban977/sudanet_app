@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,7 +12,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/core/routes/routes_name.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
@@ -32,10 +35,16 @@ class CourseLecturesScreen extends StatefulWidget {
 }
 
 class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
-  late YoutubePlayerController _controller;
-  late YoutubeMetaData _videoMetaData;
-  bool _muted = false;
-  bool _isPlayerReady = false;
+  // late YoutubePlayerController _controller;
+  // late YoutubeMetaData _videoMetaData;
+  // bool _muted = false;
+  // bool _isPlayerReady = false;
+
+  bool isFullScreen = false;
+  bool isShowBtnFullScreen = false;
+  late final WebViewController _controller;
+
+  String videoUrl = '';
 
   int? _progressLoading;
 
@@ -47,18 +56,50 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
   @override
   void initState() {
     super.initState();
+    videoUrl = (widget.courseLectureDetails.videos.isNotEmpty)
+        ? widget.courseLectureDetails.videos.first.youtubeID
+        : widget.initVideoID;
 
-    var id = YoutubePlayer.convertUrlToId(
-        (widget.courseLectureDetails.videos.isNotEmpty)
-            ? widget.courseLectureDetails.videos.first.youtubeID
-            : widget.initVideoID);
-    _controller = YoutubePlayerController(
-      initialVideoId: id!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-      ),
-    )..addListener(_listener);
-    _videoMetaData = const YoutubeMetaData();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            print('onPageFinished => $url');
+            // if (url.isNotEmpty && url.contains(videoUrl)) {
+            setState(() {
+              isShowBtnFullScreen = true;
+            });
+            // }
+          },
+          onWebResourceError: (WebResourceError error) {},
+          // onNavigationRequest: (NavigationRequest request) {
+          //   if (request.url.startsWith('https://www.youtube.com/')) {
+          //     return NavigationDecision.prevent;
+          //   }
+          //   return NavigationDecision.navigate;
+          // },
+        ),
+      )
+      ..loadRequest(Uri.parse(videoUrl));
+
+    // var id = YoutubePlayer.convertUrlToId(
+    //     (widget.courseLectureDetails.videos.isNotEmpty)
+    //         ? widget.courseLectureDetails.videos.first.youtubeID
+    //         : widget.initVideoID);
+    ///
+    // _controller = YoutubePlayerController(
+    //   initialVideoId: id!,
+    //   flags: const YoutubePlayerFlags(
+    //     autoPlay: true,
+    //   ),
+    // )..addListener(_listener);
+    // _videoMetaData = const YoutubeMetaData();
 
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
@@ -78,24 +119,24 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
     send.send([id, status, progress]);
   }
 
-  void _listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {
-        _videoMetaData = _controller.metadata;
-      });
-    }
-  }
+  // void _listener() {
+  //   if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+  //     setState(() {
+  //       _videoMetaData = _controller.metadata;
+  //     });
+  //   }
+  // }
 
   @override
   void deactivate() {
     // Pauses video while navigating to next page.
-    _controller.pause();
+    // _controller.pause();
     super.deactivate();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    // _controller.dispose();
     IsolateNameServer.removePortNameMapping('downloader_send_port');
 
     super.dispose();
@@ -103,64 +144,86 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.blueAccent,
-        topActions: _topActions(),
-        onReady: () {
-          _isPlayerReady = true;
-        },
-        onEnded: (data) {
-          // List<String> videos = [];
-          //
-          // for (var element in widget.courseLectureDetails.videos) {
-          //   videos.add(element.youtubeID);
-          // }
-          // _controller
-          //     .load(videos[(videos.indexOf(data.videoId) + 1) % videos.length]);
-          // // _showSnackBar('Next Video Started!');
-          // // _controller.load(data.videoId);
-          // _controller.pause();
-        },
-        actionsPadding: const EdgeInsets.only(top: 8.0),
-        controlsTimeOut: _videoMetaData.duration,
-        bottomActions: _bottomActions(),
-      ),
-      builder: (context, player) {
-        return Scaffold(
-          appBar:
-              CustomAppBarWidget(title: widget.courseLectureDetails.courseName),
-          body: ListView(children: [
-            player,
-            CardViewMainDataCourseLectureWidget(
-                lectureDetailsEntity: widget.courseLectureDetails),
-            // const SizedBox(height: 40.0),
-            CardViewVideosCourseLectureWidget(
-              lectureDetailsEntity: widget.courseLectureDetails,
-              playerController: _controller,
-            )
-          ]),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.miniEndFloat,
-          floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: ColorManager.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+    return Scaffold(
+      appBar: isFullScreen
+          ? null
+          : CustomAppBarWidget(title: widget.courseLectureDetails.courseName),
+      body: ListView(children: [
+        Stack(
+          children: [
+            SizedBox(
+              width: context.width,
+              height: isFullScreen ? context.height : context.height * 0.35,
+              child: WebViewWidget(
+                controller: _controller,
+              ),
             ),
-            onPressed: () =>
-                _buildShowBottomSheetContentAndExamsCourses(context),
-            isExtended: true,
-            label: const Text('المحتوى العلمى | الامتحانات'),
-          ),
-        );
-      },
+            if (isShowBtnFullScreen)
+              Positioned(
+                bottom: 8.0,
+                right: 5.0,
+                child: GestureDetector(
+                  onTap: () {
+                    if (isFullScreen) {}
+                    if (MediaQuery.of(context).orientation ==
+                        Orientation.portrait) {
+                      SystemChrome.setPreferredOrientations([
+                        DeviceOrientation.landscapeLeft,
+                        DeviceOrientation.landscapeRight
+                      ]);
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                          overlays: [SystemUiOverlay.bottom]);
+                    } else {
+                      SystemChrome.setPreferredOrientations(
+                          [DeviceOrientation.portraitUp]);
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+                          overlays: [SystemUiOverlay.top]);
+                    }
+
+                    setState(() {
+                      isFullScreen = !isFullScreen;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepOrange,
+                        borderRadius: BorderRadius.circular(5.0)),
+                    child: Icon(
+                      isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+                      size: 30.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
+          ],
+        ),
+        CardViewMainDataCourseLectureWidget(
+            lectureDetailsEntity: widget.courseLectureDetails),
+        // const SizedBox(height: 40.0),
+        CardViewVideosCourseLectureWidget(
+          lectureDetailsEntity: widget.courseLectureDetails,
+          playerController: _controller,
+        )
+      ]),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: isFullScreen
+          ? const SizedBox.shrink()
+          : FloatingActionButton.extended(
+              backgroundColor: ColorManager.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              onPressed: () =>
+                  _buildShowBottomSheetContentAndExamsCourses(context),
+              isExtended: true,
+              label: const Text('المحتوى العلمى | الامتحانات'),
+            ),
     );
   }
 
   _buildShowBottomSheetContentAndExamsCourses(BuildContext context) {
-    _controller.pause();
+    // _controller.pause();
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -310,7 +373,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                           horizontal: 15.0, vertical: 5.0),
                       child: TextButton(
                         onPressed: () {
-                          _controller.pause();
+                          // _controller.pause();
                           MagicRouterName.navigateTo(
                               RoutesNames.examLayoutRoute,
                               arguments: {
@@ -412,7 +475,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
     }
   }*/
 
-  List<Widget> _topActions() {
+/*  List<Widget> _topActions() {
     return <Widget>[
       const SizedBox(width: 8.0),
       Expanded(
@@ -510,7 +573,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
     final formattedTime =
         '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
     return formattedTime;
-  }
+  }*/
 }
 
 ///
@@ -729,7 +792,8 @@ class _ContentAndExamsCoursesState extends State<ContentAndExamsCourses> {
                                           Colors.green),
                                   value: double.tryParse(
                                       _progressLoading.toString()),
-                                )*/ /*
+                                )*/
+/*
 
                               Text(
                                   '$_progressLoading',
@@ -915,15 +979,36 @@ class CardViewMainDataCourseLectureWidget extends StatelessWidget {
   }
 }
 
-class CardViewVideosCourseLectureWidget extends StatelessWidget {
+class CardViewVideosCourseLectureWidget extends StatefulWidget {
   final CourseLectureDetailsEntity lectureDetailsEntity;
-  final YoutubePlayerController playerController;
+  final WebViewController playerController;
 
   const CardViewVideosCourseLectureWidget({
     super.key,
     required this.lectureDetailsEntity,
     required this.playerController,
   });
+
+  @override
+  State<CardViewVideosCourseLectureWidget> createState() =>
+      _CardViewVideosCourseLectureWidgetState();
+}
+
+class _CardViewVideosCourseLectureWidgetState
+    extends State<CardViewVideosCourseLectureWidget> {
+  String? currentUrl = '';
+
+  getUrl() async {
+    currentUrl = await widget.playerController.currentUrl();
+    setState(() {});
+    print('currentUrl ==> $currentUrl');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUrl();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -936,25 +1021,27 @@ class CardViewVideosCourseLectureWidget extends StatelessWidget {
           children: [
             const SizedBox(height: 20.0),
             ...List.generate(
-                lectureDetailsEntity.videos.length,
+                widget.lectureDetailsEntity.videos.length,
                 (index) => Column(
                       children: [
                         Card(
-                          color: lectureDetailsEntity.videos[index].youtubeID ==
-                                  playerController.value.metaData.videoId
+                          color: widget.lectureDetailsEntity.videos[index]
+                                      .youtubeID ==
+                                  currentUrl
                               ? ColorManager.secondary_2
                               : null,
-                          // elevation: 0.0,
+                          elevation: 0.0,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 15.0, vertical: 5.0),
                             child: TextButton(
-                              onPressed: lectureDetailsEntity
+                              onPressed: widget.lectureDetailsEntity
                                           .videos[index].youtubeID !=
-                                      playerController.value.metaData.videoId
+                                      currentUrl
                                   ? () {
-                                      playerController.load(lectureDetailsEntity
-                                          .videos[index].youtubeID);
+                                      widget.playerController.loadRequest(
+                                          Uri.parse(widget.lectureDetailsEntity
+                                              .videos[index].youtubeID));
                                     }
                                   : null,
                               style: TextButton.styleFrom(
@@ -966,7 +1053,7 @@ class CardViewVideosCourseLectureWidget extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                        lectureDetailsEntity
+                                        widget.lectureDetailsEntity
                                             .videos[index].videoName,
                                         style: context.bodyLarge.copyWith(
                                             color: ColorManager.primary)),
@@ -984,7 +1071,7 @@ class CardViewVideosCourseLectureWidget extends StatelessWidget {
                         const SizedBox(height: 10.0),
                       ],
                     )),
-            if (lectureDetailsEntity.videos.isEmpty)
+            if (widget.lectureDetailsEntity.videos.isEmpty)
               Align(
                 alignment: AlignmentDirectional.center,
                 child: Text(AppStrings.nosDataAvailable.tr(),

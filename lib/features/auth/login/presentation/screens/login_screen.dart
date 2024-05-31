@@ -45,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+
+    UserSecureStorage.removeUser();
     getMacID();
   }
 
@@ -143,7 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
       await Future.sync(
-          () async => sl<LoginCubit>().get(context).login(LoginRequest(
+              () async =>
+              sl<LoginCubit>().get(context).login(LoginRequest(
                 email: email.text,
                 password: password.text,
                 macAddress: guidId,

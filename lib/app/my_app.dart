@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           return previousState != currentState;
         },
         builder: (context, state) => MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Al-Mirghaniyah Online',
           debugShowCheckedModeBanner: false,
 
           useInheritedMediaQuery: true,
@@ -55,7 +55,8 @@ class _MyAppState extends State<MyApp> {
 
           ///Locales
           supportedLocales: AppLocalizationsSetup.supportedLocales,
-          localeResolutionCallback: AppLocalizationsSetup.localeResolutionCallback,
+          localeResolutionCallback:
+              AppLocalizationsSetup.localeResolutionCallback,
           localizationsDelegates: AppLocalizationsSetup.localizationsDelegates,
           locale: state.locale,
         ),

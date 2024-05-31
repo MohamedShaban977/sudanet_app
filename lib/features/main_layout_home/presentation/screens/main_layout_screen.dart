@@ -85,13 +85,13 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                           inactiveColor: Colors.grey,
                           backgroundColorItem: ColorManager.secondary,
                         ),
-                        BottomNavyBarItem(
-                          icon: const Icon(Icons.grid_view_sharp),
-                          title: Text(AppStrings.myCourses.tr()),
-                          activeColor: ColorManager.primary,
-                          inactiveColor: Colors.grey,
-                          backgroundColorItem: ColorManager.secondary,
-                        ),
+                        // BottomNavyBarItem(
+                        //   icon: const Icon(Icons.grid_view_sharp),
+                        //   title: Text(AppStrings.myCourses.tr()),
+                        //   activeColor: ColorManager.primary,
+                        //   inactiveColor: Colors.grey,
+                        //   backgroundColorItem: ColorManager.secondary,
+                        // ),
                         // BottomNavyBarItem(
                         //   icon: const Icon(FontAwesomeIcons.book),
                         //   title: Text(AppStrings.subjects.tr()),

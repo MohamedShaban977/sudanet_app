@@ -6,6 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/core/routes/magic_router.dart';
+import 'package:sudanet_app/widgets/custom_iframe_video_widget.dart';
 import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 
 import '../../../../app/injection_container.dart';
@@ -15,10 +16,8 @@ import '../../../../core/routes/routes_name.dart';
 import '../../../../widgets/custom_app_bar_widget.dart';
 import '../../../../widgets/custom_error_widget.dart';
 import '../../../../widgets/custom_loading_widget.dart';
-import '../../../../widgets/custom_video_widget.dart';
 import '../../domain/entities/course_details_entity.dart';
 import '../cubit/course_details_cubit.dart';
-import 'purchase_course_widget.dart';
 
 ///
 class CourseDetailsScreen extends StatefulWidget {
@@ -32,7 +31,6 @@ class CourseDetailsScreen extends StatefulWidget {
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     with WidgetsBindingObserver {
-  final String videoId = 'W9xxF_DIt6g';
   bool _isInForeground = true;
 
   @override
@@ -57,11 +55,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
       case AppLifecycleState.paused:
         break;
       case AppLifecycleState.detached:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
     }
   }
-
 
   @override
   void dispose() {
@@ -87,20 +84,117 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
         }
         if (state is GetCourseDetailsErrorState) {
           return const Scaffold(body: CustomErrorWidget());
-          // if (courseDetails == null) {
-          //
-          // }
         }
         return ModalProgressHUD(
           inAsyncCall: state is GetCourseLectureDetailsLoadingState,
-          child: CustomVideoWidget(
-            videoId: courseDetails.youtubeID,
-            builder: (BuildContext context, Widget player) {
-              return BodyScreen(
-                player: player,
-                courseDetails: courseDetails,
-              );
-            },
+          // child: CustomVideoWidget(
+          //   videoId: courseDetails.youtubeID,
+          //   builder: (BuildContext context, Widget player) {
+          //     return BodyScreen(
+          //       player: AspectRatio(aspectRatio: 16 / 9, child: player),
+          //       courseDetails: courseDetails,
+          //     );
+          //   },
+          // ),
+          ///
+          // child: Scaffold(
+          //   appBar: isFullScreen
+          //       ? null
+          //       : CustomAppBarWidget(title: courseDetails.categoryName),
+          //   body: Column(
+          //     children: [
+          //       Stack(
+          //         children: [
+          //           WebViewX(
+          //             initialSourceType: SourceType.url,
+          //             initialContent:
+          //                 'https://iframe.mediadelivery.net/embed/191416/2e3fd468-ea92-4aa2-be3c-d82dde9f1590?autoplay=true&loop=true&muted=false&preload=true&responsive=true',
+          //             onWebViewCreated: (controller) {
+          //               webviewController = controller;
+          //               webviewController.loadContent(
+          //                 'https://iframe.mediadelivery.net/embed/191416/2e3fd468-ea92-4aa2-be3c-d82dde9f1590?autoplay=true&loop=true&muted=false&preload=true&responsive=true',
+          //                 SourceType.url,
+          //               );
+          //             },
+          //             onPageStarted: (value) {
+          //               print('Start=> $value');
+          //             },
+          //             onPageFinished: (value) {
+          //               print('finished => $value');
+          //               if (value.isNotEmpty &&
+          //                   value
+          //                       .contains('https://iframe.mediadelivery.net')) {
+          //                 setState(() {
+          //                   isShowBtnFullScreen = true;
+          //                 });
+          //               }
+          //             },
+          //             width: context.width,
+          //             height:
+          //                 isFullScreen ? context.height : context.height * 0.35,
+          //             javascriptMode: JavascriptMode.unrestricted,
+          //             navigationDelegate: (request) {
+          //               return NavigationDecision.navigate;
+          //             },
+          //           ),
+          //           if (isShowBtnFullScreen)
+          //             Positioned(
+          //               bottom: 2.0,
+          //               right: 2.0,
+          //               child: GestureDetector(
+          //                 onTap: () {
+          //                   if (isFullScreen) {}
+          //                   if (MediaQuery.of(context).orientation ==
+          //                       Orientation.portrait) {
+          //                     SystemChrome.setPreferredOrientations([
+          //                       DeviceOrientation.landscapeLeft,
+          //                       DeviceOrientation.landscapeRight
+          //                     ]);
+          //                     SystemChrome.setEnabledSystemUIMode(
+          //                         SystemUiMode.manual,
+          //                         overlays: [SystemUiOverlay.bottom]);
+          //                   } else {
+          //                     SystemChrome.setPreferredOrientations(
+          //                         [DeviceOrientation.portraitUp]);
+          //                     SystemChrome.setEnabledSystemUIMode(
+          //                         SystemUiMode.manual,
+          //                         overlays: [SystemUiOverlay.top]);
+          //                   }
+          //
+          //                   setState(() {
+          //                     isFullScreen = !isFullScreen;
+          //                   });
+          //                 },
+          //                 child: Container(
+          //                   decoration: BoxDecoration(
+          //                       color: Colors.deepOrange,
+          //                       borderRadius: BorderRadius.circular(5.0)),
+          //                   child: Icon(
+          //                     isFullScreen
+          //                         ? Icons.fullscreen_exit
+          //                         : Icons.fullscreen,
+          //                     size: 35.0,
+          //                     color: Colors.white,
+          //                   ),
+          //                 ),
+          //               ),
+          //             )
+          //         ],
+          //       ),
+          //       if (!isFullScreen)
+          //         Expanded(
+          //             child: BodyScreen(
+          //           courseDetails: courseDetails,
+          //         ))
+          //     ],
+          //   ),
+          // ),
+          child: CustomIframeVideoWidget(
+            videoUrl: courseDetails.youtubeID,
+            appBar: CustomAppBarWidget(title: courseDetails.categoryName),
+            child: BodyScreen(
+              courseDetails: courseDetails,
+            ),
           ),
         );
       },
@@ -139,26 +233,20 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
 
 ///
 class BodyScreen extends StatelessWidget {
-  final Widget player;
   final CourseDetailsEntity courseDetails;
 
   const BodyScreen({
     super.key,
-    required this.player,
     required this.courseDetails,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBarWidget(title: courseDetails.categoryName),
-      body: ListView(children: [
-        player,
-        CardDetailsCourseWidget(courseDetails: courseDetails),
-        const SizedBox(height: 20.0),
-        CardContentCourseWidget(courseDetails: courseDetails),
-      ]),
-    );
+    return ListView(children: [
+      CardDetailsCourseWidget(courseDetails: courseDetails),
+      const SizedBox(height: 20.0),
+      CardContentCourseWidget(courseDetails: courseDetails),
+    ]);
   }
 }
 
@@ -209,45 +297,45 @@ class CardDetailsCourseWidget extends StatelessWidget {
             const SizedBox(height: 40.0),
 
             /// price and currency Name
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                      '${courseDetails.price}    ${courseDetails.currencyName}',
-                      style: context.displayLarge
-                          .copyWith(color: ColorManager.textGray)),
-                  SizedBox(
-                    width: 150.0,
-                    height: 46.0,
-                    child: Visibility(
-                      visible: courseDetails.purchased,
-                      replacement: ElevatedButton(
-                          onPressed: () =>
-                              PurchaseCourses.show(
-                                context,
-                                courseId: courseDetails.id,
-                                isAlert: false,
-                              ),
-                          child: Text(AppStrings.purchase.tr())),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            disabledForegroundColor: ColorManager.primary,
-                            disabledBackgroundColor: ColorManager.white,
-                            elevation: 0.0,
-                            side: const BorderSide(
-                              color: ColorManager.secondary,
-                            ),
-                          ),
-                          onPressed: null,
-                          child: Text(AppStrings.buyingSucceeded.tr())),
-                    ),
-                  )
-                ],
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     crossAxisAlignment: CrossAxisAlignment.end,
+            //     children: [
+            //       Text(
+            //           '${courseDetails.price}    ${courseDetails.currencyName}',
+            //           style: context.displayLarge
+            //               .copyWith(color: ColorManager.textGray)),
+            //       SizedBox(
+            //         width: 150.0,
+            //         height: 46.0,
+            //         child: Visibility(
+            //           visible: courseDetails.purchased,
+            //           replacement: ElevatedButton(
+            //               onPressed: () =>
+            //                   PurchaseCourses.show(
+            //                     context,
+            //                     courseId: courseDetails.id,
+            //                     isAlert: false,
+            //                   ),
+            //               child: Text(AppStrings.purchase.tr())),
+            //           child: ElevatedButton(
+            //               style: ElevatedButton.styleFrom(
+            //                 disabledForegroundColor: ColorManager.primary,
+            //                 disabledBackgroundColor: ColorManager.white,
+            //                 elevation: 0.0,
+            //                 side: const BorderSide(
+            //                   color: ColorManager.secondary,
+            //                 ),
+            //               ),
+            //               onPressed: null,
+            //               child: Text(AppStrings.buyingSucceeded.tr())),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),
@@ -275,64 +363,60 @@ class CardContentCourseWidget extends StatelessWidget {
           children: [
             Text(AppStrings.contentCourse.tr(),
                 style:
-                context.bodyLarge.copyWith(color: ColorManager.textGray)),
+                    context.bodyLarge.copyWith(color: ColorManager.textGray)),
             const SizedBox(height: 20.0),
             // Text('(7) حصص * (10) فيديوهات * 10س . 54د',
             //     style: context.bodyMedium),
             const SizedBox(height: 20.0),
             ...List.generate(
               courseDetails.courseLectures.length,
-                  (index) =>
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: ColorManager.lightGrey),
-                    ),
-                    child: CustomExpandedTitle(
-                      iconLeading: Icon(
-                        _checkCoursePurchasedOrIsFree(index)
-                            ? FontAwesomeIcons.lockOpen
-                            : FontAwesomeIcons.lock,
-                        size: 20.0,
-                      ),
-                      textTitle: courseDetails.courseLectures[index].name,
-                      isExpanded: index == 0 ? true : false,
-                      onTap: () =>
-                          sl<CourseDetailsCubit>()
-                              .get(context)
-                              .getLectureCourseDetails(
-                              '${courseDetails.courseLectures[index].id}'),
-                      children: [
-                        ContentSession(
-                          iconLeading: _checkCoursePurchasedOrIsFree(index)
-                              ? FontAwesomeIcons.lockOpen
-                              : FontAwesomeIcons.lock,
-                          title: AppStrings.videos.tr(),
-                          count:
-                          '${courseDetails.courseLectures[index].videoCount}',
-                          iconTrailing: FontAwesomeIcons.play,
-                        ),
-                        ContentSession(
-                          iconLeading: _checkCoursePurchasedOrIsFree(index)
-                              ? FontAwesomeIcons.lockOpen
-                              : FontAwesomeIcons.lock,
-                          title: AppStrings.files.tr(),
-                          count: '${courseDetails.courseLectures[index]
-                              .fileCount}',
-                          iconTrailing: FontAwesomeIcons.fileArrowDown,
-                        ),
-                        ContentSession(
-                          iconLeading: _checkCoursePurchasedOrIsFree(index)
-                              ? FontAwesomeIcons.lockOpen
-                              : FontAwesomeIcons.lock,
-                          title: AppStrings.exam.tr(),
-                          count: '${courseDetails.courseLectures[index]
-                              .examCount}',
-                          iconTrailing: FontAwesomeIcons.solidCircleQuestion,
-                        ),
-                      ],
-                    ),
+              (index) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: ColorManager.lightGrey),
+                ),
+                child: CustomExpandedTitle(
+                  iconLeading: Icon(
+                    _checkCoursePurchasedOrIsFree(index)
+                        ? FontAwesomeIcons.lockOpen
+                        : FontAwesomeIcons.lock,
+                    size: 20.0,
                   ),
+                  textTitle: courseDetails.courseLectures[index].name,
+                  isExpanded: index == 0 ? true : false,
+                  onTap: () => sl<CourseDetailsCubit>()
+                      .get(context)
+                      .getLectureCourseDetails(
+                          '${courseDetails.courseLectures[index].id}'),
+                  children: [
+                    ContentSession(
+                      iconLeading: _checkCoursePurchasedOrIsFree(index)
+                          ? FontAwesomeIcons.lockOpen
+                          : FontAwesomeIcons.lock,
+                      title: AppStrings.videos.tr(),
+                      count:
+                          '${courseDetails.courseLectures[index].videoCount}',
+                      iconTrailing: FontAwesomeIcons.play,
+                    ),
+                    ContentSession(
+                      iconLeading: _checkCoursePurchasedOrIsFree(index)
+                          ? FontAwesomeIcons.lockOpen
+                          : FontAwesomeIcons.lock,
+                      title: AppStrings.files.tr(),
+                      count: '${courseDetails.courseLectures[index].fileCount}',
+                      iconTrailing: FontAwesomeIcons.fileArrowDown,
+                    ),
+                    ContentSession(
+                      iconLeading: _checkCoursePurchasedOrIsFree(index)
+                          ? FontAwesomeIcons.lockOpen
+                          : FontAwesomeIcons.lock,
+                      title: AppStrings.exam.tr(),
+                      count: '${courseDetails.courseLectures[index].examCount}',
+                      iconTrailing: FontAwesomeIcons.solidCircleQuestion,
+                    ),
+                  ],
+                ),
+              ),
             ),
 
             if (courseDetails.courseLectures.isEmpty)
@@ -566,12 +650,13 @@ class CustomExpandedTitle extends StatefulWidget {
 
   final bool isExpanded;
 
-  const CustomExpandedTitle({Key? key,
-    required this.textTitle,
-    required this.iconLeading,
-    required this.children,
-    this.isExpanded = false,
-    this.onTap})
+  const CustomExpandedTitle(
+      {Key? key,
+      required this.textTitle,
+      required this.iconLeading,
+      required this.children,
+      this.isExpanded = false,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -625,13 +710,12 @@ class _CustomExpandedTitleState extends State<CustomExpandedTitle>
         // ),
         trailing: AnimatedSwitcher(
           duration: const Duration(milliseconds: 400),
-          transitionBuilder: (child, anim) =>
-              RotationTransition(
-                turns: child.key == const ValueKey('icon1')
-                    ? Tween<double>(begin: 1, end: 0).animate(anim)
-                    : Tween<double>(begin: 0, end: 1).animate(anim),
-                child: ScaleTransition(scale: anim, child: child),
-              ),
+          transitionBuilder: (child, anim) => RotationTransition(
+            turns: child.key == const ValueKey('icon1')
+                ? Tween<double>(begin: 1, end: 0).animate(anim)
+                : Tween<double>(begin: 0, end: 1).animate(anim),
+            child: ScaleTransition(scale: anim, child: child),
+          ),
           child: _isExpanded
               ? const Icon(Icons.remove, key: ValueKey('icon1'))
               : const Icon(Icons.add, key: ValueKey('icon2')),

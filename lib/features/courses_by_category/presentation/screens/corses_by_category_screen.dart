@@ -72,6 +72,7 @@ class CoursesByCategoryScreen extends StatelessWidget {
                             ...List.generate(
                               cubit.coursesByCategoryIdItems.length,
                               (index) => CardCoursesTabletWidget(
+                                height: 150,
                                 course: cubit.coursesByCategoryIdItems[index],
                               ),
                             )
