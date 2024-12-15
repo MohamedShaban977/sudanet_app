@@ -40,11 +40,11 @@ class MobileLoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: kToolbarHeight),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // const CustomButtonChangeLanguageWidget(),
-                  const HelperButtonWidget(),
+                  HelperButtonWidget(),
                   // GestureDetector(
                   //   onTap: () => MagicRouterName.navigateReplacementTo(
                   //       RoutesNames.mainLayoutApp),
