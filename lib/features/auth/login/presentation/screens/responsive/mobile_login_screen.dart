@@ -15,7 +15,6 @@ import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
 import '../../cubit/login_cubit.dart';
-import '../../widgets/register_button_row_text_widget.dart';
 
 class MobileLoginScreen extends StatelessWidget {
   const MobileLoginScreen(
@@ -122,7 +121,7 @@ class MobileLoginScreen extends StatelessWidget {
               const SizedBox(height: AppSize.s37),
 
               ///
-              const RegisterButtonRowTextWidget(),
+              // const RegisterButtonRowTextWidget(),
               const SizedBox(height: AppSize.s37),
 
               /*     Align(

@@ -14,7 +14,6 @@ import '../../../../../../core/validation/validation.dart';
 import '../../../../../../widgets/custom_button_with_loading.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
 import '../../cubit/login_cubit.dart';
-import '../../widgets/register_button_row_text_widget.dart';
 import 'mobile_login_screen.dart';
 
 class TabletLoginScreen extends StatelessWidget {
@@ -38,10 +37,10 @@ class TabletLoginScreen extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: AppSize.s40),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const HelperButtonWidget(),
+              HelperButtonWidget(),
               // GestureDetector(
               //   onTap: () =>
               //       MagicRouterName.navigateTo(RoutesNames.mainLayoutApp),
@@ -145,7 +144,7 @@ class TabletLoginScreen extends StatelessWidget {
                                 const SizedBox(height: AppSize.s37),
 
                                 ///
-                                const RegisterButtonRowTextWidget(),
+                                // const RegisterButtonRowTextWidget(),
                               ],
                             ),
                           ),
