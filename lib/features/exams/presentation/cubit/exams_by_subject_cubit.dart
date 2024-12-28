@@ -19,8 +19,7 @@ class ExamsBySubjectCubit extends Cubit<ExamsBySubjectState> {
 
   Future<void> getExamsBySubject(String subjectId) async {
     emit(ExamsBySubjectLoadingState());
-    Either<Failure, CollectionResponse<ExamsBySubjectItemModel>> response =
-        await repository.getExamsBySubject(subjectId);
+    Either<Failure, CollectionResponse<ExamsBySubjectItemModel>> response = await repository.getExamsBySubject('223');
     response.fold(
       (failure) => emit(ExamsBySubjectErrorState(error: HandleFailure.mapFailureToMsg(failure))),
       (response) => {emit(ExamsBySubjectSuccessState(response: response)), examsBySubject = response.data ?? []},

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/features/exam/presentation/cubit/exam_cubit.dart';
 import 'package:sudanet_app/features/exams/presentation/cubit/exams_by_subject_cubit.dart';
 import 'package:sudanet_app/features/exams/presentation/pages/exams_screen.dart';
+import 'package:sudanet_app/features/homworks/presentation/cubit/homework_student_cubit.dart';
 import 'package:sudanet_app/features/homworks/presentation/pages/homeworks_screen.dart';
 import 'package:sudanet_app/features/profile/presentation/screens/user_my_courses_screen.dart';
 
@@ -39,7 +40,7 @@ class Routes {
       case RoutesNames.initialRoute:
         return MagicRouter.pageRoute(const SplashScreen());
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.loginRoute:
         ServiceLocator.initLoginGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -47,7 +48,7 @@ class Routes {
           child: const LoginScreen(),
         ));
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.signupRoute:
         ServiceLocator.initSignupGetIt();
         return MagicRouter.pageRoute(BlocProvider(
@@ -55,17 +56,17 @@ class Routes {
           child: const SignupScreen(),
         ));
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.forgetPasswordRoute:
         ServiceLocator.initForgetPasswordGetIt();
         return MagicRouter.pageRoute(BlocProvider(
           create: (context) => sl<ForgetPasswordCubit>(),
           child: const ForgetPasswordScreen(),
         ));
-      // loginRoute
+    // loginRoute
       case RoutesNames.mainLayoutApp:
-        // ServiceLocator.initHomeGetIt();
-        // ServiceLocator.initCoursesGetIt();
+      // ServiceLocator.initHomeGetIt();
+      // ServiceLocator.initCoursesGetIt();
         ServiceLocator.initCategoriesGetIt();
         ServiceLocator.initGetContactInfoGetIt();
         ServiceLocator.initProfileGetIt();
@@ -83,26 +84,34 @@ class Routes {
             //   create: (context) => sl<CoursesCubit>()..getAllCourses(),
             // ),
             BlocProvider(
-              create: (context) => sl<CategoriesCubit>()..getCategories(),
+              create: (context) =>
+              sl<CategoriesCubit>()
+                ..getCategories(),
             ),
             BlocProvider(
-              create: (context) => sl<ExamsBySubjectCubit>()..getExamsNotification(),
+              create: (context) =>
+              sl<ExamsBySubjectCubit>()
+                ..getExamsNotification(),
             ),
             BlocProvider(
-              create: (context) => sl<ContactInfoCubit>()..getContactInfo(),
+              create: (context) =>
+              sl<ContactInfoCubit>()
+                ..getContactInfo(),
             ),
           ],
           child: const MainLayoutScreen(),
         ));
 
-      // loginRoute
+    // loginRoute
       case RoutesNames.coursesByCategoryScreen:
         ServiceLocator.initCoursesByCategoryGetIt();
         final RouteRequest res = RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
         final args = settings.arguments as Map<String, dynamic>?;
 
         return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<CoursesByCategoryCubit>()..getCoursesByCategoryId(res.id!),
+          create: (context) =>
+          sl<CoursesByCategoryCubit>()
+            ..getCoursesByCategoryId(res.id!),
           child: CoursesByCategoryScreen(
             categoryId: res.id!,
             type: args?['type'],
@@ -112,7 +121,9 @@ class Routes {
       case RoutesNames.contactInfo:
         ServiceLocator.initGetContactInfoGetIt();
         return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<ContactInfoCubit>()..getContactInfo(),
+          create: (context) =>
+          sl<ContactInfoCubit>()
+            ..getContactInfo(),
           child: const ContactInfoScreen(),
         ));
       case RoutesNames.courseDetails:
@@ -121,7 +132,9 @@ class Routes {
         final args = settings.arguments as Map<String, dynamic>?;
 
         return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<CourseDetailsCubit>()..getCourseDetails(args?['subject_id']),
+          create: (context) =>
+          sl<CourseDetailsCubit>()
+            ..getCourseDetails(args?['subject_id']),
           child: CourseDetailsScreen(id: args?['subject_id']),
         ));
 
@@ -143,7 +156,9 @@ class Routes {
         ServiceLocator.initProfileGetIt();
 
         return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<ProfileCubit>()..getPersonalInfo(),
+          create: (context) =>
+          sl<ProfileCubit>()
+            ..getPersonalInfo(),
           child: const ProfileInfoEditScreen(),
         ));
 
@@ -158,7 +173,9 @@ class Routes {
         ServiceLocator.initProfileGetIt();
 
         return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<ProfileCubit>()..getUserMyCourses(),
+          create: (context) =>
+          sl<ProfileCubit>()
+            ..getUserMyCourses(),
           child: const UserMyCoursesScreen(),
         ));
 
@@ -167,7 +184,9 @@ class Routes {
         final RouteRequest res = RouteRequest.fromJson(settings.arguments! as Map<String, dynamic>);
 
         return MagicRouter.pageRoute(BlocProvider(
-          create: (context) => sl<ExamCubit>()..getExamReady(res.id!),
+          create: (context) =>
+          sl<ExamCubit>()
+            ..getExamReady(res.id!),
           child: ExamLayoutScreen(id: res.id!),
         ));
 
@@ -177,7 +196,9 @@ class Routes {
 
         return MagicRouter.pageRoute(
           BlocProvider(
-            create: (context) => sl<ExamCubit>()..getExamQuestionOrPercentage(res['id']),
+            create: (context) =>
+            sl<ExamCubit>()
+              ..getExamQuestionOrPercentage(res['id']),
             child: ExamScreen(id: res['id']),
           ),
           /*       BlocProvider.value(
@@ -191,10 +212,20 @@ class Routes {
         );
 
       case RoutesNames.homeworksRoute:
+        ServiceLocator.initHomeworksStudentGetIt();
         final arg = settings.arguments as Map<String, dynamic>?;
 
         return MagicRouter.pageRoute(
-          const HomeworksScreen(),
+
+          BlocProvider(
+            create: (context) =>
+            sl<HomeworkStudentCubit>()
+              ..getHomeworkBySubject(arg?['subject_id']),
+            child:
+            HomeworksScreen(
+              subjectId: arg?['subject_id'],
+            ),
+          ),
         );
 
       case RoutesNames.examsRoute:
@@ -203,7 +234,9 @@ class Routes {
 
         return MagicRouter.pageRoute(
           BlocProvider(
-            create: (context) => sl<ExamsBySubjectCubit>()..getExamsBySubject(arg?['subject_id']),
+            create: (context) =>
+            sl<ExamsBySubjectCubit>()
+              ..getExamsBySubject(arg?['subject_id']),
             child: ExamsBySubjectScreen(subjectId: arg?['subject_id']),
           ),
         );

@@ -39,4 +39,5 @@ class EndPoint {
   static const String endExam = '${baseUrl}Exam/EndExam';
   static const String getStudentExamsBySubject = '${baseUrl}Exam/GetStudentExams';
   static const String getStudentExamNotifications = '${baseUrl}Exam/GetStudentExamNotifications';
+  static const String getStudentHomeWorks = '${baseUrl}HomeWork/GetStudentHomeWorks';
 }

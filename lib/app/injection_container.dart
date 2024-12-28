@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sudanet_app/features/exams/data/data_sources/exams_by_subject_data_source.dart';
 import 'package:sudanet_app/features/exams/data/repositories/exams_by_subject_repository.dart';
 import 'package:sudanet_app/features/exams/presentation/cubit/exams_by_subject_cubit.dart';
+import 'package:sudanet_app/features/homworks/data/data_sources/homework_student_data_source.dart';
+import 'package:sudanet_app/features/homworks/data/repositories/homework_student_repository.dart';
+import 'package:sudanet_app/features/homworks/presentation/cubit/homework_student_cubit.dart';
 import 'package:sudanet_app/features/profile/domain/use_cases/profile_use_cases.dart';
 
 import '../core/api/api_consumer.dart';
@@ -453,6 +456,28 @@ class ServiceLocator {
           ));
     } else {
       sl.resetLazySingleton<ExamsBySubjectCubit>();
+    }
+  }
+
+  static initHomeworksStudentGetIt() {
+    // Course By Category Data Source
+    if (!sl.isRegistered<HomeworksStudentDataSource>()) {
+      sl.registerLazySingleton<HomeworksStudentDataSource>(
+          () => HomeworksStudentDataSourceImpl(consumer: sl<ApiConsumer>()));
+    }
+    //Course By Category Repository
+    if (!sl.isRegistered<HomeworksStudentRepository>()) {
+      sl.registerLazySingleton<HomeworksStudentRepository>(
+          () => HomeworksStudentRepositoryImpl(dataSource: sl<HomeworksStudentDataSource>()));
+    }
+
+    // // Home Cubit
+    if (!sl.isRegistered<HomeworkStudentCubit>()) {
+      sl.registerLazySingleton<HomeworkStudentCubit>(() => HomeworkStudentCubit(
+            sl<HomeworksStudentRepository>(),
+          ));
+    } else {
+      sl.resetLazySingleton<HomeworkStudentCubit>();
     }
   }
 }
