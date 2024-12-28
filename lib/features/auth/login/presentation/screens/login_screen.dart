@@ -77,6 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     email: email,
                     password: password,
                     onTap: _submitLoginButton,
+                    onPressedTestLogin: () {
+                      email.text = 'EmanAyman-G8@suda-net.edu';
+                      password.text = "123456789";
+                      guidId = '3a915b00-2a3b-4b42-8f76-74b647391a2d';
+                    },
                   ),
                   tablet: TabletLoginScreen(
                     email: email,
@@ -144,13 +149,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<dynamic> _submitLoginButton() async {
     if (_formKey.currentState!.validate()) {
-      await Future.sync(
-              () async =>
-              sl<LoginCubit>().get(context).login(LoginRequest(
-                email: email.text,
-                password: password.text,
-                macAddress: guidId,
-              )));
+      await Future.sync(() async => sl<LoginCubit>().get(context).login(LoginRequest(
+            email: email.text,
+            password: password.text,
+            macAddress: guidId,
+          )));
     }
   }
 }

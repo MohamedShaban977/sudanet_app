@@ -110,4 +110,6 @@ class AppStrings {
   static const fail = "fail";
   static const successful = "successful";
   static const successRate = "success_rate";
+  static const homeworks = "homeworks";
+  static const exams = "exams";
 }

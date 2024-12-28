@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/categories/presentation/cubit/categories_cubit.dart';
+import 'package:sudanet_app/features/exams/presentation/cubit/exams_by_subject_cubit.dart';
+import 'package:sudanet_app/features/exams/presentation/pages/exams_screen.dart';
 
 import '../../../../app/injection_container.dart';
 import '../../../../core/app_manage/color_manager.dart';
@@ -18,8 +20,20 @@ import 'responsive_widget/card_tablet_widget.dart';
 const double _heightItem = 140;
 const double _desiredItemWidth = 250;
 
+enum CategoriesByType {
+  normal,
+  homeworks,
+  exams,
+}
+
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({Key? key}) : super(key: key);
+  final CategoriesByType type;
+
+  const CategoriesScreen({super.key}) : type = CategoriesByType.normal;
+
+  const CategoriesScreen.homework({super.key}) : type = CategoriesByType.homeworks;
+
+  const CategoriesScreen.exams({super.key}) : type = CategoriesByType.exams;
 
   @override
   Widget build(BuildContext context) {
@@ -35,56 +49,79 @@ class CategoriesScreen extends StatelessWidget {
             onRefresh: () async {
               await sl<CategoriesCubit>().getCategories();
             },
-            child: SizedBox(
-              height: context.height - kToolbarHeight,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(
-                    parent: ClampingScrollPhysics()),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: AppSize.s20),
-                    Padding(
-                      padding: const EdgeInsets.all(AppPadding.p12),
-                      child: Text(
-                        AppStrings.viewAllEducationalLevels.tr(),
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: ColorManager.primary,
-                                ),
-                      ),
-                    ),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (type == CategoriesByType.exams || type == CategoriesByType.normal)
+                    BlocConsumer<ExamsBySubjectCubit, ExamsBySubjectState>(
+                      builder: (context, state) {
+                        final examsBySubjectCubit = sl<ExamsBySubjectCubit>().get(context);
 
-                    ///
-                    ResponsiveGridList(
-                      rowMainAxisAlignment: MainAxisAlignment.start,
-                      desiredItemWidth: Responsive.isMobileS(context) ||
-                              Responsive.isMobile(context)
-                          ? context.width
-                          : _desiredItemWidth,
-                      minSpacing: AppSize.s1,
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      children: List.generate(
-                        cubit.categoriesItems.length,
-                        (index) => Responsive(
-                          mobile: CardCategoriesMobileWidget(
-                            category: cubit.categoriesItems[index],
-                            height: _heightItem,
-                          ),
-                          tablet: CardCategoriesTabletWidget(
-                            category: cubit.categoriesItems[index],
+                        if (examsBySubjectCubit.examsNotification.isNotEmpty) {
+                          return SizedBox(
+                            height: 200,
                             width: context.width,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: examsBySubjectCubit.examsNotification.length,
+                              physics: const ClampingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return CellExamBySubject(
+                                  exam: examsBySubjectCubit.examsNotification[index],
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                      listener: (context, state) {},
+                    ),
+                  const SizedBox(height: AppSize.s20),
+                  Padding(
+                    padding: const EdgeInsets.all(AppPadding.p12),
+                    child: Text(
+                      AppStrings.viewAllEducationalLevels.tr(),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: ColorManager.primary,
                           ),
-                          desktop: CardCategoriesTabletWidget(
-                            category: cubit.categoriesItems[index],
-                            width: context.width,
-                          ),
+                    ),
+                  ),
+
+                  ///
+                  ResponsiveGridList(
+                    rowMainAxisAlignment: MainAxisAlignment.start,
+                    desiredItemWidth: Responsive.isMobileS(context) || Responsive.isMobile(context)
+                        ? context.width
+                        : _desiredItemWidth,
+                    minSpacing: AppSize.s1,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    children: List.generate(
+                      cubit.categoriesItems.length,
+                      (index) => Responsive(
+                        mobile: CardCategoriesMobileWidget(
+                          category: cubit.categoriesItems[index],
+                          height: _heightItem,
+                          type: type,
+                        ),
+                        tablet: CardCategoriesTabletWidget(
+                          category: cubit.categoriesItems[index],
+                          width: context.width,
+                          type: type,
+                        ),
+                        desktop: CardCategoriesTabletWidget(
+                          category: cubit.categoriesItems[index],
+                          width: context.width,
+                          type: type,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
@@ -103,9 +140,8 @@ class CategoriesScreen extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
       ),
-      title: Text(AppStrings.educationalLevels.tr(),
-          style: context.displayLarge.copyWith(
-              color: ColorManager.textGray, fontWeight: FontWeight.w700)),
+      title: Text(CategoriesByType.exams == type ? AppStrings.exams.tr() : AppStrings.educationalLevels.tr(),
+          style: context.displayLarge.copyWith(color: ColorManager.textGray, fontWeight: FontWeight.w700)),
     );
   }
 }

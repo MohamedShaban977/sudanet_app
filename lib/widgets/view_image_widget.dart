@@ -4,8 +4,8 @@ class ImageWidget extends StatelessWidget {
   const ImageWidget({
     super.key,
     this.width,
-    this.height, required this.imagePath,
-
+    this.height,
+    required this.imagePath,
   });
 
   final double? width;
@@ -16,12 +16,21 @@ class ImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Image.network(
-
         imagePath,
         fit: BoxFit.fill,
         height: height,
         width: width,
         gaplessPlayback: true,
+        errorBuilder: (context, error, stackTrace) {
+          return SizedBox(
+            height: height,
+            width: width,
+            child: const Icon(
+              Icons.image_outlined,
+              size: 30,
+            ),
+          );
+        },
       ),
     );
   }

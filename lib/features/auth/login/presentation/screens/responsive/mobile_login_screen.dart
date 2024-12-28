@@ -18,15 +18,13 @@ import '../../cubit/login_cubit.dart';
 
 class MobileLoginScreen extends StatelessWidget {
   const MobileLoginScreen(
-      {Key? key,
-      required this.email,
-      required this.password,
-      required this.onTap})
+      {Key? key, required this.email, required this.password, required this.onTap, this.onPressedTestLogin})
       : super(key: key);
 
   final TextEditingController email;
   final TextEditingController password;
   final Future<dynamic> Function() onTap;
+  final void Function()? onPressedTestLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +90,7 @@ class MobileLoginScreen extends StatelessWidget {
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
                     onTapIcon: () => cubit.changePassVisibility(),
-                    validator: (value) =>
-                        Validator.isValidPassword(password.text),
+                    validator: (value) => Validator.isValidPassword(password.text),
                   );
                 },
               ),
@@ -102,11 +99,9 @@ class MobileLoginScreen extends StatelessWidget {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () => MagicRouterName.navigateTo(
-                        RoutesNames.forgetPasswordRoute),
+                    onTap: () => MagicRouterName.navigateTo(RoutesNames.forgetPasswordRoute),
                     child: Text(AppStrings.forgetPassword.tr(),
-                        style: context.displayMedium
-                            .copyWith(color: ColorManager.textGray)),
+                        style: context.displayMedium.copyWith(color: ColorManager.textGray)),
                   ),
                 ],
               ),
@@ -119,6 +114,10 @@ class MobileLoginScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: AppSize.s37),
+              ElevatedButton(
+                onPressed: onPressedTestLogin,
+                child: const Text('Login Text'),
+              ),
 
               ///
               // const RegisterButtonRowTextWidget(),
@@ -149,8 +148,7 @@ class HelperButtonWidget extends StatelessWidget {
       height: 50.0,
       child: RawMaterialButton(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            side: const BorderSide(color: ColorManager.primary)),
+            borderRadius: BorderRadius.circular(8.0), side: const BorderSide(color: ColorManager.primary)),
         fillColor: ColorManager.white,
         elevation: 5.0,
         highlightElevation: 5.0,
@@ -165,8 +163,7 @@ class HelperButtonWidget extends StatelessWidget {
               style: context.labelLarge.copyWith(color: ColorManager.primary),
             ),
             const SizedBox(width: 10.0),
-            const Icon(FontAwesomeIcons.circleQuestion,
-                color: ColorManager.primary),
+            const Icon(FontAwesomeIcons.circleQuestion, color: ColorManager.primary),
           ],
         ),
         onPressed: () => MagicRouterName.navigateTo(RoutesNames.contactInfo),

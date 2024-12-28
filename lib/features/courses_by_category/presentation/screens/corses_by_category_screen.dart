@@ -12,14 +12,16 @@ import '../../../../core/responsive/responsive.dart';
 import '../../../../core/responsive/responsive_grid.dart';
 import '../../../../widgets/custom_app_bar_widget.dart';
 import '../../../../widgets/custom_loading_widget.dart';
+import '../../../categories/presentation/screens/categories_screen.dart';
 import '../../../courses/presentation/screens/responsive_widget/card_tablet_widget.dart';
 
 const double _desiredItemWidth = 260;
 
 class CoursesByCategoryScreen extends StatelessWidget {
-  const CoursesByCategoryScreen({Key? key, required this.categoryId})
+  const CoursesByCategoryScreen({Key? key, required this.categoryId, required this.type})
       : super(key: key);
   final String categoryId;
+  final CategoriesByType type;
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +74,8 @@ class CoursesByCategoryScreen extends StatelessWidget {
                             ...List.generate(
                               cubit.coursesByCategoryIdItems.length,
                               (index) => CardCoursesTabletWidget(
-                                height: 150,
                                 course: cubit.coursesByCategoryIdItems[index],
+                                type: type,
                               ),
                             )
                           else

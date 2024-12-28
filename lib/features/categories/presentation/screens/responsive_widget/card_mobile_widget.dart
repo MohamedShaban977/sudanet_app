@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:sudanet_app/features/categories/domain/entities/categories_entity.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
+import '../../../../../core/routes/magic_router.dart';
+import '../../../../../core/routes/routes_name.dart';
 import '../../../../../widgets/view_image_widget.dart';
 import '../../widgets/view_info_data_category_widget.dart';
+import '../categories_screen.dart';
 
 class CardCategoriesMobileWidget extends StatelessWidget {
   final CategoriesEntity category;
   final double height;
   final double? width;
+  final CategoriesByType type;
+
 
   const CardCategoriesMobileWidget({
     super.key,
     required this.category,
     required this.height,
-    this.width,
+    this.width, required this.type,
   });
 
   @override
@@ -40,7 +45,17 @@ class CardCategoriesMobileWidget extends StatelessWidget {
                 flex: 5,
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
-                  child: ViewInfoDataCardCategoriesWidget(category: category),
+                  child: ViewInfoDataCardCategoriesWidget(category: category,
+                    onPressed: () {
+                      MagicRouterName.navigateTo(
+                        RoutesNames.coursesByCategoryScreen,
+                        arguments: {
+                          "id": '${category.id}',
+                          "type": type,
+                        },
+                      );
+                    },
+                  ),
                 )),
           ],
         ),

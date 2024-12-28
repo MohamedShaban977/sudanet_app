@@ -12,14 +12,15 @@ import '../../../../core/app_manage/values_manager.dart';
 import '../../../../core/responsive/responsive.dart';
 import '../../../../core/responsive/responsive_grid.dart';
 import '../../../../widgets/custom_app_bar_widget.dart';
+import '../../../categories/presentation/screens/categories_screen.dart';
 import 'responsive_widget/card_tablet_widget.dart';
 
 const double _heightItem = 140;
 const double _desiredItemWidth = 260;
 
 class CoursesScreen extends StatelessWidget {
-  const CoursesScreen({Key? key}) : super(key: key);
-
+  const CoursesScreen({Key? key, required this.type}) : super(key: key);
+ final CategoriesByType type;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +44,17 @@ class CoursesScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: AppSize.s20),
-                    Padding(
-                      padding: const EdgeInsets.all(AppPadding.p12),
-                      child: Text(
-                        AppStrings.viewAllFirstStageSubjects.tr(),
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: ColorManager.primary,
-                                ),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppPadding.p12),
+                        child: Text(
+                          AppStrings.viewAllFirstStageSubjects.tr(),
+                          style:
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: ColorManager.primary,
+                                  ),
+                        ),
                       ),
                     ),
                     Padding(
@@ -66,6 +70,7 @@ class CoursesScreen extends StatelessWidget {
                         children: List.generate(
                           cubit.coursesAllItems.length,
                           (index) => CardCoursesTabletWidget(
+                            type: type,
                               height: _heightItem,
                               course: cubit.coursesAllItems[index]),
                         ),

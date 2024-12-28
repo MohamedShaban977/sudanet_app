@@ -189,10 +189,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           //     ],
           //   ),
           // ),
-          child: CustomIframeVideoWidget(
-            videoUrl: courseDetails.youtubeID,
+          ///
+          // child: CustomIframeVideoWidget(
+          //   videoUrl: courseDetails.youtubeID,
+          //   appBar: CustomAppBarWidget(title: courseDetails.categoryName),
+          //   child:
+          // ),
+          child: Scaffold(
             appBar: CustomAppBarWidget(title: courseDetails.categoryName),
-            child: BodyScreen(
+
+          body:  BodyScreen(
               courseDetails: courseDetails,
             ),
           ),

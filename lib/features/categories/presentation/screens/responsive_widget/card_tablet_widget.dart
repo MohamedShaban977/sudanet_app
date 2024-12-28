@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/app_manage/values_manager.dart';
+import '../../../../../core/routes/magic_router.dart';
+import '../../../../../core/routes/routes_name.dart';
 import '../../../../../widgets/view_image_widget.dart';
 import '../../../domain/entities/categories_entity.dart';
 import '../../widgets/view_info_data_category_widget.dart';
+import '../categories_screen.dart';
 
 class CardCategoriesTabletWidget extends StatelessWidget {
   final CategoriesEntity category;
   final double? height;
   final double? width;
+  final CategoriesByType type;
+
 
   const CardCategoriesTabletWidget({
     super.key,
     required this.category,
     this.height,
-    this.width,
+    this.width, required this.type,
   });
 
   @override
@@ -36,7 +41,17 @@ class CardCategoriesTabletWidget extends StatelessWidget {
                 flex: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p12),
-                  child: ViewInfoDataCardCategoriesWidget(category: category),
+                  child: ViewInfoDataCardCategoriesWidget(category: category,
+                  onPressed: (){
+                    MagicRouterName.navigateTo(
+                      RoutesNames.coursesByCategoryScreen,
+                      arguments: {
+                        "id": '${category.id}',
+                        "type": type,
+                      },
+                    );
+
+                  }),
                 )),
           ],
         ),

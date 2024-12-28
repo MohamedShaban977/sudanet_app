@@ -25,24 +25,20 @@ class CardSubjectsMobileWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSize.s11)),
       clipBehavior: Clip.antiAlias,
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: ImageWidget(
-                width: width,
-                height: height,
-                imagePath:course.imagePath),
-            ),
-            Expanded(
-                flex: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p12),
-                  child: ViewInfoDataCoursesWidget(course:  course),
-                )),
-          ],
-        ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 120,
+            child: ImageWidget(
+              width: width,
+              height: height,
+              imagePath:course.imagePath),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(AppPadding.p12),
+            child: ViewInfoDataCoursesWidget(course:  course),
+          ),
+        ],
       ),
     );
   }

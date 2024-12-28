@@ -9,6 +9,7 @@ import 'package:sudanet_app/core/app_manage/strings_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/features/exam/presentation/cubit/exam_cubit.dart';
 import 'package:sudanet_app/widgets/custom_button_with_loading.dart';
+import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
@@ -39,6 +40,10 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
         if (state is GetExamReadySuccessState) {
           examReadyEntity = state.response.data!;
         }
+        if (state is GetExamReadyErrorState) {
+          MagicRouter.pop();
+          ToastAndSnackBar.toastError(message: state.error);
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -51,8 +56,7 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  SvgPicture.asset(SvgAssets.exam,
-                      height: context.heightBody * 0.35),
+                  SvgPicture.asset(SvgAssets.exam, height: context.heightBody * 0.35),
                   const SizedBox(height: 20.0),
                   Text(examReadyEntity.examName,
                       style: context.bodyLarge.copyWith(
@@ -60,22 +64,19 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
                       ),
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20.0),
-                  Text(
-                      '${AppStrings.examDuration.tr()} \t ${examReadyEntity.examTime}',
+                  Text('${AppStrings.examDuration.tr()} \t ${examReadyEntity.examTime}',
                       style: context.displayMedium.copyWith(
                         color: ColorManager.textGray,
                       ),
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20.0),
-                  Text(
-                      '${AppStrings.remainingTime.tr()} \t ${examReadyEntity.remainingExamTime}',
+                  Text('${AppStrings.remainingTime.tr()} \t ${examReadyEntity.remainingExamTime}',
                       style: context.displayMedium.copyWith(
                         color: ColorManager.textGray,
                       ),
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20.0),
-                  Text(
-                      '${AppStrings.questionsCount.tr()} \t ${examReadyEntity.questionsCount}',
+                  Text('${AppStrings.questionsCount.tr()} \t ${examReadyEntity.questionsCount}',
                       style: context.displayMedium.copyWith(
                         color: ColorManager.textGray,
                       ),

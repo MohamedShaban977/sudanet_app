@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sudanet_app/features/auth/login/presentation/manger/user_secure_storage.dart';
+import 'package:sudanet_app/features/homworks/presentation/pages/homeworks_screen.dart';
 import 'package:sudanet_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 
 import '../../../categories/presentation/screens/categories_screen.dart';
-import '../../../contact_info/presentation/screens/contact_info_screen.dart';
+import '../../../exams/presentation/pages/exams_screen.dart';
 
 part 'nav_bar_state.dart';
 
@@ -18,8 +19,10 @@ class NavBarCubit extends Cubit<NavBarState> {
         // const HomeScreen(),
         const CategoriesScreen(),
         // const UserMyCoursesScreen(),
+    const CategoriesScreen.homework(),
+    const CategoriesScreen.exams(),
         // const CoursesScreen(),
-        const ContactInfoScreen(),
+        // const ContactInfoScreen(),
         const ProfileScreen(),
       ];
 

@@ -12,9 +12,10 @@ import '../../domain/entities/categories_entity.dart';
 class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
   const ViewInfoDataCardCategoriesWidget({
     super.key,
-    required this.category,
+    required this.category,required this.onPressed,
   });
 
+  final void Function()? onPressed;
   final CategoriesEntity category;
 
   @override
@@ -30,12 +31,7 @@ class ViewInfoDataCardCategoriesWidget extends StatelessWidget {
         ),
         const Spacer(),
         ElevatedButton(
-            onPressed: () {
-              MagicRouterName.navigateTo(
-                RoutesNames.coursesByCategoryScreen,
-                arguments: {"id": '${category.id}'},
-              );
-            },
+            onPressed: onPressed,
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(12.0),
               minimumSize: const Size.fromHeight(40.0),

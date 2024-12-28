@@ -6,39 +6,62 @@ import 'package:sudanet_app/features/courses/domain/entities/courses_entity.dart
 
 import '../../../../../core/app_manage/values_manager.dart';
 import '../../../../../widgets/view_image_widget.dart';
+import '../../../../categories/presentation/screens/categories_screen.dart';
 import '../../widgets/view_info_data_courses_widget.dart';
 
 class CardCoursesTabletWidget extends StatelessWidget {
   final CoursesEntity course;
   final double? height;
   final double? width;
+  final CategoriesByType type;
 
   const CardCoursesTabletWidget({
     super.key,
     required this.course,
     this.height,
     this.width,
+    required this.type,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => MagicRouterName.navigateTo(
-        RoutesNames.courseDetails,
-        arguments: {'id': '${course.id}'},
-      ),
+      onTap: () {
+        if (type == CategoriesByType.normal) {
+          MagicRouterName.navigateTo(
+            RoutesNames.courseDetails,
+            arguments: {
+              'subject_id': '${course.id}',
+            },
+          );
+        } else if (type == CategoriesByType.homeworks) {
+          MagicRouterName.navigateTo(
+            RoutesNames.homeworksRoute,
+            arguments: {
+              'subject_id': '${course.id}',
+            },
+          );
+        } else if (type == CategoriesByType.exams) {
+          MagicRouterName.navigateTo(
+            RoutesNames.examsRoute,
+            arguments: {
+              'subject_id': '${course.id}',
+            },
+          );
+        }
+      },
       child: Card(
         // margin: const EdgeInsets.all(AppPadding.p8),
         elevation: AppSize.s8,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSize.s11)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSize.s11)),
         clipBehavior: Clip.antiAlias,
         child: Column(
           children: [
             ImageWidget(
-                width: context.width,
-                height: height,
-                imagePath: course.imagePath),
+              width: context.width,
+              height: 120,
+              imagePath: course.imagePath,
+            ),
             Padding(
               padding: const EdgeInsets.all(AppPadding.p8),
               child: ViewInfoDataCoursesWidget(course: course),
