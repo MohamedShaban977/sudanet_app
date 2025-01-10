@@ -34,12 +34,9 @@ class GetExamReadyErrorState extends ExamState {
 class GetExamQuestionOrPercentageLoadingState extends ExamState {}
 
 class GetExamQuestionOrPercentageSuccessState extends ExamState {
-  final BaseResponseEntity<ExamEntity> response;
+  final ExamModel? data;
 
-  const GetExamQuestionOrPercentageSuccessState(this.response);
-
-  @override
-  List<Object> get props => [response];
+  const GetExamQuestionOrPercentageSuccessState(this.data);
 }
 
 class GetExamQuestionOrPercentageErrorState extends ExamState {

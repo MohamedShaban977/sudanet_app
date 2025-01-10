@@ -1,6 +1,6 @@
 class SaveAnswerRequest {
-  final int answer;
-  final int examQuestionId;
+  final String? answer;
+  final int? examQuestionId;
 
   SaveAnswerRequest({
     required this.answer,

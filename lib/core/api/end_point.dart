@@ -34,9 +34,13 @@ class EndPoint {
   static const String getUserCourses = '${baseUrl}Profile/GetUserCourses';
 
   static const String getExamReady = '${baseUrl}Exam/GetExamReady';
+  static const String getHomeWorkReady = '${baseUrl}HomeWork/GetHomeWorkReady';
   static const String getExam = '${baseUrl}Exam/GetExam';
+  static const String getHomeWork = '${baseUrl}HomeWork/GetHomeWork';
   static const String saveAnswer = '${baseUrl}Exam/SaveAnswer';
+  static const String saveHomeWorkAnswer = '${baseUrl}HomeWork/SaveHomeWorkAnswer';
   static const String endExam = '${baseUrl}Exam/EndExam';
+  static const String endHomeWork = '${baseUrl}HomeWork/EndHomeWork';
   static const String getStudentExamsBySubject = '${baseUrl}Exam/GetStudentExams';
   static const String getStudentExamNotifications = '${baseUrl}Exam/GetStudentExamNotifications';
   static const String getStudentHomeWorks = '${baseUrl}HomeWork/GetStudentHomeWorks';

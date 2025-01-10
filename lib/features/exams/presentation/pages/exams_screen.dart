@@ -9,6 +9,7 @@ import 'package:sudanet_app/core/app_manage/values_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
 import 'package:sudanet_app/core/routes/magic_router.dart';
 import 'package:sudanet_app/core/routes/routes_name.dart';
+import 'package:sudanet_app/features/exam/presentation/screens/exam_screen.dart';
 import 'package:sudanet_app/features/exams/data/models/exams_by_subject_item_model.dart';
 import 'package:sudanet_app/features/exams/presentation/cubit/exams_by_subject_cubit.dart';
 
@@ -88,7 +89,10 @@ class CellExamBySubject extends StatelessWidget {
         onTap: () {
           MagicRouterName.navigateTo(
             RoutesNames.examLayoutRoute,
-            arguments: {'id': '${exam.id}'},
+            arguments: {
+              'id': '${exam.id}',
+              'type': ExamType.exam,
+            },
           );
         },
         child: Padding(

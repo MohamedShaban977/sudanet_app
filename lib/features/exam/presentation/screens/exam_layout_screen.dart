@@ -14,11 +14,13 @@ import 'package:sudanet_app/widgets/toast_and_snackbar.dart';
 import '../../../../core/routes/magic_router.dart';
 import '../../../../core/routes/routes_name.dart';
 import '../../domain/entities/exam_ready_entity.dart';
+import 'exam_screen.dart';
 
 class ExamLayoutScreen extends StatefulWidget {
   final String id;
+  final ExamType type;
 
-  const ExamLayoutScreen({Key? key, required this.id}) : super(key: key);
+  const ExamLayoutScreen({Key? key, required this.id, required this.type}) : super(key: key);
 
   @override
   State<ExamLayoutScreen> createState() => _ExamLayoutScreenState();
@@ -95,7 +97,10 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
                           onTap: () async {
                             MagicRouterName.navigateTo(
                               RoutesNames.examRoute,
-                              arguments: {'id': '${examReadyEntity.id}'},
+                              arguments: {
+                                'id': '${examReadyEntity.id}',
+                                'type': widget.type,
+                              },
                             );
                           }),
                     ),

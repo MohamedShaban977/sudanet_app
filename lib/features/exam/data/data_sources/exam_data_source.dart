@@ -1,19 +1,20 @@
 import '../../../../core/api/api_consumer.dart';
 import '../../../../core/api/end_point.dart';
 import '../../../../core/api/service_response.dart';
+import '../../presentation/screens/exam_screen.dart';
 import '../models/end_exam_response.dart';
 import '../models/exam_ready_response.dart';
 import '../models/exam_response.dart';
 import '../models/save_answer_request.dart';
 
 abstract class ExamDataSource {
-  Future<BaseResponse<ExamReadyResponse>> getExamReady(String id);
+  Future<BaseResponse<ExamReadyResponse>> getExamReady({required String examId, required ExamType type});
 
-  Future<BaseResponse<ExamResponse>> getExamQuestionOrPercentage(String id);
+  Future<BaseResponse<ExamModel>> getExamQuestionOrPercentage({required String examId, required ExamType type});
 
-  Future<BaseResponse<bool>> saveAnswer(SaveAnswerRequest request);
+  Future<BaseResponse<bool>> saveAnswer({required SaveAnswerRequest request, required ExamType type});
 
-  Future<BaseResponse<EndExamResponse>> endExam(String studentExamId);
+  Future<BaseResponse<EndExamResponse>> endExam({required String studentExamId, required ExamType type});
 }
 
 class ExamDataSourceImpl implements ExamDataSource {
@@ -22,10 +23,10 @@ class ExamDataSourceImpl implements ExamDataSource {
   ExamDataSourceImpl(this.consumer);
 
   @override
-  Future<BaseResponse<ExamReadyResponse>> getExamReady(String id) async {
+  Future<BaseResponse<ExamReadyResponse>> getExamReady({required String examId, required ExamType type}) async {
     final response = await consumer.get(
-      EndPoint.getExamReady,
-      queryParameters: {"Id": id},
+      type == ExamType.homework ? EndPoint.getHomeWorkReady : EndPoint.getExamReady,
+      queryParameters: {"Id": examId},
     );
 
     final res = BaseResponse<ExamReadyResponse>.fromJson(
@@ -37,25 +38,24 @@ class ExamDataSourceImpl implements ExamDataSource {
   }
 
   @override
-  Future<BaseResponse<ExamResponse>> getExamQuestionOrPercentage(
-      String id) async {
+  Future<BaseResponse<ExamModel>> getExamQuestionOrPercentage({required String examId, required ExamType type}) async {
     final response = await consumer.get(
-      EndPoint.getExam,
-      queryParameters: {"Id": id},
+      type == ExamType.homework ? EndPoint.getHomeWork : EndPoint.getExam,
+      queryParameters: {"Id": examId},
     );
 
-    final res = BaseResponse<ExamResponse>.fromJson(
+    final res = BaseResponse<ExamModel>.fromJson(
       response,
-      (data) => ExamResponse.fromJson(data),
+      (data) => ExamModel.fromJson(data),
     );
 
     return res;
   }
 
   @override
-  Future<BaseResponse<bool>> saveAnswer(SaveAnswerRequest request) async {
+  Future<BaseResponse<bool>> saveAnswer({required SaveAnswerRequest request, required ExamType type}) async {
     final response = await consumer.post(
-      EndPoint.saveAnswer,
+      type == ExamType.homework ? EndPoint.saveHomeWorkAnswer : EndPoint.saveAnswer,
       data: request.toJson(),
       isFormData: true,
     );
@@ -66,9 +66,12 @@ class ExamDataSourceImpl implements ExamDataSource {
   }
 
   @override
-  Future<BaseResponse<EndExamResponse>> endExam(String studentExamId) async {
-    final response = await consumer.post(EndPoint.endExam,
-        data: {"StudentExamId": studentExamId}, isFormData: true);
+  Future<BaseResponse<EndExamResponse>> endExam({required String studentExamId, required ExamType type}) async {
+    final response = await consumer.post(
+      type == ExamType.homework ? EndPoint.endHomeWork : EndPoint.endExam,
+      data: {"StudentExamId": studentExamId},
+      isFormData: true,
+    );
 
     final res = BaseResponse<EndExamResponse>.fromJson(
       response,

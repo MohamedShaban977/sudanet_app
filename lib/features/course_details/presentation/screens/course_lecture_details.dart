@@ -11,14 +11,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
-import 'package:sudanet_app/core/routes/routes_name.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../core/app_manage/color_manager.dart';
 import '../../../../core/app_manage/strings_manager.dart';
-import '../../../../core/routes/magic_router.dart';
 import '../../../../widgets/custom_app_bar_widget.dart';
 import '../../domain/entities/course_lecture_details_entity.dart';
 
@@ -26,8 +24,7 @@ class CourseLecturesScreen extends StatefulWidget {
   final CourseLectureDetailsEntity courseLectureDetails;
   final String initVideoID;
 
-  const CourseLecturesScreen(
-      {Key? key, required this.courseLectureDetails, required this.initVideoID})
+  const CourseLecturesScreen({Key? key, required this.courseLectureDetails, required this.initVideoID})
       : super(key: key);
 
   @override
@@ -101,8 +98,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
     // )..addListener(_listener);
     // _videoMetaData = const YoutubeMetaData();
 
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
+    IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
 
     _port.listen((dynamic data) {
       // String id = data[0];
@@ -114,8 +110,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
   }
 
   static void downloadCallback(String id, int status, int progress) {
-    final SendPort send =
-        IsolateNameServer.lookupPortByName('downloader_send_port')!;
+    final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port')!;
     send.send([id, status, progress]);
   }
 
@@ -145,9 +140,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: isFullScreen
-          ? null
-          : CustomAppBarWidget(title: widget.courseLectureDetails.courseName),
+      appBar: isFullScreen ? null : CustomAppBarWidget(title: widget.courseLectureDetails.courseName),
       body: ListView(children: [
         Stack(
           children: [
@@ -165,19 +158,13 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                 child: GestureDetector(
                   onTap: () {
                     if (isFullScreen) {}
-                    if (MediaQuery.of(context).orientation ==
-                        Orientation.portrait) {
-                      SystemChrome.setPreferredOrientations([
-                        DeviceOrientation.landscapeLeft,
-                        DeviceOrientation.landscapeRight
-                      ]);
-                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                          overlays: [SystemUiOverlay.bottom]);
-                    } else {
+                    if (MediaQuery.of(context).orientation == Orientation.portrait) {
                       SystemChrome.setPreferredOrientations(
-                          [DeviceOrientation.portraitUp]);
-                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-                          overlays: [SystemUiOverlay.top]);
+                          [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
+                    } else {
+                      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
                     }
 
                     setState(() {
@@ -185,9 +172,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                     });
                   },
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.deepOrange,
-                        borderRadius: BorderRadius.circular(5.0)),
+                    decoration: BoxDecoration(color: Colors.deepOrange, borderRadius: BorderRadius.circular(5.0)),
                     child: Icon(
                       isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
                       size: 30.0,
@@ -198,8 +183,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
               )
           ],
         ),
-        CardViewMainDataCourseLectureWidget(
-            lectureDetailsEntity: widget.courseLectureDetails),
+        CardViewMainDataCourseLectureWidget(lectureDetailsEntity: widget.courseLectureDetails),
         // const SizedBox(height: 40.0),
         CardViewVideosCourseLectureWidget(
           lectureDetailsEntity: widget.courseLectureDetails,
@@ -214,8 +198,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              onPressed: () =>
-                  _buildShowBottomSheetContentAndExamsCourses(context),
+              onPressed: () => _buildShowBottomSheetContentAndExamsCourses(context),
               isExtended: true,
               label: const Text('المحتوى العلمى | الامتحانات'),
             ),
@@ -233,8 +216,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
         child: SizedBox(
           height: context.height * 0.6,
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
             child: Column(
               children: [
                 Container(
@@ -260,8 +242,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                   (index) => Card(
                     // elevation: 0.0,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 5.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                       child: TextButton(
                         onPressed: () async {
                           late String appStorage;
@@ -270,26 +251,21 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                             // final externalDirectory = await getExternalStorageDirectory();
 
                             if (Platform.isAndroid) {
-                              appStorage = (await ExternalPath
-                                  .getExternalStoragePublicDirectory(
-                                      ExternalPath.DIRECTORY_DOWNLOADS));
+                              appStorage = (await ExternalPath.getExternalStoragePublicDirectory(
+                                  ExternalPath.DIRECTORY_DOWNLOADS));
                             } else if (Platform.isIOS) {
-                              Directory appDocDir =
-                                  (await getApplicationDocumentsDirectory());
+                              Directory appDocDir = (await getApplicationDocumentsDirectory());
                               appStorage = appDocDir.path;
                             }
                             await FlutterDownloader.enqueue(
-                              url: widget
-                                  .courseLectureDetails.files[index].filePath,
+                              url: widget.courseLectureDetails.files[index].filePath,
                               savedDir: appStorage,
                               fileName: _fileNameAndCurrantData(index),
                               showNotification: true,
                               openFileFromNotification: true,
                             );
-                            _fileName = widget
-                                .courseLectureDetails.files[index].fileName;
-                            _fileNamesDownloaded.add(widget
-                                .courseLectureDetails.files[index].fileName);
+                            _fileName = widget.courseLectureDetails.files[index].fileName;
+                            _fileNamesDownloaded.add(widget.courseLectureDetails.files[index].fileName);
                           } else {}
 
                           ///
@@ -301,31 +277,22 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                           // );
                         },
                         style: TextButton.styleFrom(
-                          foregroundColor:
-                              ColorManager.secondary.withOpacity(0.9),
+                          foregroundColor: ColorManager.secondary.withOpacity(0.9),
                           // elevation: 0.0,
                         ),
                         child: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                  widget.courseLectureDetails.files[index]
-                                      .fileName,
-                                  style: context.bodyMedium),
+                              child: Text(widget.courseLectureDetails.files[index].fileName, style: context.bodyMedium),
                             ),
                             (_progressLoading != null &&
                                     _progressLoading != 100 &&
-                                    _fileName ==
-                                        widget.courseLectureDetails.files[index]
-                                            .fileName)
+                                    _fileName == widget.courseLectureDetails.files[index].fileName)
                                 ? Text(
                                     '$_progressLoading',
                                     style: context.bodyMedium,
                                   )
-                                : (_fileNamesDownloaded.contains(widget
-                                        .courseLectureDetails
-                                        .files[index]
-                                        .fileName))
+                                : (_fileNamesDownloaded.contains(widget.courseLectureDetails.files[index].fileName))
                                     ? const Icon(
                                         Icons.check,
                                         size: 25,
@@ -346,9 +313,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                   Align(
                     alignment: AlignmentDirectional.center,
                     child: Text(AppStrings.nosDataAvailable.tr(),
-                        textAlign: TextAlign.center,
-                        style: context.bodyMedium
-                            .copyWith(color: ColorManager.textGray)),
+                        textAlign: TextAlign.center, style: context.bodyMedium.copyWith(color: ColorManager.textGray)),
                   ),
                 const SizedBox(height: 20.0),
                 const Divider(
@@ -356,63 +321,63 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
                   thickness: 2,
                 ),
                 const SizedBox(height: 20.0),
-                Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text('الامتحانات',
-                      style: context.bodyMedium.copyWith(
-                        color: ColorManager.primary,
-                      )),
-                ),
-                const SizedBox(height: 10.0),
-                ...List.generate(
-                  widget.courseLectureDetails.exams.length,
-                  (index) => Card(
-                    // elevation: 0.0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 5.0),
-                      child: TextButton(
-                        onPressed: () {
-                          // _controller.pause();
-                          MagicRouterName.navigateTo(
-                              RoutesNames.examLayoutRoute,
-                              arguments: {
-                                'id':
-                                    '${widget.courseLectureDetails.exams[index].id}'
-                              });
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor:
-                              ColorManager.secondary.withOpacity(0.9),
-                          // elevation: 0.0,
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                  widget.courseLectureDetails.exams[index]
-                                      .examName,
-                                  style: context.bodyMedium),
-                            ),
-                            const Icon(
-                              Icons.question_mark,
-                              size: 25,
-                              color: ColorManager.primary,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                if (widget.courseLectureDetails.exams.isEmpty)
-                  Align(
-                    alignment: AlignmentDirectional.center,
-                    child: Text(AppStrings.nosDataAvailable.tr(),
-                        textAlign: TextAlign.center,
-                        style: context.bodyMedium
-                            .copyWith(color: ColorManager.textGray)),
-                  ),
+                // Align(
+                //   alignment: AlignmentDirectional.centerStart,
+                //   child: Text('الامتحانات',
+                //       style: context.bodyMedium.copyWith(
+                //         color: ColorManager.primary,
+                //       )),
+                // ),
+                // const SizedBox(height: 10.0),
+                // ...List.generate(
+                //   widget.courseLectureDetails.exams.length,
+                //   (index) => Card(
+                //     // elevation: 0.0,
+                //     child: Padding(
+                //       padding: const EdgeInsets.symmetric(
+                //           horizontal: 15.0, vertical: 5.0),
+                //       child: TextButton(
+                //         onPressed: () {
+                //           // _controller.pause();
+                //           MagicRouterName.navigateTo(
+                //               RoutesNames.examLayoutRoute,
+                //               arguments: {
+                //                 'id':
+                //                     '${widget.courseLectureDetails.exams[index].id}'
+                //               });
+                //         },
+                //         style: TextButton.styleFrom(
+                //           foregroundColor:
+                //               ColorManager.secondary.withOpacity(0.9),
+                //           // elevation: 0.0,
+                //         ),
+                //         child: Row(
+                //           children: [
+                //             Expanded(
+                //               child: Text(
+                //                   widget.courseLectureDetails.exams[index]
+                //                       .examName,
+                //                   style: context.bodyMedium),
+                //             ),
+                //             const Icon(
+                //               Icons.question_mark,
+                //               size: 25,
+                //               color: ColorManager.primary,
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // if (widget.courseLectureDetails.exams.isEmpty)
+                //   Align(
+                //     alignment: AlignmentDirectional.center,
+                //     child: Text(AppStrings.nosDataAvailable.tr(),
+                //         textAlign: TextAlign.center,
+                //         style: context.bodyMedium
+                //             .copyWith(color: ColorManager.textGray)),
+                //   ),
               ],
             ),
           ),
@@ -429,8 +394,7 @@ class _CourseLecturesScreenState extends State<CourseLecturesScreen> {
     DateTime dateTime = DateTime.now();
 
     String fileName = widget.courseLectureDetails.files[index].fileName;
-    String extensionFile =
-        widget.courseLectureDetails.files[index].filePath.split('.').last;
+    String extensionFile = widget.courseLectureDetails.files[index].filePath.split('.').last;
     var dateTimeFormat = DateFormat('dd-MM-yyyy-hhmmss').format(dateTime);
     return '$fileName-$dateTimeFormat.$extensionFile';
   }
@@ -967,8 +931,7 @@ class CardViewMainDataCourseLectureWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20.0),
-            Text(lectureDetailsEntity.lectureName,
-                style: context.bodyLarge.copyWith(color: ColorManager.primary)),
+            Text(lectureDetailsEntity.lectureName, style: context.bodyLarge.copyWith(color: ColorManager.primary)),
             const SizedBox(height: 20.0),
             Text(lectureDetailsEntity.courseName, style: context.bodyMedium),
             const SizedBox(height: 40.0),
@@ -990,12 +953,10 @@ class CardViewVideosCourseLectureWidget extends StatefulWidget {
   });
 
   @override
-  State<CardViewVideosCourseLectureWidget> createState() =>
-      _CardViewVideosCourseLectureWidgetState();
+  State<CardViewVideosCourseLectureWidget> createState() => _CardViewVideosCourseLectureWidgetState();
 }
 
-class _CardViewVideosCourseLectureWidgetState
-    extends State<CardViewVideosCourseLectureWidget> {
+class _CardViewVideosCourseLectureWidgetState extends State<CardViewVideosCourseLectureWidget> {
   String? currentUrl = '';
 
   getUrl() async {
@@ -1025,38 +986,28 @@ class _CardViewVideosCourseLectureWidgetState
                 (index) => Column(
                       children: [
                         Card(
-                          color: widget.lectureDetailsEntity.videos[index]
-                                      .youtubeID ==
-                                  currentUrl
+                          color: widget.lectureDetailsEntity.videos[index].youtubeID == currentUrl
                               ? ColorManager.secondary_2
                               : null,
                           elevation: 0.0,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 5.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                             child: TextButton(
-                              onPressed: widget.lectureDetailsEntity
-                                          .videos[index].youtubeID !=
-                                      currentUrl
+                              onPressed: widget.lectureDetailsEntity.videos[index].youtubeID != currentUrl
                                   ? () {
-                                      widget.playerController.loadRequest(
-                                          Uri.parse(widget.lectureDetailsEntity
-                                              .videos[index].youtubeID));
+                                      widget.playerController
+                                          .loadRequest(Uri.parse(widget.lectureDetailsEntity.videos[index].youtubeID));
                                     }
                                   : null,
                               style: TextButton.styleFrom(
-                                foregroundColor:
-                                    ColorManager.secondary.withOpacity(0.9),
+                                foregroundColor: ColorManager.secondary.withOpacity(0.9),
                                 // elevation: 0.0,
                               ),
                               child: Row(
                                 children: [
                                   Expanded(
-                                    child: Text(
-                                        widget.lectureDetailsEntity
-                                            .videos[index].videoName,
-                                        style: context.bodyLarge.copyWith(
-                                            color: ColorManager.primary)),
+                                    child: Text(widget.lectureDetailsEntity.videos[index].videoName,
+                                        style: context.bodyLarge.copyWith(color: ColorManager.primary)),
                                   ),
                                 ],
                               ),
@@ -1075,9 +1026,7 @@ class _CardViewVideosCourseLectureWidgetState
               Align(
                 alignment: AlignmentDirectional.center,
                 child: Text(AppStrings.nosDataAvailable.tr(),
-                    textAlign: TextAlign.center,
-                    style: context.bodyLarge
-                        .copyWith(color: ColorManager.textGray)),
+                    textAlign: TextAlign.center, style: context.bodyLarge.copyWith(color: ColorManager.textGray)),
               ),
             const SizedBox(height: 40.0),
           ],

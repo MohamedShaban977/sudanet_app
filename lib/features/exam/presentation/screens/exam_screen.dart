@@ -5,7 +5,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:sudanet_app/app/injection_container.dart';
 import 'package:sudanet_app/core/app_manage/extension_manager.dart';
 import 'package:sudanet_app/core/locale/app_localizations.dart';
-import 'package:sudanet_app/features/exam/domain/entities/exam_entity.dart';
+import 'package:sudanet_app/features/exam/data/models/exam_response.dart';
+import 'package:sudanet_app/features/exam/data/models/save_answer_request.dart';
 import 'package:sudanet_app/widgets/custom_button_with_loading.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
@@ -18,26 +19,18 @@ import '../../../../core/routes/routes_name.dart';
 import '../../../../widgets/custom_error_widget.dart';
 import '../../../../widgets/custom_loading_widget.dart';
 import '../../../../widgets/toast_and_snackbar.dart';
-import '../../data/models/save_answer_request.dart';
 import '../cubit/exam_cubit.dart';
 
-enum AnswersQuestions {
-  one(1),
-  two(2),
-  three(3),
-  four(4);
+enum ExamQuestionType { MULTI, SORT, TORF, LINK }
 
-  const AnswersQuestions(this.value);
-
-  final int value;
-}
+enum ExamType { exam, homework }
 
 class ExamScreen extends StatefulWidget {
-  // final ExamEntity examEntity;
   final String id;
 
-  const ExamScreen({Key? key, /*required this.examEntity,*/ required this.id})
-      : super(key: key);
+  final ExamType type;
+
+  const ExamScreen({Key? key, required this.id, required this.type}) : super(key: key);
 
   @override
   State<ExamScreen> createState() => _ExamScreenState();
@@ -46,10 +39,10 @@ class ExamScreen extends StatefulWidget {
 class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
   bool _isInForeground = true;
 
-  late ExamEntity _examEntity;
+  ExamModel? _examModel;
 
   int _indexQuestion = 0;
-  AnswersQuestions? _answerQuestion;
+  final ValueNotifier<String?> answerValue = ValueNotifier(null);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -62,7 +55,10 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         print('=====>resumed');
-        sl<ExamCubit>().get(context).getExamQuestionOrPercentage(widget.id);
+        sl<ExamCubit>().get(context).getExamQuestionOrPercentage(
+              examId: widget.id,
+              type: widget.type,
+            );
         break;
       case AppLifecycleState.inactive:
         break;
@@ -76,7 +72,6 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    // _examEntity = widget.examEntity;
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -99,172 +94,158 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           return const CustomLoadingScreen();
         }
         return Scaffold(
-          appBar: CustomAppBarExam(examEntity: _examEntity),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 20.0,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 10),
-                    NewLineStep(isActive: true, isFirst: true),
-                    NewLineStep(isActive: true),
-                    NewLineStep(isActive: false),
-                    NewLineStep(isActive: true),
-                    NewLineStep(isActive: false),
-                    NewLineStep(isActive: true),
-                    NewLineStep(isActive: false),
-                    NewLineStep(isActive: true),
-                    NewLineStep(isActive: false),
-                    NewLineStep(isActive: true),
-                    NewLineStep(isActive: false),
-                    NewLineStep(isActive: true),
-                    NewLineStep(isActive: true, isLast: true),
-                    const SizedBox(width: 10),
-                  ],
+          appBar: CustomAppBarExam(
+            examModel: _examModel,
+            type: widget.type,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ///  question image
+                ImageQuestionWidget(
+                  examQuestionImage: _examModel?.examQuestions?[_indexQuestion].examQuestionImage ?? '',
                 ),
-              ),
+                const SizedBox(height: 15.0),
 
-              ///  question image
-              ImageQuestionWidget(
-                examQuestionImage:
-                    _examEntity.examQuestions[_indexQuestion].examQuestionImage,
-              ),
-              const SizedBox(height: 15.0),
+                /// answers button
 
-              /// answers button
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AnswerButtonWidget(
-                      onPressed: () {
-                        setState(() {
-                          _answerQuestion = AnswersQuestions.one;
-                        });
-                      },
-                      isSelectedAnswer:
-                          _isCheckedSelectedAnswer(AnswersQuestions.one),
-                      text: AppStrings.firstAnswer.tr(),
-                    ),
-                    const SizedBox(height: 15.0),
-                    AnswerButtonWidget(
-                      onPressed: () {
-                        setState(() {
-                          _answerQuestion = AnswersQuestions.two;
-                        });
-                      },
-                      isSelectedAnswer:
-                          _isCheckedSelectedAnswer(AnswersQuestions.two),
-                      text: AppStrings.secondAnswer.tr(),
-                    ),
-                    const SizedBox(height: 15.0),
-                    AnswerButtonWidget(
-                      onPressed: () {
-                        setState(() {
-                          _answerQuestion = AnswersQuestions.three;
-                        });
-                      },
-                      isSelectedAnswer:
-                          _isCheckedSelectedAnswer(AnswersQuestions.three),
-                      text: AppStrings.thirdAnswer.tr(),
-                    ),
-                    const SizedBox(height: 15.0),
-                    AnswerButtonWidget(
-                      onPressed: () {
-                        setState(() {
-                          if (_answerQuestion == AnswersQuestions.four) {
-                            _answerQuestion = null;
-                          } else {
-                            _answerQuestion = AnswersQuestions.four;
-                          }
-                        });
-                      },
-                      isSelectedAnswer:
-                          _isCheckedSelectedAnswer(AnswersQuestions.four),
-                      text: AppStrings.fourthAnswer.tr(),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ValueListenableBuilder(
+                    valueListenable: answerValue,
+                    builder: (context, value, child) {
+                      if (ExamQuestionType.MULTI.name == _examModel?.examQuestions?[_indexQuestion].examQuestionType ||
+                          ExamQuestionType.TORF.name == _examModel?.examQuestions?[_indexQuestion].examQuestionType) {
+                        return Column(
+                          children: List.generate(
+                            (_examModel?.examQuestions?[_indexQuestion].examQuestionOptions ?? []).length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: value ==
+                                          _examModel
+                                              ?.examQuestions?[_indexQuestion].examQuestionOptions?[index].optionValue
+                                      ? ColorManager.white
+                                      : ColorManager.darkGrey,
+                                  backgroundColor: value ==
+                                          _examModel
+                                              ?.examQuestions?[_indexQuestion].examQuestionOptions?[index].optionValue
+                                      ? ColorManager.primary
+                                      : null,
+                                  side: const BorderSide(color: ColorManager.primary, width: 1.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  fixedSize: Size(context.width, 56.0),
+                                ),
+                                onPressed: () {
+                                  answerValue.value = _examModel
+                                      ?.examQuestions?[_indexQuestion].examQuestionOptions?[index].optionValue;
+                                  print(answerValue.value);
+                                },
+                                child: Text(
+                                    _examModel?.examQuestions?[_indexQuestion].examQuestionOptions?[index].option ??
+                                        ''),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+
+                      if (ExamQuestionType.SORT.name == _examModel?.examQuestions?[_indexQuestion].examQuestionType) {
+                        return ReorderableQuestion(
+                          choices: _examModel?.examQuestions?[_indexQuestion].examQuestionOptions ?? [],
+                          onOrderChanged: (value) {
+                            answerValue.value = value.map((e) => e.optionValue).toList().join(',');
+                            print(answerValue.value);
+                          },
+                        );
+                      }
+                      if (ExamQuestionType.LINK.name == _examModel?.examQuestions?[_indexQuestion].examQuestionType) {
+                        return MatchingQuestion(
+                          columnA: _examModel?.examQuestions?[_indexQuestion].examLinkQuestionOptions?.optionsA ?? [],
+                          columnB: _examModel?.examQuestions?[_indexQuestion].examLinkQuestionOptions?.optionsB ?? [],
+                          onMatchesChanged: (matches) {
+                            String result = matches.entries.map((entry) => '${entry.key}-${entry.value}').join(',');
+                            answerValue.value = result;
+                            print(result);
+                          },
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
                 ),
-              ),
 
-              // const SizedBox(height: 15.0),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Visibility(
-                      visible: (_indexQuestion > 0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_indexQuestion > 0) {
-                            setState(() {
-                              _indexQuestion -= 1;
-                              _answerQuestion = null;
-                            });
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: Size(context.width * 0.35, 50.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
+                const SizedBox(height: 6.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Visibility(
+                        visible: (_indexQuestion > 0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_indexQuestion > 0) {
+                              setState(() {
+                                _indexQuestion -= 1;
+                              });
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(context.width * 0.35, 50.0),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                          ),
+                          child: Text(AppStrings.previous.tr()),
                         ),
-                        child: Text(AppStrings.previous.tr()),
                       ),
-                    ),
-                    SizedBox(
-                      width: context.width * 0.35,
-                      child: Visibility(
-                        visible:
-                            _indexQuestion == _examEntity.questionsCount - 1,
+                      SizedBox(
+                        width: context.width * 0.35,
+                        child: Visibility(
+                          visible: _indexQuestion == (_examModel?.questionsCount ?? 0) - 1,
 
-                        /// next Question
-                        replacement: Center(
+                          /// next Question
+                          replacement: Center(
+                            child: CustomButtonWithLoading(
+                              onTap: () async {
+                                await sl<ExamCubit>().get(context).saveAnswer(
+                                    request: SaveAnswerRequest(
+                                      answer: answerValue.value,
+                                      examQuestionId: _examModel?.examQuestions?[_indexQuestion].examQuestionId,
+                                    ),
+                                    type: widget.type);
+                              },
+                              height: 50.0,
+                              width: context.width * 0.35,
+                              text: AppStrings.next.tr(),
+                            ),
+                          ),
+
+                          ///  finishing exam
                           child: CustomButtonWithLoading(
                             onTap: () async {
-                              await sl<ExamCubit>()
-                                  .get(context)
-                                  .saveAnswer(SaveAnswerRequest(
-                                    answer: _answerIdSubmit(),
-                                    examQuestionId: _examEntity
-                                        .examQuestions[_indexQuestion]
-                                        .examQuestionId,
-                                  ));
+                              await sl<ExamCubit>().get(context).saveAnswer(
+                                  request: SaveAnswerRequest(
+                                    answer: answerValue.value,
+                                    examQuestionId: _examModel?.examQuestions?[_indexQuestion].examQuestionId,
+                                  ),
+                                  type: widget.type);
                             },
                             height: 50.0,
                             width: context.width * 0.35,
-                            text: AppStrings.next.tr(),
+                            text: AppStrings.finishExam.tr(),
                           ),
                         ),
-
-                        ///  finishing exam
-                        child: CustomButtonWithLoading(
-                          onTap: () async {
-                            await sl<ExamCubit>()
-                                .get(context)
-                                .saveAnswer(SaveAnswerRequest(
-                                  answer: _answerIdSubmit(),
-                                  examQuestionId: _examEntity
-                                      .examQuestions[_indexQuestion]
-                                      .examQuestionId,
-                                ));
-                          },
-                          height: 50.0,
-                          width: context.width * 0.35,
-                          text: AppStrings.finishExam.tr(),
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 15.0),
-            ],
+                const SizedBox(height: 6.0),
+              ],
+            ),
           ),
         );
       },
@@ -273,18 +254,17 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
   void _initListener(context, state) async {
     if (state is GetExamQuestionOrPercentageSuccessState) {
-      _examEntity = state.response.data!;
+      _examModel = state.data;
 
-      if (_examEntity.percentage != null) {
+      if (_examModel?.percentage != null) {
         MagicRouter.pop();
 
         QuickAlert.show(
           context: MagicRouter.currentContext!,
           type: QuickAlertType.success,
-          title:
-              '${AppStrings.examResult.tr()}\t ${state.response.data!.examName}',
+          title: '${AppStrings.examResult.tr()}\t ${state.data?.examName}',
           text:
-              '${AppStrings.appreciation.tr()}: ${AppStrings.successful.tr()}\n\n , ${AppStrings.successRate.tr()}: ${state.response.data!.percentage}',
+              '${AppStrings.appreciation.tr()}: ${AppStrings.successful.tr()}\n\n , ${AppStrings.successRate.tr()}: ${state.data?.percentage}',
           borderRadius: AppSize.s8,
           widget: Column(children: [
             ElevatedButton(
@@ -298,10 +278,11 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           ]),
         ).then((value) => MagicRouter.pop());
       }
-      for (int i = 0; i < _examEntity.examQuestions.length; i++) {
-        if (_examEntity.examQuestions[i].binHere) {
-          _indexQuestion = i + 1;
-          print('[i] ==> ${_examEntity.examQuestions[i].binHere}');
+
+      for (int i = 0; i < (_examModel?.examQuestions ?? []).length; i++) {
+        if (_examModel?.examQuestions?[i].binHere ?? false) {
+          _indexQuestion = i;
+          print('[i] ==> ${_examModel?.examQuestions?[i].binHere}');
           print('[i].binHere ==> $i');
           return;
         }
@@ -311,13 +292,11 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     if (state is SaveAnswerSuccessState) {
       ToastAndSnackBar.toastSuccess(message: state.response.message);
 
-      _examEntity.examQuestions[_indexQuestion].examQuestionAnswer =
-          _answerQuestion?.value ??
-              _examEntity.examQuestions[_indexQuestion].examQuestionAnswer;
-      if (_indexQuestion < _examEntity.questionsCount - 1) {
+      _examModel?.examQuestions?[_indexQuestion].examQuestionAnswer = answerValue.value;
+      if (_indexQuestion < (_examModel?.questionsCount ?? 0) - 1) {
         _indexQuestion += 1;
-        _answerQuestion = null;
-      } else if (_indexQuestion == _examEntity.questionsCount - 1) {
+        answerValue.value = null;
+      } else if (_indexQuestion == (_examModel?.questionsCount ?? 0) - 1) {
         _showAlertConfirmEndedExam(context);
       }
     }
@@ -335,8 +314,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         if (state.response.data!.isFail) {
           ToastAndSnackBar.showSnackBarFailure(
             context,
-            title:
-                '${AppStrings.examResult.tr()}\t ${state.response.data!.examName}',
+            title: '${AppStrings.examResult.tr()}\t ${state.response.data!.examName}',
             message:
                 '${AppStrings.appreciation.tr()} : ${AppStrings.fail.tr()} \t , ${AppStrings.successRate.tr()}: ${state.response.data!.percentage}',
             // durationMilliseconds: 800,
@@ -344,8 +322,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
         } else {
           ToastAndSnackBar.showSnackBarSuccess(
             context,
-            title:
-                '${AppStrings.examResult.tr()}\t ${state.response.data!.examName}',
+            title: '${AppStrings.examResult.tr()}\t ${state.response.data!.examName}',
             message:
                 '${AppStrings.appreciation.tr()}: ${AppStrings.successful.tr()}\t , ${AppStrings.successRate.tr()}: ${state.response.data!.percentage}',
             // durationMilliseconds: 800,
@@ -355,7 +332,10 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
 
       MagicRouterName.navigateAndPopUntilFirstPage(
         RoutesNames.examLayoutRoute,
-        arguments: {'id': widget.id},
+        arguments: {
+          'id': widget.id,
+          'type': widget.type,
+        },
       );
     }
   }
@@ -372,15 +352,14 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
             onPressed: () {
               MagicRouter.pop();
               setState(() {
+                sl<ExamCubit>().get(context).getExamQuestionOrPercentage(examId: widget.id, type: widget.type);
                 _indexQuestion = 0;
               });
             },
             child: Text(AppStrings.reviewAnswers.tr())),
         ElevatedButton(
             onPressed: () {
-              sl<ExamCubit>()
-                  .get(context)
-                  .endExam('${_examEntity.studentExamId}');
+              sl<ExamCubit>().get(context).endExam(studentExamId: '${_examModel?.studentExamId}', type: widget.type);
               MagicRouter.pop();
             },
             style: ElevatedButton.styleFrom(
@@ -392,53 +371,17 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       ]),
     );
   }
-
-  int _answerIdSubmit() {
-    if (_answerQuestion != null) {
-      return _answerQuestion!.value;
-    } else if (_examEntity.examQuestions[_indexQuestion].examQuestionAnswer !=
-        null) {
-      return _examEntity.examQuestions[_indexQuestion].examQuestionAnswer!;
-    } else {
-      return 0;
-    }
-    // return _answerQuestion?.value ??
-    //                           _examEntity.examQuestions[_indexQuestion]
-    //                               .examQuestionAnswer!;
-  }
-
-  bool _isCheckedSelectedAnswer(AnswersQuestions answer) {
-    // if (_answerQuestion != null) {
-    //   return _answerQuestion == answer ? true : false;
-    // } else if (_examEntity.examQuestions[_indexQuestion].examQuestionAnswer !=
-    //     null) {
-    //   return _examEntity.examQuestions[_indexQuestion].examQuestionAnswer ==
-    //           answer.value
-    //       ? true
-    //       : false;
-    // } else {
-    //   return false;
-    // }
-    return _answerQuestion != null
-        ? _answerQuestion == answer
-            ? true
-            : false
-        : _examEntity.examQuestions[_indexQuestion].examQuestionAnswer != null
-            ? _examEntity.examQuestions[_indexQuestion].examQuestionAnswer ==
-                    answer.value
-                ? true
-                : false
-            : false;
-  }
 }
 
 class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBarExam({
     super.key,
-    required ExamEntity examEntity,
-  }) : _examEntity = examEntity;
+    required ExamModel? examModel,
+    required this.type,
+  }) : _examModel = examModel;
 
-  final ExamEntity _examEntity;
+  final ExamModel? _examModel;
+  final ExamType type;
   static const double _toolbarHeight = 100.0;
 
   @override
@@ -453,12 +396,11 @@ class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_examEntity.examName,
-                  style: context.bodyLarge
-                      .copyWith(color: ColorManager.primary, fontSize: 22.0),
+              Text(_examModel?.examName ?? '',
+                  style: context.bodyLarge.copyWith(color: ColorManager.primary, fontSize: 22.0),
                   textAlign: TextAlign.center),
               const SizedBox(height: 10.0),
-              Text('${AppStrings.examDuration.tr()} ${_examEntity.examTime} ',
+              Text('${AppStrings.examDuration.tr()} ${_examModel?.examTime} ',
                   style: context.displayMedium.copyWith(
                     color: ColorManager.textGray,
                   ),
@@ -467,15 +409,11 @@ class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
           ),
           TweenAnimationBuilder<Duration>(
               duration: Duration(
-                milliseconds:
-                    (_examEntity.remainingExamTimeBySeconds * 1000 - 5000)
-                        .toInt(),
+                milliseconds: ((_examModel?.remainingExamTimeBySeconds ?? 0) * 1000 - 5000).toInt(),
               ),
               tween: Tween(
                   begin: Duration(
-                    milliseconds:
-                        (_examEntity.remainingExamTimeBySeconds * 1000 - 5000)
-                            .toInt(),
+                    milliseconds: ((_examModel?.remainingExamTimeBySeconds ?? 0) * 1000 - 5000).toInt(),
                   ),
                   end: Duration.zero),
               onEnd: () async {
@@ -487,9 +425,7 @@ class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
                   durationMilliseconds: 5000,
                 );
                 await Future.delayed(const Duration(milliseconds: 5000), () {
-                  sl<ExamCubit>()
-                      .get(context)
-                      .endExam('${_examEntity.studentExamId}');
+                  sl<ExamCubit>().get(context).endExam(studentExamId: '${_examModel?.studentExamId}', type: type);
                 });
               },
               builder: (BuildContext context, Duration value, Widget? child) {
@@ -499,12 +435,9 @@ class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
                   height: 65.0,
                   width: 130.0,
                   child: Card(
-                    color: minutes <= 2
-                        ? Colors.redAccent.shade200
-                        : ColorManager.secondary,
+                    color: minutes <= 2 ? Colors.redAccent.shade200 : ColorManager.secondary,
                     elevation: 0.0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                     child: Center(
                       child: DefaultTextStyle(
                         style: const TextStyle(
@@ -551,7 +484,8 @@ class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
 //           onPressed: () {
 //             sl<ExamCubit>()
 //                 .get(context)
-//                 .endExam('${_examEntity.studentExamId}');
+//                 .endExam('${_examModel
+//                .studentExamId}');
 //             MagicRouter.pop();
 //           },
 //           style: ElevatedButton.styleFrom(
@@ -620,7 +554,7 @@ class ImageQuestionWidget extends StatelessWidget {
                 //         child: ClipRect(
                 //           child: PhotoView(
                 //             imageProvider: NetworkImage(
-                //               _examEntity
+                //               _examModel
                 //                   .examQuestions[_indexQuestion]
                 //                   .examQuestionImage,
                 //             ),
@@ -673,11 +607,9 @@ class NewLineStep extends StatelessWidget {
         height: 8,
         decoration: BoxDecoration(
           borderRadius: isFirst
-              ? const BorderRadiusDirectional.horizontal(
-                  start: Radius.circular(100.0))
+              ? const BorderRadiusDirectional.horizontal(start: Radius.circular(100.0))
               : isLast
-                  ? const BorderRadiusDirectional.horizontal(
-                      end: Radius.circular(100.0))
+                  ? const BorderRadiusDirectional.horizontal(end: Radius.circular(100.0))
                   : BorderRadius.circular(0.0),
           color: isActive ? ColorManager.primary : Colors.grey[300],
         ),
@@ -721,11 +653,7 @@ class AnswerButtonWidget extends StatelessWidget {
 
   final String text;
 
-  const AnswerButtonWidget(
-      {Key? key,
-      required this.onPressed,
-      required this.isSelectedAnswer,
-      required this.text})
+  const AnswerButtonWidget({Key? key, required this.onPressed, required this.isSelectedAnswer, required this.text})
       : super(key: key);
 
   @override
@@ -734,8 +662,7 @@ class AnswerButtonWidget extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         fixedSize: const Size.fromHeight(50.0),
-        backgroundColor:
-            isSelectedAnswer ? ColorManager.secondary_2 : ColorManager.white,
+        backgroundColor: isSelectedAnswer ? ColorManager.secondary_2 : ColorManager.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
             side: const BorderSide(
@@ -748,8 +675,7 @@ class AnswerButtonWidget extends StatelessWidget {
         children: [
           Text(
             text,
-            style: context.labelLarge.copyWith(
-                color: ColorManager.primary, fontWeight: FontWeight.w700),
+            style: context.labelLarge.copyWith(color: ColorManager.primary, fontWeight: FontWeight.w700),
           ),
           const Spacer(),
           if (isSelectedAnswer)
@@ -771,11 +697,7 @@ class HeroPhotoViewRouteWrapper extends StatelessWidget {
   final dynamic maxScale;
 
   const HeroPhotoViewRouteWrapper(
-      {super.key,
-      required this.imageProvider,
-      this.backgroundDecoration,
-      this.minScale,
-      this.maxScale});
+      {super.key, required this.imageProvider, this.backgroundDecoration, this.minScale, this.maxScale});
 
   @override
   Widget build(BuildContext context) {
@@ -837,6 +759,238 @@ class _InteractiveImageState extends State<InteractiveImage> {
           child: widget.image,
         ),
       ),
+    );
+  }
+}
+
+class ReorderableQuestion extends StatefulWidget {
+  final List<ExamQuestionOption> choices;
+  final Function(List<ExamQuestionOption>) onOrderChanged;
+
+  const ReorderableQuestion({
+    Key? key,
+    required this.choices,
+    required this.onOrderChanged,
+  }) : super(key: key);
+
+  @override
+  State<ReorderableQuestion> createState() => _ReorderableQuestionState();
+}
+
+class _ReorderableQuestionState extends State<ReorderableQuestion> {
+  late List<ExamQuestionOption> _items;
+
+  @override
+  void initState() {
+    super.initState();
+    _items = List.from(widget.choices);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ReorderableListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _items.length,
+      onReorder: (oldIndex, newIndex) {
+        setState(() {
+          if (newIndex > oldIndex) {
+            newIndex -= 1;
+          }
+          final item = _items.removeAt(oldIndex);
+          _items.insert(newIndex, item);
+          widget.onOrderChanged(_items);
+        });
+      },
+      itemBuilder: (context, index) {
+        return Card(
+          key: ValueKey(_items[index]),
+          elevation: 0.0,
+          color: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            side: const BorderSide(color: ColorManager.primary),
+          ),
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: ColorManager.secondary,
+              foregroundColor: ColorManager.primary,
+              child: Center(child: Text('${index + 1}')),
+            ),
+            title: Text(_items[index].option ?? ''),
+            trailing: const Icon(Icons.drag_handle),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class MatchingQuestion extends StatefulWidget {
+  final List<ExamQuestionOption> columnA;
+  final List<ExamQuestionOption> columnB;
+  final Function(Map<String, String?>) onMatchesChanged;
+
+  const MatchingQuestion({
+    Key? key,
+    required this.columnA,
+    required this.columnB,
+    required this.onMatchesChanged,
+  }) : super(key: key);
+
+  @override
+  State<MatchingQuestion> createState() => _MatchingQuestionState();
+}
+
+class _MatchingQuestionState extends State<MatchingQuestion> {
+  Map<String, String?> matches = {};
+  String? selectedFromA;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    for (var element in widget.columnA) {
+      if (element.optionValue != null) {
+        matches.addEntries({element.optionValue!: null}.entries);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            // Column A
+            Expanded(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Text(
+                      'العمود أ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  ...List.generate(
+                    widget.columnA.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: selectedFromA == widget.columnA[index].optionValue ||
+                                  matches[widget.columnA[index].optionValue] != null
+                              ? Colors.green
+                              : null,
+                          foregroundColor: matches.containsKey(widget.columnA[index].optionValue) ? Colors.white : null,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            selectedFromA = widget.columnA[index].optionValue;
+                          });
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('${widget.columnA[index].optionValue}- ${widget.columnA[index].option}'),
+                            const SizedBox(width: AppPadding.p4),
+                            matches[widget.columnA[index].optionValue] != null
+                                ? Container(
+                                    padding: const EdgeInsets.all(AppPadding.p4),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(AppPadding.p4),
+                                      color: Colors.green,
+                                    ),
+                                    child: Center(child: Text(matches[widget.columnA[index].optionValue] ?? '')),
+                                  )
+                                : const SizedBox(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Column B
+            Expanded(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(4.0),
+                    child: Text(
+                      'العمود ب',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  ...List.generate(
+                    widget.columnB.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              matches.containsValue(widget.columnB[index].optionValue) ? Colors.green : null,
+                          foregroundColor:
+                              matches.containsValue(widget.columnB[index].optionValue) ? Colors.white : null,
+                          disabledBackgroundColor:
+                              matches.containsValue(widget.columnB[index].optionValue) ? Colors.green : null,
+                        ),
+                        onPressed: selectedFromA != null
+                            ? () {
+                                setState(() {
+                                  matches[selectedFromA!] = widget.columnB[index].optionValue ?? '';
+                                  selectedFromA = null;
+                                  widget.onMatchesChanged(matches);
+                                });
+                              }
+                            : null,
+                        child: Text('${widget.columnB[index].optionValue}-  ${widget.columnB[index].option} '),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        // Reset Button
+        // Center(
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(16.0),
+        //     child: ElevatedButton.icon(
+        //       onPressed: () {
+        //         setState(() {
+        //           for (var element in widget.columnA) {
+        //             if (element.optionValue != null) {
+        //               matches.addEntries({element.optionValue!: null}.entries);
+        //             }
+        //           }
+        //           selectedFromA = null;
+        //           widget.onMatchesChanged(matches);
+        //         });
+        //       },
+        //       icon: const Icon(Icons.refresh),
+        //       label: const Text('إعادة ضبط'),
+        //       style: ElevatedButton.styleFrom(
+        //         backgroundColor: Colors.red,
+        //         foregroundColor: Colors.white,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+      ],
     );
   }
 }

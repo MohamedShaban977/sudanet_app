@@ -7,6 +7,8 @@ import 'package:sudanet_app/core/routes/magic_router.dart';
 import 'package:sudanet_app/core/routes/routes_name.dart';
 import 'package:sudanet_app/features/homworks/data/models/homework_item_model.dart';
 
+import '../../../exam/presentation/screens/exam_screen.dart';
+
 class CellHomeworksStudent extends StatelessWidget {
   final HomeworkItemModel homework;
 
@@ -20,7 +22,10 @@ class CellHomeworksStudent extends StatelessWidget {
         onTap: () {
           MagicRouterName.navigateTo(
             RoutesNames.examLayoutRoute,
-            arguments: {'id': '${homework.id}'},
+            arguments: {
+              'id': '${homework.id}',
+              'type': ExamType.homework,
+            },
           );
         },
         child: Padding(
