@@ -45,8 +45,7 @@ class AppStrings {
   static const description = "description";
   static const addToCart = "Add_to_cart";
   static const transferToCart = "Transfer_to_cart";
-  static const itemRemovedWishlistSuccessfully =
-      "item_removed_wishlist_successfully";
+  static const itemRemovedWishlistSuccessfully = "item_removed_wishlist_successfully";
   static const total = "Total";
   static const item = "item";
   static const taxes = "taxes";
@@ -63,8 +62,7 @@ class AppStrings {
   static const somethingWentWrong = "something_went_wrong";
   static const tryAgain = "try_again";
   static const reloadScreen = "reload_screen";
-  static const verificationCompletedSuccessfully =
-      "Verification_completed_successfully";
+  static const verificationCompletedSuccessfully = "Verification_completed_successfully";
   static const movedToCart = "Moved_to_cart";
   static const error = "error";
   static const help = "help";
@@ -88,6 +86,7 @@ class AppStrings {
   static const minutes = "minutes";
   static const questionsCount = "questions_count";
   static const examStart = "exam_start";
+  static const homeworkStart = "homework_start";
 
   static const firstAnswer = "first_answer";
   static const secondAnswer = "second_answer";
@@ -98,8 +97,7 @@ class AppStrings {
   static const next = "next";
   static const finishExam = "finish_exam";
   static const examCompleted = "exam_completed";
-  static const reviewYourAnswersBeforeFinishing =
-      "review_your_answers_before_finishing";
+  static const reviewYourAnswersBeforeFinishing = "review_your_answers_before_finishing";
   static const ending = "ending";
   static const reviewAnswers = "review_answers";
   static const endedExamTitle = "ended_exam_title";

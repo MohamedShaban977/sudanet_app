@@ -140,7 +140,12 @@ class CategoriesScreen extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
       ),
-      title: Text(CategoriesByType.exams == type ? AppStrings.exams.tr() : AppStrings.educationalLevels.tr(),
+      title: Text(
+          CategoriesByType.exams == type
+              ? AppStrings.exams.tr()
+              : CategoriesByType.homeworks == type
+                  ? AppStrings.homeworks.tr()
+                  : AppStrings.educationalLevels.tr(),
           style: context.displayLarge.copyWith(color: ColorManager.textGray, fontWeight: FontWeight.w700)),
     );
   }

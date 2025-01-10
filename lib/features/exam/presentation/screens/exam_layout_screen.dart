@@ -66,18 +66,22 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
                       ),
                       textAlign: TextAlign.center),
                   const SizedBox(height: 20.0),
-                  Text('${AppStrings.examDuration.tr()} \t ${examReadyEntity.examTime}',
+                  if (widget.type == ExamType.exam) ...[
+                    Text(
+                      '${AppStrings.examDuration.tr()} \t ${examReadyEntity.examTime}',
                       style: context.displayMedium.copyWith(
                         color: ColorManager.textGray,
                       ),
-                      textAlign: TextAlign.center),
-                  const SizedBox(height: 20.0),
-                  Text('${AppStrings.remainingTime.tr()} \t ${examReadyEntity.remainingExamTime}',
-                      style: context.displayMedium.copyWith(
-                        color: ColorManager.textGray,
-                      ),
-                      textAlign: TextAlign.center),
-                  const SizedBox(height: 20.0),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20.0),
+                    Text('${AppStrings.remainingTime.tr()} \t ${examReadyEntity.remainingExamTime}',
+                        style: context.displayMedium.copyWith(
+                          color: ColorManager.textGray,
+                        ),
+                        textAlign: TextAlign.center),
+                    const SizedBox(height: 20.0),
+                  ],
                   Text('${AppStrings.questionsCount.tr()} \t ${examReadyEntity.questionsCount}',
                       style: context.displayMedium.copyWith(
                         color: ColorManager.textGray,
@@ -88,7 +92,7 @@ class _ExamLayoutScreenState extends State<ExamLayoutScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
                       child: CustomButtonWithLoading(
-                          text: AppStrings.examStart.tr(),
+                          text: AppStrings.homeworkStart.tr(),
                           borderRadius: 5.0,
                           height: 50.0,
                           width: context.width,

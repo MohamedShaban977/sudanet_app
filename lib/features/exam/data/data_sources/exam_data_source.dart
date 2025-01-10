@@ -69,7 +69,7 @@ class ExamDataSourceImpl implements ExamDataSource {
   Future<BaseResponse<EndExamResponse>> endExam({required String studentExamId, required ExamType type}) async {
     final response = await consumer.post(
       type == ExamType.homework ? EndPoint.endHomeWork : EndPoint.endExam,
-      data: {"StudentExamId": studentExamId},
+      data: {type == ExamType.homework ? 'StudentHomeWorkId' : "StudentExamId": studentExamId},
       isFormData: true,
     );
 

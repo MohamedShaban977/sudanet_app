@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:sudanet_app/app/injection_container.dart';
@@ -82,6 +83,21 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  AppBar _buildAppBarHomeWork(BuildContext context) {
+    return AppBar(
+      elevation: AppSize.s5,
+      centerTitle: false,
+      backgroundColor: ColorManager.background,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: ColorManager.background,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
+      ),
+      title: Text(AppStrings.homeworks.tr(),
+          style: context.displayLarge.copyWith(color: ColorManager.textGray, fontWeight: FontWeight.w700)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ExamCubit, ExamState>(
@@ -94,10 +110,12 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
           return const CustomLoadingScreen();
         }
         return Scaffold(
-          appBar: CustomAppBarExam(
-            examModel: _examModel,
-            type: widget.type,
-          ),
+          appBar: widget.type == ExamType.homework
+              ? _buildAppBarHomeWork(context)
+              : CustomAppBarExam(
+                  examModel: _examModel,
+                  type: widget.type,
+                ),
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -213,6 +231,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                               onTap: () async {
                                 await sl<ExamCubit>().get(context).saveAnswer(
                                     request: SaveAnswerRequest(
+                                      type: widget.type,
                                       answer: answerValue.value,
                                       examQuestionId: _examModel?.examQuestions?[_indexQuestion].examQuestionId,
                                     ),
@@ -229,6 +248,7 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
                             onTap: () async {
                               await sl<ExamCubit>().get(context).saveAnswer(
                                   request: SaveAnswerRequest(
+                                    type: widget.type,
                                     answer: answerValue.value,
                                     examQuestionId: _examModel?.examQuestions?[_indexQuestion].examQuestionId,
                                   ),
@@ -348,15 +368,15 @@ class _ExamScreenState extends State<ExamScreen> with WidgetsBindingObserver {
       text: AppStrings.reviewYourAnswersBeforeFinishing.tr(),
       borderRadius: AppSize.s8,
       widget: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        ElevatedButton(
-            onPressed: () {
-              MagicRouter.pop();
-              setState(() {
-                sl<ExamCubit>().get(context).getExamQuestionOrPercentage(examId: widget.id, type: widget.type);
-                _indexQuestion = 0;
-              });
-            },
-            child: Text(AppStrings.reviewAnswers.tr())),
+        // ElevatedButton(
+        //     onPressed: () {
+        //       MagicRouter.pop();
+        //       setState(() {
+        //         sl<ExamCubit>().get(context).getExamQuestionOrPercentage(examId: widget.id, type: widget.type);
+        //         _indexQuestion = 0;
+        //       });
+        //     },
+        //     child: Text(AppStrings.reviewAnswers.tr())),
         ElevatedButton(
             onPressed: () {
               sl<ExamCubit>().get(context).endExam(studentExamId: '${_examModel?.studentExamId}', type: widget.type);
@@ -396,65 +416,72 @@ class CustomAppBarExam extends StatelessWidget implements PreferredSizeWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(_examModel?.examName ?? '',
-                  style: context.bodyLarge.copyWith(color: ColorManager.primary, fontSize: 22.0),
-                  textAlign: TextAlign.center),
-              const SizedBox(height: 10.0),
-              Text('${AppStrings.examDuration.tr()} ${_examModel?.examTime} ',
-                  style: context.displayMedium.copyWith(
-                    color: ColorManager.textGray,
-                  ),
-                  textAlign: TextAlign.center),
+              Text(
+                _examModel?.examName ?? '',
+                style: context.bodyLarge.copyWith(color: ColorManager.primary, fontSize: 22.0),
+                textAlign: TextAlign.center,
+              ),
+              if (type == ExamType.exam) ...[
+                const SizedBox(height: 10.0),
+                Text('${AppStrings.examDuration.tr()} ${_examModel?.examTime} ',
+                    style: context.displayMedium.copyWith(
+                      color: ColorManager.textGray,
+                    ),
+                    textAlign: TextAlign.center),
+              ]
             ],
           ),
-          TweenAnimationBuilder<Duration>(
-              duration: Duration(
-                milliseconds: ((_examModel?.remainingExamTimeBySeconds ?? 0) * 1000 - 5000).toInt(),
-              ),
-              tween: Tween(
-                  begin: Duration(
-                    milliseconds: ((_examModel?.remainingExamTimeBySeconds ?? 0) * 1000 - 5000).toInt(),
-                  ),
-                  end: Duration.zero),
-              onEnd: () async {
-                debugPrint('Timer ended');
-                await ToastAndSnackBar.showSnackBarWarning(
-                  context,
-                  title: '',
-                  message: AppStrings.examTimeIsUp.tr(),
-                  durationMilliseconds: 5000,
-                );
-                await Future.delayed(const Duration(milliseconds: 5000), () {
-                  sl<ExamCubit>().get(context).endExam(studentExamId: '${_examModel?.studentExamId}', type: type);
-                });
-              },
-              builder: (BuildContext context, Duration value, Widget? child) {
-                final minutes = value.inMinutes;
-                final seconds = value.inSeconds % 60;
-                return SizedBox(
-                  height: 65.0,
-                  width: 130.0,
-                  child: Card(
-                    color: minutes <= 2 ? Colors.redAccent.shade200 : ColorManager.secondary,
-                    elevation: 0.0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                    child: Center(
-                      child: DefaultTextStyle(
-                        style: const TextStyle(
-                          color: ColorManager.primary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.0,
-                        ),
-                        child: Text(
-                          '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
-                          softWrap: true,
-                          textAlign: TextAlign.end,
+          if (type == ExamType.exam)
+            TweenAnimationBuilder<Duration>(
+                duration: Duration(
+                  milliseconds: ((_examModel?.remainingExamTimeBySeconds ?? 0) * 1000 - 5000).toInt(),
+                ),
+                tween: Tween(
+                    begin: Duration(
+                      milliseconds: ((_examModel?.remainingExamTimeBySeconds ?? 0) * 1000 - 5000).toInt(),
+                    ),
+                    end: Duration.zero),
+                onEnd: () async {
+                  if (type == ExamType.exam) {
+                    debugPrint('Timer ended');
+                    await ToastAndSnackBar.showSnackBarWarning(
+                      context,
+                      title: '',
+                      message: AppStrings.examTimeIsUp.tr(),
+                      durationMilliseconds: 5000,
+                    );
+                    await Future.delayed(const Duration(milliseconds: 5000), () {
+                      sl<ExamCubit>().get(context).endExam(studentExamId: '${_examModel?.studentExamId}', type: type);
+                    });
+                  }
+                },
+                builder: (BuildContext context, Duration value, Widget? child) {
+                  final minutes = value.inMinutes;
+                  final seconds = value.inSeconds % 60;
+                  return SizedBox(
+                    height: 65.0,
+                    width: 130.0,
+                    child: Card(
+                      color: minutes <= 2 ? Colors.redAccent.shade200 : ColorManager.secondary,
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                      child: Center(
+                        child: DefaultTextStyle(
+                          style: const TextStyle(
+                            color: ColorManager.primary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.0,
+                          ),
+                          child: Text(
+                            '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}',
+                            softWrap: true,
+                            textAlign: TextAlign.end,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
         ],
       ),
     );

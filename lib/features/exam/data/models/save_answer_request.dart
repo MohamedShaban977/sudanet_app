@@ -1,14 +1,18 @@
+import 'package:sudanet_app/features/exam/presentation/screens/exam_screen.dart';
+
 class SaveAnswerRequest {
   final String? answer;
   final int? examQuestionId;
+  final ExamType type;
 
   SaveAnswerRequest({
+    required this.type,
     required this.answer,
     required this.examQuestionId,
   });
 
   Map<String, dynamic> toJson() => {
         "Answer": answer,
-        "ExamQuestionId": examQuestionId,
+        type == ExamType.homework ? 'HomeWorkQuestionId' : 'ExamQuestionId': examQuestionId,
       };
 }
